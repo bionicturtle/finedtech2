@@ -1,5 +1,5 @@
 ---
-title: "finedtech2"
+title: "FinEdTech by DH"
 listing:
   contents: posts
   sort: "date desc"
