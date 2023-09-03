@@ -1,19 +1,18 @@
 ---
-title: "About"
-image: profile.jpg
-about:
-  template: jolla
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
-    - icon: github
-      text: Github
-      href: https://github.com
+title: "About David"
+about: 
+    template: solana
+    image: drh3.jpg
 
+date: "2023-08-29"
 ---
 
-About this blog
+Hello! I'm David Harper, CFA, FRM. I started [bionicturtle.com](http://www.bionicturtle.com) in 2004 and built it into the #1 exam preparation provider (EPP) for the Financial Risk Manager (FRM). In February of 2021, I sold the business to [CeriFi](http://cerifi.com) where I continue to run it as President, Bionic Turtle, a CeriFi company. And now I'm [part of a great team](https://www.linkedin.com/company/cerifi/) that is building the world's greatest platform for financial education at every stage of your career.
+
+I love learning about (and teaching) risk. I also write investing articles at Seeking Alpha, where I disclose my portfolio/trades and practice risk management. My focus is disruptive technologies, patient GARP-style with a portfolio risk overlay; e.g., diversification. The market wants growth but I'm a value technician at heart, consequently I am willing to wait for great companies to prove their worth to the general audience. I have a BA, Economics from UC, Berkeley. I earned my CFA in 2003 and my FRM in 2004. 
+
+I've been training and practicing data science for several years. Of course, my preferred data tool is [R (aka, #RStats, #rstat)](https://www.r-project.org/). The best thing about R is the amazing community, there is nothing quite like an RStudio conference. Online I try to keep sharp with Coursera, datacamp and perhaps the most talented data science instructor on the planet: Matt Dancho's [Business Science](https://www.business-science.io/).  
+
+I am extremely interested (and invested) in digital disruption and the future of work (FOW), including EdTech, talent marketplaces and work management (my favorite software is [wrike](https://www.wrike.com/)).
+
+This is a [Quarto site](https://quarto.org/) using the built-in [sandstone theme](https://bootswatch.com/sandstone/)

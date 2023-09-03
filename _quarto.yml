@@ -5,6 +5,7 @@ website:
   title: "finedtech by David Harper, CFA, FRM"
   navbar:
     right:
+      - about.qmd
       - icon: github
         href: https://github.com/bionicturtle
       - icon: instagram

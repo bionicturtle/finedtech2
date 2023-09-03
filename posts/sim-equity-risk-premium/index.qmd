@@ -4,13 +4,12 @@ description: The implied ERP is very sensitive to assumptions, in particular G2
 author: David Harper, CFA, FRM
 date: 2023-08-31
 categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=FALSE)
-```
-
-The following implements the implied ERP approach in Professor Damodaran's post on the The [Price of Risk](https://aswathdamodaran.substack.com/p/the-price-of-risk-with-equity-risk). My intention is to briefly explore its sensitivity to assumptions. 
+The following implements the implied ERP approach in Professor Damodaran's post on the The [Price of Risk](https://aswathdamodaran.substack.com/p/the-price-of-risk-with-equity-risk). My intention is to briefly explore its sensitivity to assumptions.
 
 ```{r echo=TRUE}
 
@@ -164,4 +163,3 @@ df %>% ggplot(aes(x = G2, y = ERP)) +
   annotate("text", x=0.025, y=0.065, label=label_R2, fontface="bold", hjust=0)
   # geom_text(aes(label = label_R2))
 ```
-
