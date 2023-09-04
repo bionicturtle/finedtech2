@@ -1,77 +1,99 @@
 ---
 title: Logistic regression coefficients
-description: Description here
+description: Fitting a logistic regression model is easy in R, but coefficient interpretation is non-trivial
 author: David Harper, CFA, FRM
-date: 2023-08-31
+date: 2023-09-04
 categories: [code, analysis]
 execute: 
   echo: true
   warning: false
 ---
 
+I wanted to shadow GARP's logistic regression, so I pulled the same dataset and below performed a similar logistic regression (the only difference is due to my wanting an output that lends itself to a practice question; i.e., with obvious significance for a couple of the coefficients but not all of the coefficients). After the regression, I wrote the following (first draft, might revise) practice question, which I'm pretty happy with (but it took some time):
+
+> 23.6.1. Darlene is a risk analyst who evaluate the creditworthiness of loan applicants at her financial institution. Her department is testing a new logistic regression model. If the model performs well in testing, it will be deployed to assist in the underwriting decision-making process. The training data is a sub-sample (n = 800) from the same LendingClub database used in reading. In the logistic regression, the dependent variable is a 0/1 for the terminal state of the loan being either zero (fully paid off) or one (deemed irrecoverable or defaulted). In the actual code, this dependent variable is labeled 'outcome'. 
+>
+> The following are the features (aka, independent variables) as given by their textual labels: Amount, Term, Interest_rate, Installment, Employ_hist, Income, and Bankruptcies. In regard to units in the database, please note the following: Amount is thousands of dollars ($000s); Term is months; Interest_rate is effectively multiplied by one hundred such that 7 equates to 7% or 0.070; Installment is dollars; Employment_hist is years; Income is thousand of dollars ($000); and Bankruptcies is a whole number {0, 1, 2, ...}.
+> 
+> The table below displays the logistic regression results: 
+>
+> <<See regression output below; table will paste here>>
+
+> In regard to this logistic regression, each of the following statements is true EXCEPT which is false?
+>
+> a. A single additional bankruptcy increases the expected odds of default by almost 58 percent
+> b. If she requires significance at the 5% level or better, then two of the coefficients (in addition to the intercept) are significant
+> c. Each +100 basis points increase in the interest rate (e.g., from 8.0% to 9.0%), the expected default odds increase by about 15 percent
+> d. The key weakness of this regression is that Darlene cannot override the binary (yes/no) classification based on the standard Z = 0.50 threshold in order to avoid accepting too many applications 
+
+
 ```{r}
 library(tidyverse) 
-library(labelled)
 library(gt)
-# library(gtsummary) decided not to use but cool
-# library(gtExtras) decided not to use but cool
+# library(labelled) Didn't use but helpful
 
 # set.seed(xzy)
 set.seed(374)
 
 sample_size <- 800
-lcfeatures1 <- read_csv("lcfeatures.csv") # sample 10,000 from large LC dataset
-lcfeatures1 <- lcfeatures1 |> sample_n(sample_size)
+lcfeatures <- read_csv("lcfeatures.csv") 
+# Same LendingClub dataset used in FRM Chapter 15 (Logistic Regression Example)
+# Located at https://www.kaggle.com/datasets/wordsforthewise/lending-club
+# But lcfeatures is a random sample of 10,000 which is too large for my need
+# So I just sample_n as random subset of the 10,000
+lcfeatures <- lcfeatures |> sample_n(sample_size)
 
 # recoding 
-lcfeatures1$emp_length_n <- gsub("< 1", "0", lcfeatures1$emp_length)
-lcfeatures1$emp_length_n2 <- parse_number(lcfeatures1$emp_length_n)
-lcfeatures1$term_n <- parse_number(lcfeatures1$term)
+lcfeatures$emp_length_n <- gsub("< 1", "0", lcfeatures$emp_length)
+lcfeatures$emp_length_n2 <- parse_number(lcfeatures$emp_length_n)
+lcfeatures$term_n <- parse_number(lcfeatures$term)
 
-lcfeatures1$home_ownership_simpler <- recode(lcfeatures1$home_ownership,
+lcfeatures$home_ownership_simpler <- recode(lcfeatures$home_ownership,
                                              "MORTGAGE" = "OWN",
                                              "ANY" = "RENT",
                                              "NONE" = "RENT")
 
-lcfeatures1$mortgage_simpler <- recode(lcfeatures1$home_ownership,
+lcfeatures$mortgage_simpler <- recode(lcfeatures$home_ownership,
                                        "OWN" = "NO",
                                        "ANY" = "NO",
                                        "NONE" = "NO",
                                        "RENT" = "NO",
                                        "MORTGAGE" = "YES")
 
-lcfeatures1$loan_status_coded <- recode(lcfeatures1$loan_status,
+lcfeatures$loan_status_coded <- recode(lcfeatures$loan_status,
                                         "Charged Off" = "Default",
                                         "Does not meet the credit policy. Status:Charged Off" = "Default",
                                         "Late (31-120 days)" = "Default",
                                         .default = "Paid")
 
-lcfeatures1$home_ownership_bern <- recode(lcfeatures1$home_ownership_simpler,
+lcfeatures$home_ownership_bern <- recode(lcfeatures$home_ownership_simpler,
                                           "RENT" = 0,
                                           "OWN" = 1)
 
-lcfeatures1$mortgage_bern <- recode(lcfeatures1$mortgage_simpler,
+lcfeatures$mortgage_bern <- recode(lcfeatures$mortgage_simpler,
                                           "NO" = 0,
                                           "YES" = 1)
 
-lcfeatures1$loan_status_bern <- recode(lcfeatures1$loan_status_coded,
+lcfeatures$loan_status_bern <- recode(lcfeatures$loan_status_coded,
                                           "Paid" = 0,
                                           "Default" = 1)
 
-# logistic regression model
-logit_model_1 <- glm(formula = loan_status_bern ~ loan_amnt + term_n + int_rate + installment + 
-        emp_length_n2 + annual_inc + pub_rec_bankruptcies,
-        family = binomial(link = "logit"), data = lcfeatures1)
+lcfeatures$loan_amnt_000 <- lcfeatures$loan_amnt / 1000
+lcfeatures$annual_inc_000 <- lcfeatures$annual_inc / 1000
+lcfeatures$outcome <- lcfeatures$loan_status_bern
 
-# tbl_regression(logit_model1, exponentiate = FALSE)
-# tbl_regression(logit_model1, exponentiate = TRUE)
+# This is logistic regression model
+logit_model_1 <- glm(formula = outcome ~ loan_amnt_000 + term_n + int_rate + installment + 
+        emp_length_n2 + annual_inc_000 + pub_rec_bankruptcies,
+        family = binomial(link = "logit"), data = lcfeatures)
 
 coef_table <- coef(summary(logit_model_1)) 
 coef_tbl  <-  as_tibble(coef_table)
-Coeff_labels <- c("(Intercept)", "Amount", "Term", "Interest rate", "Installment", 
-                 "Employ Hist", "Income","Bankruptcies")
+Coeff_labels <- c("(Intercept)", "Amount", "Term", "Interest_rate", "Installment", 
+                 "Employment_hist", "Income","Bankruptcies")
 coef_tbl <- cbind(Coeff_labels, coef_tbl)
 
+# Using gt() to render a table
 coef_tbl_gt <- coef_tbl %>% gt() |> 
     opt_table_font(stack = "humanist") |>
     fmt_number(columns = everything(),
@@ -80,10 +102,10 @@ coef_tbl_gt
 
 ```
 
-If we use predict() with type = "response", then the logistic regression returns the vector of predicted probabilities (from zero to 100%). Then we can classify the Bernoulli prediction (0 = nondefault, 1 = default) as a function of our desired conservative/aggressive threshold. 
+If we use predict() with type = "response", then the logistic regression returns the vector of predicted probabilities (from zero to 100%). We can *classify* the Bernoulli prediction (0 = nondefault, 1 = default) as a function of our desired conservative/aggressive threshold. Below I show the number of rejections would increase as we lower the threshold.
 
 ```{r}
-predicted_probs <- predict(logit_model_1, lcfeatures1, type = "response")
+predicted_probs <- predict(logit_model_1, lcfeatures, type = "response")
 thresholds <- c(0.4, 0.3, 0.2, 0.1, 0.05, 0.010)
 thresholds |> map_int(\(x) sum(ifelse(predicted_probs > x, 1, 0), na.rm = TRUE))
 

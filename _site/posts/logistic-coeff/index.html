@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Harper, CFA, FRM">
 <meta name="dcterms.date" content="2023-08-31">
-<meta name="description" content="Description here">
+<meta name="description" content="Fitting a logistic regression model is easy in R, but coefficient interpretation is non-trivial">
 
 <title>finedtech by David Harper, CFA, FRM - Logistic regression coefficients</title>
 <style>
@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Logistic regression coefficients</h1>
                   <div>
         <div class="description">
-          Description here
+          Fitting a logistic regression model is easy in R, but coefficient interpretation is non-trivial
         </div>
       </div>
                           <div class="quarto-categories">
@@ -187,75 +187,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+<p>I wanted to shadow GARP’s logistic regression, so I pulled the same dataset and below performed a similar logistic regression (the only difference is due to my wanting an output that lends itself to a practice question; i.e., with obvious significance for a couple of the coefficients but not all of the coefficients). After the regression, I wrote the following (first draft, might revise) practice question, which I’m pretty happy with (but it took some time):</p>
+<blockquote class="blockquote">
+<p>23.6.1. Darlene is a risk analyst who evaluate the creditworthiness of loan applicants at her financial institution. Her department is testing a new logistic regression model. If the model performs well in testing, it will be deployed to assist in the underwriting decision-making process. The training data is a sub-sample (n = 800) from the same LendingClub database used in reading. In the logistic regression, the dependent variable is a 0/1 for the terminal state of the loan being either zero (fully paid off) or one (deemed irrecoverable or defaulted). In the actual code, this dependent variable is labeled ‘outcome’.</p>
+<p>The following are the features (aka, independent variables) as given by their textual labels: Amount, Term, Interest_rate, Installment, Employ_hist, Income, and Bankruptcies. In regard to units in the database, please note the following: Amount is thousands of dollars ($000s); Term is months; Interest_rate is effectively multiplied by one hundred such that 7 equates to 7% or 0.070; Installment is dollars; Employment_hist is years; Income is thousand of dollars ($000); and Bankruptcies is a whole number {0, 1, 2, …}.</p>
+<p>The table below displays the logistic regression results:</p>
+<p>&lt;&lt;See regression output below; table will paste here&gt;&gt;</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>In regard to this logistic regression, each of the following statements is true EXCEPT which is false?</p>
+<ol type="a">
+<li>A single additional bankruptcy increases the expected odds of default by almost 58 percent</li>
+<li>If she requires significance at the 5% level or better, then two of the coefficients (in addition to the intercept) are significant</li>
+<li>Each +100 basis points increase in the interest rate (e.g., from 8.0% to 9.0%), the expected default odds increase by about 15 percent</li>
+<li>The key weakness of this regression is that Darlene cannot override the binary (yes/no) classification based on the standard Z = 0.50 threshold in order to avoid accepting too many applications</li>
+</ol>
+</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(labelled)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(gtsummary) decided not to use but cool</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># library(gtExtras) decided not to use but cool</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed(xzy)</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">374</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">800</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>lcfeatures1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"lcfeatures.csv"</span>) <span class="co"># sample 10,000 from large LC dataset</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>lcfeatures1 <span class="ot">&lt;-</span> lcfeatures1 <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(sample_size)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># recoding </span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>emp_length_n <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"&lt; 1"</span>, <span class="st">"0"</span>, lcfeatures1<span class="sc">$</span>emp_length)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>emp_length_n2 <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(lcfeatures1<span class="sc">$</span>emp_length_n)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>term_n <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(lcfeatures1<span class="sc">$</span>term)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>home_ownership_simpler <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>home_ownership,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"MORTGAGE"</span> <span class="ot">=</span> <span class="st">"OWN"</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"ANY"</span> <span class="ot">=</span> <span class="st">"RENT"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"NONE"</span> <span class="ot">=</span> <span class="st">"RENT"</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>mortgage_simpler <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>home_ownership,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"OWN"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"ANY"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"NONE"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"RENT"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"MORTGAGE"</span> <span class="ot">=</span> <span class="st">"YES"</span>)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>loan_status_coded <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>loan_status,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Charged Off"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Does not meet the credit policy. Status:Charged Off"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Late (31-120 days)"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">.default =</span> <span class="st">"Paid"</span>)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>home_ownership_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>home_ownership_simpler,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"RENT"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"OWN"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>mortgage_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>mortgage_simpler,</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"NO"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"YES"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>lcfeatures1<span class="sc">$</span>loan_status_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures1<span class="sc">$</span>loan_status_coded,</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Paid"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Default"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># logistic regression model</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>logit_model_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> loan_status_bern <span class="sc">~</span> loan_amnt <span class="sc">+</span> term_n <span class="sc">+</span> int_rate <span class="sc">+</span> installment <span class="sc">+</span> </span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        emp_length_n2 <span class="sc">+</span> annual_inc <span class="sc">+</span> pub_rec_bankruptcies,</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> lcfeatures1)</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co"># tbl_regression(logit_model1, exponentiate = FALSE)</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># tbl_regression(logit_model1, exponentiate = TRUE)</span></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(logit_model_1)) </span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>coef_tbl  <span class="ot">&lt;-</span>  <span class="fu">as_tibble</span>(coef_table)</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>Coeff_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"Amount"</span>, <span class="st">"Term"</span>, <span class="st">"Interest rate"</span>, <span class="st">"Installment"</span>, </span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Employ Hist"</span>, <span class="st">"Income"</span>,<span class="st">"Bankruptcies"</span>)</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Coeff_labels, coef_tbl)</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>coef_tbl_gt <span class="ot">&lt;-</span> coef_tbl <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">opt_table_font</span>(<span class="at">stack =</span> <span class="st">"humanist"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">everything</span>(),</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>               <span class="at">decimals =</span> <span class="dv">3</span>)</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>coef_tbl_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(labelled) Didn't use but helpful</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed(xzy)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">374</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">800</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>lcfeatures <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"lcfeatures.csv"</span>) </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Same LendingClub dataset used in FRM Chapter 15 (Logistic Regression Example)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Located at https://www.kaggle.com/datasets/wordsforthewise/lending-club</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># But lcfeatures is a random sample of 10,000 which is too large for my need</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># So I just sample_n as random subset of the 10,000</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>lcfeatures <span class="ot">&lt;-</span> lcfeatures <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(sample_size)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># recoding </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>emp_length_n <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"&lt; 1"</span>, <span class="st">"0"</span>, lcfeatures<span class="sc">$</span>emp_length)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>emp_length_n2 <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(lcfeatures<span class="sc">$</span>emp_length_n)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>term_n <span class="ot">&lt;-</span> <span class="fu">parse_number</span>(lcfeatures<span class="sc">$</span>term)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>home_ownership_simpler <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>home_ownership,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"MORTGAGE"</span> <span class="ot">=</span> <span class="st">"OWN"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"ANY"</span> <span class="ot">=</span> <span class="st">"RENT"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                                             <span class="st">"NONE"</span> <span class="ot">=</span> <span class="st">"RENT"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>mortgage_simpler <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>home_ownership,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"OWN"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"ANY"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"NONE"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"RENT"</span> <span class="ot">=</span> <span class="st">"NO"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"MORTGAGE"</span> <span class="ot">=</span> <span class="st">"YES"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>loan_status_coded <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>loan_status,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Charged Off"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Does not meet the credit policy. Status:Charged Off"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"Late (31-120 days)"</span> <span class="ot">=</span> <span class="st">"Default"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">.default =</span> <span class="st">"Paid"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>home_ownership_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>home_ownership_simpler,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"RENT"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"OWN"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>mortgage_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>mortgage_simpler,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"NO"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"YES"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>loan_status_bern <span class="ot">&lt;-</span> <span class="fu">recode</span>(lcfeatures<span class="sc">$</span>loan_status_coded,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Paid"</span> <span class="ot">=</span> <span class="dv">0</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Default"</span> <span class="ot">=</span> <span class="dv">1</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>loan_amnt_000 <span class="ot">&lt;-</span> lcfeatures<span class="sc">$</span>loan_amnt <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>annual_inc_000 <span class="ot">&lt;-</span> lcfeatures<span class="sc">$</span>annual_inc <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>lcfeatures<span class="sc">$</span>outcome <span class="ot">&lt;-</span> lcfeatures<span class="sc">$</span>loan_status_bern</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># This is logistic regression model</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>logit_model_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> outcome <span class="sc">~</span> loan_amnt_000 <span class="sc">+</span> term_n <span class="sc">+</span> int_rate <span class="sc">+</span> installment <span class="sc">+</span> </span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>        emp_length_n2 <span class="sc">+</span> annual_inc_000 <span class="sc">+</span> pub_rec_bankruptcies,</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> lcfeatures)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>coef_table <span class="ot">&lt;-</span> <span class="fu">coef</span>(<span class="fu">summary</span>(logit_model_1)) </span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>coef_tbl  <span class="ot">&lt;-</span>  <span class="fu">as_tibble</span>(coef_table)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>Coeff_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"(Intercept)"</span>, <span class="st">"Amount"</span>, <span class="st">"Term"</span>, <span class="st">"Interest_rate"</span>, <span class="st">"Installment"</span>, </span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Employment_hist"</span>, <span class="st">"Income"</span>,<span class="st">"Bankruptcies"</span>)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Coeff_labels, coef_tbl)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Using gt() to render a table</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>coef_tbl_gt <span class="ot">&lt;-</span> coef_tbl <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">opt_table_font</span>(<span class="at">stack =</span> <span class="st">"humanist"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">everything</span>(),</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>               <span class="at">decimals =</span> <span class="dv">3</span>)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>coef_tbl_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div id="vlxylapfoo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -716,8 +735,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td headers="z value" class="gt_row gt_right">−2.769</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.006</td></tr>
     <tr><td headers="Coeff_labels" class="gt_row gt_left">Amount</td>
-<td headers="Estimate" class="gt_row gt_right">0.000</td>
-<td headers="Std. Error" class="gt_row gt_right">0.000</td>
+<td headers="Estimate" class="gt_row gt_right">0.123</td>
+<td headers="Std. Error" class="gt_row gt_right">0.092</td>
 <td headers="z value" class="gt_row gt_right">1.339</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.181</td></tr>
     <tr><td headers="Coeff_labels" class="gt_row gt_left">Term</td>
@@ -725,7 +744,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td headers="Std. Error" class="gt_row gt_right">0.027</td>
 <td headers="z value" class="gt_row gt_right">−1.519</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.129</td></tr>
-    <tr><td headers="Coeff_labels" class="gt_row gt_left">Interest rate</td>
+    <tr><td headers="Coeff_labels" class="gt_row gt_left">Interest_rate</td>
 <td headers="Estimate" class="gt_row gt_right">0.140</td>
 <td headers="Std. Error" class="gt_row gt_right">0.034</td>
 <td headers="z value" class="gt_row gt_right">4.108</td>
@@ -735,14 +754,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td headers="Std. Error" class="gt_row gt_right">0.003</td>
 <td headers="z value" class="gt_row gt_right">−1.033</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.302</td></tr>
-    <tr><td headers="Coeff_labels" class="gt_row gt_left">Employ Hist</td>
+    <tr><td headers="Coeff_labels" class="gt_row gt_left">Employment_hist</td>
 <td headers="Estimate" class="gt_row gt_right">−0.032</td>
 <td headers="Std. Error" class="gt_row gt_right">0.031</td>
 <td headers="z value" class="gt_row gt_right">−1.025</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.305</td></tr>
     <tr><td headers="Coeff_labels" class="gt_row gt_left">Income</td>
-<td headers="Estimate" class="gt_row gt_right">0.000</td>
-<td headers="Std. Error" class="gt_row gt_right">0.000</td>
+<td headers="Estimate" class="gt_row gt_right">−0.003</td>
+<td headers="Std. Error" class="gt_row gt_right">0.003</td>
 <td headers="z value" class="gt_row gt_right">−0.937</td>
 <td headers="Pr(>|z|)" class="gt_row gt_right">0.349</td></tr>
     <tr><td headers="Coeff_labels" class="gt_row gt_left">Bankruptcies</td>
@@ -757,9 +776,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>If we use predict() with type = “response”, then the logistic regression returns the vector of predicted probabilities (from zero to 100%). Then we can classify the Bernoulli prediction (0 = nondefault, 1 = default) as a function of our desired conservative/aggressive threshold.</p>
+<p>If we use predict() with type = “response”, then the logistic regression returns the vector of predicted probabilities (from zero to 100%). We can <em>classify</em> the Bernoulli prediction (0 = nondefault, 1 = default) as a function of our desired conservative/aggressive threshold. Below I show the number of rejections would increase as we lower the threshold.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model_1, lcfeatures1, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>predicted_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model_1, lcfeatures, <span class="at">type =</span> <span class="st">"response"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>thresholds <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.010</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>thresholds <span class="sc">|&gt;</span> <span class="fu">map_int</span>(\(x) <span class="fu">sum</span>(<span class="fu">ifelse</span>(predicted_probs <span class="sc">&gt;</span> x, <span class="dv">1</span>, <span class="dv">0</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
