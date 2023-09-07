@@ -9,7 +9,9 @@ execute:
   warning: false
 ---
 
-I wanted to shadow GARP's logistic regression, so I pulled the same dataset and below performed a similar logistic regression (the only difference is due to my wanting an output that lends itself to a practice question; i.e., with obvious significance for a couple of the coefficients but not all of the coefficients). After the regression, I wrote the following (first draft, might revise) practice question, which I'm pretty happy with (but it took some time):
+I wanted to shadow GARP's logistic regression example, so I sampled from the same LendingClub database and performed a similar logistic regression. The key difference is practical: I'll often re-sample from the data in order to get a result that lends itself to a good practice question. I've been writing practice questions for a long time, and there are many little details that go into this. For example, GARP's logistic regression shows 10 independent variables, and I reduced that to seven merely because I don't need to show all the variables to make the point.
+
+After I seeded the result that appealed to me, I wrote the practice question below ([the published question sans answer is here](https://forum.bionicturtle.com/threads/p1-t2-23-6-logistic-regression-2nd-set.24555/)). After fiddling with the four choices, I'm happy with the final question. It's an "EXCEPT FOR" question, which is what I often use when I'm trying to blanked the concept more comprehensively than a "TRUE" question. This is a bit more work because each distractor must be carefully written. 
 
 > 23.6.1. Darlene is a risk analyst who evaluate the creditworthiness of loan applicants at her financial institution. Her department is testing a new logistic regression model. If the model performs well in testing, it will be deployed to assist in the underwriting decision-making process. The training data is a sub-sample (n = 800) from the same LendingClub database used in reading. In the logistic regression, the dependent variable is a 0/1 for the terminal state of the loan being either zero (fully paid off) or one (deemed irrecoverable or defaulted). In the actual code, this dependent variable is labeled 'outcome'. 
 >
@@ -23,9 +25,10 @@ I wanted to shadow GARP's logistic regression, so I pulled the same dataset and 
 >
 > a. A single additional bankruptcy increases the expected odds of default by almost 58 percent
 > b. If she requires significance at the 5% level or better, then two of the coefficients (in addition to the intercept) are significant
-> c. Each +100 basis points increase in the interest rate (e.g., from 8.0% to 9.0%), the expected default odds increase by about 15 percent
-> d. The key weakness of this regression is that Darlene cannot override the binary (yes/no) classification based on the standard Z = 0.50 threshold in order to avoid accepting too many applications 
+> c. Each +100 basis points increase in the interest rate (e.g., from 8.0% to 9.0%) implies an increase of about 14.0 basis points in the default probability
+> d. If the cost of making a bad loan is high, she can decrease the threshold (i.e., set Z to a low value such as 0.05), but this will reject more good borrowers 
 
+Here is the code with some comments. The logistic model itself, a type of glm(), requires only a single line and the model is stored in _logit_model_1_ as a list object. Most of my code is re-coding the dataset, and then rendering the model's coefficients with the awesome [gt package](https://gt.rstudio.com/). Posit's Richard Iannone does an incredible job [maintaining the package](https://posit.co/blog/?post_tag=gt). If you think about it, generating tables are really important in data!
 
 ```{r}
 library(tidyverse) 
