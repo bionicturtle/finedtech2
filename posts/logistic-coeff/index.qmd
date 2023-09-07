@@ -113,3 +113,19 @@ thresholds <- c(0.4, 0.3, 0.2, 0.1, 0.05, 0.010)
 thresholds |> map_int(\(x) sum(ifelse(predicted_probs > x, 1, 0), na.rm = TRUE))
 
 ```
+
+
+Inspired by this blog post on color coding the {gt} table, I added some color to highlight the significant coefficients (obviously not in the actual Q&A, just here!):
+
+```{r}
+
+coef_tbl_gt |> 
+    data_color(
+        columns = 'Pr(>|z|)', 
+        palette = c("#19F000","#E4FF00"),
+        domain = c(0,0.05),
+        na_color = "lightgrey"
+    )
+
+```
+
