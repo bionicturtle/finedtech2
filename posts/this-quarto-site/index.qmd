@@ -1,0 +1,102 @@
+---
+title: "The advantages of publishing with Quarto "
+description: Both R and python code chunks, plus an Openai API call
+author: David Harper
+date: 2023-09-15
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+Openai key here
+
+```{r}
+#| echo: false
+
+openai_key = "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"
+
+```
+
+Talk about this text
+
+```{r}
+#| echo: true
+#| warning: false
+
+Sys.setenv(OPENAI_API_KEY = openai_key)
+
+library(openai)
+library(gptstudio)
+library(tidyverse)
+# library(reticulate)
+
+prompt_dalle <- "Create a high quality background for my laptop with a minimalist landscape of a mountain with forest with multiple sky colors during sunset"
+
+# landscape <- create_image(prompt_dalle)
+# landscape_url <- landscape$data$url
+# destination <- "mylandscape.png"
+# download.file(landscape_url, destfile = destination, mode = "wb")
+
+```
+
+![landscape by DALL·E](mylandscape.png){width=300 fig-align="left"}
+
+```{r}
+
+library(stringr)
+prompt_gpt <- "what are likely to be the top three implications of artificial intelligence on edtech?"
+
+testme2 <- create_chat_completion(
+    model = "gpt-3.5-turbo",
+    messages = list(
+        list(
+            "role" = "user",
+            "content" = prompt_gpt
+        )
+    )
+)
+
+reply_dalle <- testme2$choices$message.content
+cat(reply_dalle, sep = "\n")
+
+
+```
+
+
+Python chunk here
+
+```{python}
+
+# this is achieved with ```{python}
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def main():
+    # Parameters for the bivariate normal distribution
+    mean = [0, 0]
+    covariance_matrix = [[1, 0.5], [0.5, 1]]
+
+    # Generate random samples from the bivariate normal distribution
+    x, y = np.random.multivariate_normal(mean, covariance_matrix, 1000).T
+
+    # Create a scatter plot of the random samples
+    plt.scatter(x, y, alpha=0.5)
+
+    # Label the axes
+    plt.xlabel('X')
+    plt.ylabel('Y')
+
+    # Title for the plot
+    plt.title('Bivariate Normal Distribution')
+
+    # Display the plot
+    plt.show()
+
+# Check if the script is being run directly
+if __name__ == "__main__":
+    main()
+```
+
+
