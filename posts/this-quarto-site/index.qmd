@@ -9,7 +9,7 @@ execute:
   warning: false
 ---
 
-This is a demonstration post. Now that I've published this Quarto website (details here TBD), I wanted to test (and show) two capabilities:
+This is a demonstration post. Now that I've published this Quarto website (details here TBD, itself a switch from [my distill site here](https://dh-data.org/), I wanted to test (and show) two capabilities:
 
 * The openai package can prompt GPT and DALL-E via the API
 * Quarto can also run python code chunks (referring to dataframes defined in R)

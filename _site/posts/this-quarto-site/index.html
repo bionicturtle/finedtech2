@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This is a demonstration post. Now that I’ve published this Quarto website (details here TBD), I wanted to test (and show) two capabilities:</p>
+<p>This is a demonstration post. Now that I’ve published this Quarto website (details here TBD, itself a switch from <a href="https://dh-data.org/">my distill site here</a>, I wanted to test (and show) two capabilities:</p>
 <ul>
 <li>The openai package can prompt GPT and DALL-E via the API</li>
 <li>Quarto can also run python code chunks (referring to dataframes defined in R)</li>
@@ -250,19 +250,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(token_stats_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Total tokens = 272 . Given 217 words and 1600 characters, that's 1.253 tokens/word and 0.170 tokens/character."</code></pre>
+<pre><code>[1] "Total tokens = 217 . Given 173 words and 1314 characters, that's 1.254 tokens/word and 0.165 tokens/character."</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(reply_gpt_message, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The top three implications of artificial intelligence (AI) on edtech are:
+<pre><code>1. Personalized Learning: Artificial intelligence (AI) can enable highly personalized learning experiences by analyzing individual student behaviors, needs, and strengths. AI algorithms can adapt the educational content and pace of learning to meet the unique requirements of each student, thus enhancing their learning outcomes.
 
-1. Personalized Learning: AI enables the development of adaptive learning systems that provide personalized education experiences to students. By analyzing individual learning patterns, AI can tailor curriculum, pace, and content according to the needs of each student. This could lead to improved learning outcomes, higher student engagement, and reduced knowledge gaps.
+2. Intelligent Tutoring Systems: AI-powered intelligent tutoring systems can provide immediate, personalized feedback and guidance to learners. These systems can analyze student responses, identify their misconceptions, and offer tailored explanations or additional resources. This technology can greatly enhance the effectiveness of online education platforms, enabling more individualized and efficient learning.
 
-2. Intelligent Assessment and Feedback: AI can play a crucial role in automating and enhancing the assessment process. With AI-powered tools, teachers can provide faster and more detailed feedback to students, enabling them to identify areas of improvement. Automated grading systems can also alleviate teachers' workload, freeing up their time for more personalized interactions with students.
-
-3. Data-driven Decision Making: AI helps in collecting, analyzing, and utilizing vast amounts of data generated in educational settings. By analyzing student performance data, educators can gain insights into learning trends, identifying knowledge gaps, and making data-driven decisions to improve teaching practices and curriculum design. AI-driven analytics can assist both teachers and administrators in identifying areas of improvement and implementing evidence-based interventions.
-
-Overall, AI in edtech has the potential to enhance personalized learning experiences, automate assessments, and support data-driven decision making for improved educational outcomes.</code></pre>
+3. Automation and Administrative Support: AI has the potential to improve administrative tasks in education. Intelligent chatbots can be used to provide immediate assistance to students regarding inquiries, enrollment, scheduling, or even simple academic tasks. Additionally, AI can automate grading to save teachers' time and provide students with faster feedback. This automation would allow teachers to focus more on individual instruction and personalized learning experiences.</code></pre>
 </div>
 </div>
 </section>
