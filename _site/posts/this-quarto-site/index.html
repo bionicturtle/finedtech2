@@ -8,9 +8,9 @@
 
 <meta name="author" content="David Harper">
 <meta name="dcterms.date" content="2023-09-15">
-<meta name="description" content="Both R and python code chunks, plus an Openai API call">
+<meta name="description" content="Posit’s brilliant system executes either R or python code (and a GPT API example)">
 
-<title>finedtech by David Harper, CFA, FRM - The advantages of publishing with Quarto</title>
+<title>finedtech by David Harper, CFA, FRM - This is a Quarto website</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,10 +143,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">The advantages of publishing with Quarto</h1>
+      <h1 class="title">This is a Quarto website</h1>
                   <div>
         <div class="description">
-          Both R and python code chunks, plus an Openai API call
+          Posit’s brilliant system executes either R or python code (and a GPT API example)
         </div>
       </div>
                           <div class="quarto-categories">
@@ -187,8 +187,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Openai key here</p>
-<p>Talk about this text</p>
+<p>This is a demonstration post. Now that I’ve published this Quarto website (details here TBD), I wanted to test (and show) two capabilities:</p>
+<ul>
+<li>The openai package can prompt GPT and DALL-E via the API</li>
+<li>Quarto can also run python code chunks (referring to dataframes defined in R)</li>
+</ul>
+<section id="prompting-gpt-and-dall-e-via-api" class="level3">
+<h3 class="anchored" data-anchor-id="prompting-gpt-and-dall-e-via-api">Prompting GPT and DALL-E via API</h3>
+<p>The <a href="https://github.com/irudnyts/openai">openai package</a> includes <a href="https://platform.openai.com/docs/api-reference/images">create_image()</a> which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">OPENAI_API_KEY =</span> openai_key)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -210,69 +216,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption class="figure-caption">landscape by DALL·E</figcaption>
 </figure>
 </div>
+<p>Similarly, <a href="https://platform.openai.com/docs/api-reference/chat/create">create_chat_completion</a> returns a list. We can easily retrieve the reply:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>prompt_gpt <span class="ot">&lt;-</span> <span class="st">"what are likely to be the top three implications of artificial intelligence on edtech?"</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testme2 <span class="ot">&lt;-</span> <span class="fu">create_chat_completion</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-3.5-turbo"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> <span class="fu">list</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"user"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> prompt_gpt</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>reply_dalle <span class="ot">&lt;-</span> testme2<span class="sc">$</span>choices<span class="sc">$</span>message.content</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(reply_dalle, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>prompt_gpt_chars <span class="ot">&lt;-</span> <span class="fu">nchar</span>(prompt_gpt)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>prompt_gpt_words <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">strsplit</span>(prompt_gpt, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Here is the call to GPT 3.5 with my prompt_gpt text</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>reply_gpt <span class="ot">&lt;-</span> <span class="fu">create_chat_completion</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="st">"gpt-3.5-turbo"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">messages =</span> <span class="fu">list</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"role"</span> <span class="ot">=</span> <span class="st">"user"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"content"</span> <span class="ot">=</span> prompt_gpt</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># The response by GPT is a chat completion object that contains an</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># array (list) of choices (can be more than one) including the message.content</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>reply_gpt_message <span class="ot">&lt;-</span> reply_gpt<span class="sc">$</span>choices<span class="sc">$</span>message.content</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>reply_gpt_chars <span class="ot">&lt;-</span> <span class="fu">nchar</span>(reply_gpt_message)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>reply_gpt_words <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">strsplit</span>(reply_gpt_message, <span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>)[[<span class="dv">1</span>]])</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>total_chars <span class="ot">&lt;-</span> prompt_gpt_chars <span class="sc">+</span> reply_gpt_chars</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>total_words <span class="ot">&lt;-</span> prompt_gpt_words <span class="sc">+</span> reply_gpt_words</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>total_tokens <span class="ot">&lt;-</span> reply_gpt<span class="sc">$</span>usage<span class="sc">$</span>total_tokens</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>token_stats_text <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">"Total tokens ="</span>, total_tokens, </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                          <span class="st">". Given"</span>, total_words, <span class="st">"words and"</span>, total_chars, <span class="st">"characters, that's"</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, total_tokens<span class="sc">/</span>total_words), <span class="st">"tokens/word and"</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">sprintf</span>(<span class="st">"%.3f"</span>, total_tokens<span class="sc">/</span>total_chars), <span class="st">"tokens/character."</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(token_stats_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1. Personalized Learning: Artificial intelligence (AI) can provide adaptive learning experiences tailored to the individual needs of students. It can analyze data collected from various sources, such as student performance, assessments, and behavior, to create personalized learning paths and recommendations. This individualized approach can greatly enhance student engagement, motivation, and academic growth.
+<pre><code>[1] "Total tokens = 272 . Given 217 words and 1600 characters, that's 1.253 tokens/word and 0.170 tokens/character."</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(reply_gpt_message, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The top three implications of artificial intelligence (AI) on edtech are:
 
-2. Intelligent Tutoring Systems: AI-powered intelligent tutoring systems are already helping students learn and master complex subjects. These systems can analyze students' strengths and weaknesses, provide instant feedback, and offer targeted interventions, acting as virtual tutors. With AI, edtech platforms can improve their tutoring capabilities by simulating human-like interactions, adapting to students' learning styles, and offering real-time support.
+1. Personalized Learning: AI enables the development of adaptive learning systems that provide personalized education experiences to students. By analyzing individual learning patterns, AI can tailor curriculum, pace, and content according to the needs of each student. This could lead to improved learning outcomes, higher student engagement, and reduced knowledge gaps.
 
-3. Efficiency and Administrative Support: AI can streamline administrative tasks, allowing educators to focus more on teaching. For instance, AI can automate tasks like grading, generating personalized feedback, managing administrative processes, and identifying areas where additional intervention is needed. This frees up teachers' time, enabling them to provide more individualized attention to students, fostering a more effective and personalized learning environment.
+2. Intelligent Assessment and Feedback: AI can play a crucial role in automating and enhancing the assessment process. With AI-powered tools, teachers can provide faster and more detailed feedback to students, enabling them to identify areas of improvement. Automated grading systems can also alleviate teachers' workload, freeing up their time for more personalized interactions with students.
 
-Overall, AI in edtech has the potential to transform and revolutionize the way students learn, enabling personalized instruction and support, enhancing efficiency, and ultimately improving educational outcomes.</code></pre>
+3. Data-driven Decision Making: AI helps in collecting, analyzing, and utilizing vast amounts of data generated in educational settings. By analyzing student performance data, educators can gain insights into learning trends, identifying knowledge gaps, and making data-driven decisions to improve teaching practices and curriculum design. AI-driven analytics can assist both teachers and administrators in identifying areas of improvement and implementing evidence-based interventions.
+
+Overall, AI in edtech has the potential to enhance personalized learning experiences, automate assessments, and support data-driven decision making for improved educational outcomes.</code></pre>
 </div>
 </div>
-<p>Python chunk here</p>
+</section>
+<section id="executing-a-python-code-block-and-the-sharing-the-dataframe" class="level3">
+<h3 class="anchored" data-anchor-id="executing-a-python-code-block-and-the-sharing-the-dataframe">Executing a python code block and the sharing the dataframe</h3>
+<p>Now I will just load the built-in <a href="https://ggplot2.tidyverse.org/reference/diamonds.html">diamonds dataset</a> and lazily convert the three factor levels (cut, clarity, and color) to integers. But I will skip R’s regression model, lm(), because I am going to let python fit the linear model …</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is achieved with ```{python}</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> main():</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parameters for the bivariate normal distribution</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    covariance_matrix <span class="op">=</span> [[<span class="dv">1</span>, <span class="fl">0.5</span>], [<span class="fl">0.5</span>, <span class="dv">1</span>]]</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate random samples from the bivariate normal distribution</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> np.random.multivariate_normal(mean, covariance_matrix, <span class="dv">1000</span>).T</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scatter plot of the random samples</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    plt.scatter(x, y, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Label the axes</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'X'</span>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Y'</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Title for the plot</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Bivariate Normal Distribution'</span>)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Display the plot</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if the script is being run directly</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    main()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diamonds_df <span class="ot">&lt;-</span> diamonds</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diamonds_df<span class="sc">$</span>cut_int <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(diamonds_df<span class="sc">$</span>cut)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>diamonds_df<span class="sc">$</span>clarity_int <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(diamonds_df<span class="sc">$</span>clarity)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>diamonds_df<span class="sc">$</span>color_int <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(diamonds_df<span class="sc">$</span>color)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Going to skip lm() in R and let python fit the model!</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># lm_diamonds &lt;- lm(price ~ carat + cut_int + color_int + clarity_int, data = diamonds_df)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># diamonds_df$residuals &lt;- resid(lm_diamonds)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># diamonds_df$predictions &lt;- predict(lm_diamonds)</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># diamonds_df |&gt; ggplot(aes(x = predictions, y = residuals)) +</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_point() +</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   geom_hline(yintercept = 0, linetype = "dashed") +</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(title = "Residual Plot", x = "Predicted Values", y = "Residuals")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>… and here is the python code chunk! This is possible because the <em>first line of the fenced code</em> braces the executable code with “python” <a href="https://quarto.org/docs/computations/python.html">per these instructions.</a>. Of course, a python installation is required to render locally.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>diamonds_data_py <span class="op">=</span> r.diamonds_df</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> diamonds_data_py[[<span class="st">"price"</span>]]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> diamonds_data_py[[<span class="st">"carat"</span>, <span class="st">"cut_int"</span>, <span class="st">"color_int"</span>, <span class="st">"clarity_int"</span>]]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sm.add_constant(x)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>mod <span class="op">=</span> sm.OLS(y, x).fit()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>diamonds_data_py[<span class="st">"Predicted"</span>] <span class="op">=</span> mod.predict(x)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>diamonds_data_py[<span class="st">"Residuals"</span>] <span class="op">=</span> mod.resid</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And, finally, I will revert back to R to utilize ggplot. As <a href="https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/">explained by Nicola Rennie</a> the key here is to load the reticulate package so that we can use the <strong>py</strong> prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, <strong>diamonds_df</strong>, was retreived in python, via <strong>diamonds_data_py = r.diamonds_df</strong>, and then R retrieved that model via <strong>diamonds_residuals &lt;- py$diamonds_data_py</strong>. Sweet!</p>
+<div class="cell" data-layout-align="left">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>diamonds_residuals <span class="ot">&lt;-</span> py<span class="sc">$</span>diamonds_data_py</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds_residuals,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Predicted,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> Residuals)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#2F4F4F"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">colour =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_economist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="614"></p>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="index_files/figure-html/plotting-1.png" class="img-fluid figure-img" alt="Scatter plot of predicted and residual values for the fitted linear model." width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

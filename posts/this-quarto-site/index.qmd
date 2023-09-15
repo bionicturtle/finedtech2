@@ -1,6 +1,6 @@
 ---
-title: "The advantages of publishing with Quarto "
-description: Both R and python code chunks, plus an Openai API call
+title: "This is a Quarto website"
+description: Posit's brilliant system executes either R or python code (and a GPT API example) 
 author: David Harper
 date: 2023-09-15
 categories: [code, analysis]
@@ -9,16 +9,23 @@ execute:
   warning: false
 ---
 
-Openai key here
+This is a demonstration post. Now that I've published this Quarto website (details here TBD), I wanted to test (and show) two capabilities:
+
+* The openai package can prompt GPT and DALL-E via the API
+* Quarto can also run python code chunks (referring to dataframes defined in R)
+
 
 ```{r}
 #| echo: false
 
-openai_key = "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"
+# openai_key = "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"
+openai_key = "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"
 
 ```
 
-Talk about this text
+### Prompting GPT and DALL-E via API
+
+The [openai package](https://github.com/irudnyts/openai) includes [create_image()](https://platform.openai.com/docs/api-reference/images) which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated.
 
 ```{r}
 #| echo: true
@@ -42,12 +49,17 @@ prompt_dalle <- "Create a high quality background for my laptop with a minimalis
 
 ![landscape by DALL·E](mylandscape.png){width=300 fig-align="left"}
 
+Similarly, [create_chat_completion](https://platform.openai.com/docs/api-reference/chat/create) returns a list. We can easily retrieve the reply:
+
 ```{r}
 
 library(stringr)
 prompt_gpt <- "what are likely to be the top three implications of artificial intelligence on edtech?"
+prompt_gpt_chars <- nchar(prompt_gpt)
+prompt_gpt_words <- length(strsplit(prompt_gpt, "\\s+")[[1]])
 
-testme2 <- create_chat_completion(
+# Here is the call to GPT 3.5 with my prompt_gpt text
+reply_gpt <- create_chat_completion(
     model = "gpt-3.5-turbo",
     messages = list(
         list(
@@ -57,46 +69,85 @@ testme2 <- create_chat_completion(
     )
 )
 
-reply_dalle <- testme2$choices$message.content
-cat(reply_dalle, sep = "\n")
+# The response by GPT is a chat completion object that contains an
+# array (list) of choices (can be more than one) including the message.content
+reply_gpt_message <- reply_gpt$choices$message.content
+reply_gpt_chars <- nchar(reply_gpt_message)
+reply_gpt_words <- length(strsplit(reply_gpt_message, "\\s+")[[1]])
 
+total_chars <- prompt_gpt_chars + reply_gpt_chars
+total_words <- prompt_gpt_words + reply_gpt_words
+total_tokens <- reply_gpt$usage$total_tokens
+token_stats_text <- paste("Total tokens =", total_tokens, 
+                          ". Given", total_words, "words and", total_chars, "characters, that's",
+                          sprintf("%.3f", total_tokens/total_words), "tokens/word and",
+                          sprintf("%.3f", total_tokens/total_chars), "tokens/character.")
+
+print(token_stats_text)
+cat(reply_gpt_message, sep = "\n")
 
 ```
 
+### Executing a python code block and the sharing the dataframe
 
-Python chunk here
+Now I will just load the built-in [diamonds dataset](https://ggplot2.tidyverse.org/reference/diamonds.html) and lazily convert the three factor levels (cut, clarity, and color) to integers. But I will skip R's regression model, lm(), because I am going to let python fit the linear model ...
+
+```{r}
+diamonds_df <- diamonds
+diamonds_df$cut_int <- as.integer(diamonds_df$cut)
+diamonds_df$clarity_int <- as.integer(diamonds_df$clarity)
+diamonds_df$color_int <- as.integer(diamonds_df$color)
+
+# Going to skip lm() in R and let python fit the model!
+# lm_diamonds <- lm(price ~ carat + cut_int + color_int + clarity_int, data = diamonds_df)
+# diamonds_df$residuals <- resid(lm_diamonds)
+# diamonds_df$predictions <- predict(lm_diamonds)
+# diamonds_df |> ggplot(aes(x = predictions, y = residuals)) +
+#   geom_point() +
+#   geom_hline(yintercept = 0, linetype = "dashed") +
+#   labs(title = "Residual Plot", x = "Predicted Values", y = "Residuals")
+
+```
+
+... and here is the python code chunk! This is possible because the *first line of the fenced code* braces the executable code with "python" [per these instructions.](https://quarto.org/docs/computations/python.html). Of course, a python installation is required to render locally.
 
 ```{python}
+#| echo: fenced
+#| message: false
 
-# this is achieved with ```{python}
+diamonds_data_py = r.diamonds_df
 
-import numpy as np
-import matplotlib.pyplot as plt
+import statsmodels.api as sm
+y = diamonds_data_py[["price"]]
 
-def main():
-    # Parameters for the bivariate normal distribution
-    mean = [0, 0]
-    covariance_matrix = [[1, 0.5], [0.5, 1]]
+x = diamonds_data_py[["carat", "cut_int", "color_int", "clarity_int"]]
+x = sm.add_constant(x)
+mod = sm.OLS(y, x).fit()
+diamonds_data_py["Predicted"] = mod.predict(x)
+diamonds_data_py["Residuals"] = mod.resid
 
-    # Generate random samples from the bivariate normal distribution
-    x, y = np.random.multivariate_normal(mean, covariance_matrix, 1000).T
-
-    # Create a scatter plot of the random samples
-    plt.scatter(x, y, alpha=0.5)
-
-    # Label the axes
-    plt.xlabel('X')
-    plt.ylabel('Y')
-
-    # Title for the plot
-    plt.title('Bivariate Normal Distribution')
-
-    # Display the plot
-    plt.show()
-
-# Check if the script is being run directly
-if __name__ == "__main__":
-    main()
 ```
+
+And, finally, I will revert back to R to utilize ggplot. As [explained by Nicola Rennie](https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/) the key here is to load the reticulate package so that we can use the **py** prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, **diamonds_df**, was retreived in python, via **diamonds_data_py = r.diamonds_df**, and then R retrieved that model via **diamonds_residuals <- py$diamonds_data_py**. Sweet!
+
+```{r}
+#| label: plotting
+#| echo: true
+#| message: false
+#| fig-align: left
+#| fig-alt: "Scatter plot of predicted and residual values for the fitted linear model."
+
+library(reticulate)
+library(ggplot2)
+library(ggthemes)
+diamonds_residuals <- py$diamonds_data_py
+ggplot(data = diamonds_residuals,
+       mapping = aes(x = Predicted,
+                     y = Residuals)) +
+    geom_point(colour = "#2F4F4F") +
+    geom_hline(yintercept = 0, colour = "red") +
+    theme_economist()
+```
+
 
 
