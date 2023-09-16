@@ -187,10 +187,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>This is a demonstration post. Now that I’ve published this Quarto website (details here TBD, itself a switch from <a href="https://dh-data.org/">my distill site here</a>, I wanted to test (and show) two capabilities:</p>
+<p>In this post, I simply want to test-demo Quarto’s capabilities (the how-to details will go here on my substack). My previous data science blog was <a href="https://dh-data.org/">this distill site</a>. Specifically, I’d like to show:</p>
 <ul>
-<li>The openai package can prompt GPT and DALL-E via the API</li>
-<li>Quarto can also run python code chunks (referring to dataframes defined in R)</li>
+<li>How the openai package can prompt GPT and DALL-E via the API</li>
+<li>How Quarto is truly <em>multi-language</em>: this page runs both R and python code chunks (even sharing the diamonds_df dataframe)</li>
 </ul>
 <section id="prompting-gpt-and-dall-e-via-api" class="level3">
 <h3 class="anchored" data-anchor-id="prompting-gpt-and-dall-e-via-api">Prompting GPT and DALL-E via API</h3>
@@ -205,10 +205,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>prompt_dalle <span class="ot">&lt;-</span> <span class="st">"Create a high quality background for my laptop with a minimalist landscape of a mountain with forest with multiple sky colors during sunset"</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># landscape &lt;- create_image(prompt_dalle)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># landscape_url &lt;- landscape$data$url</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># destination &lt;- "mylandscape.png"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># download.file(landscape_url, destfile = destination, mode = "wb")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>landscape <span class="ot">&lt;-</span> <span class="fu">create_image</span>(prompt_dalle)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>landscape_url <span class="ot">&lt;-</span> landscape<span class="sc">$</span>data<span class="sc">$</span>url</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># destination &lt;- "mylandscape.png"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># download.file(landscape_url, destfile = destination, mode = "wb")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-left">
 <figure class="figure">
@@ -250,15 +251,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(token_stats_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Total tokens = 217 . Given 173 words and 1314 characters, that's 1.254 tokens/word and 0.165 tokens/character."</code></pre>
+<pre><code>[1] "Total tokens = 304 . Given 230 words and 1775 characters, that's 1.322 tokens/word and 0.171 tokens/character."</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(reply_gpt_message, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1. Personalized Learning: Artificial intelligence (AI) can enable highly personalized learning experiences by analyzing individual student behaviors, needs, and strengths. AI algorithms can adapt the educational content and pace of learning to meet the unique requirements of each student, thus enhancing their learning outcomes.
+<pre><code>1. Personalized Learning: Artificial Intelligence (AI) has the potential to revolutionize education technology by offering personalized learning experiences to students. AI-powered systems can analyze students' performance, identify their strengths and weaknesses, and provide tailored recommendations, resources, and assessments. This individualized approach can help students learn at their own pace and optimize their educational journeys.
 
-2. Intelligent Tutoring Systems: AI-powered intelligent tutoring systems can provide immediate, personalized feedback and guidance to learners. These systems can analyze student responses, identify their misconceptions, and offer tailored explanations or additional resources. This technology can greatly enhance the effectiveness of online education platforms, enabling more individualized and efficient learning.
+2. Data-Driven Decision Making: AI's ability to collect, process, and analyze vast amounts of data can significantly enhance the decision-making process in edtech. Educators and administrators can leverage AI to gain insights into student performance, identify areas needing improvement, track learning progress over time, and make data-driven decisions to shape instructional strategies and interventions. By leveraging AI, educational institutions can enhance efficiency and effectiveness in their operations.
 
-3. Automation and Administrative Support: AI has the potential to improve administrative tasks in education. Intelligent chatbots can be used to provide immediate assistance to students regarding inquiries, enrollment, scheduling, or even simple academic tasks. Additionally, AI can automate grading to save teachers' time and provide students with faster feedback. This automation would allow teachers to focus more on individual instruction and personalized learning experiences.</code></pre>
+3. Supportive Teaching Assistants and Chatbots: AI-powered virtual assistants and chatbots can play a crucial role in the realm of edtech. These assistants can provide instant feedback, assistance, and guidance to students, even outside of traditional learning hours. They can help answer questions, provide explanations, offer additional resources, or recommend relevant activities. AI-powered chatbots can also streamline administrative tasks, such as managing course registrations, scheduling, grading, or providing reminders.
+
+Overall, the implications of AI in edtech offer the potential for personalized learning experiences, data-driven decision-making, and efficient support systems that benefit both students and educators.</code></pre>
 </div>
 </div>
 </section>

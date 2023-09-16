@@ -9,17 +9,15 @@ execute:
   warning: false
 ---
 
-This is a demonstration post. Now that I've published this Quarto website (details here TBD, itself a switch from [my distill site here](https://dh-data.org/), I wanted to test (and show) two capabilities:
+In this post, I simply want to test-demo Quarto's capabilities (the how-to details will go here on my substack). My previous data science blog was [this distill site](https://dh-data.org/). Specifically, I'd like to show:
 
-* The openai package can prompt GPT and DALL-E via the API
-* Quarto can also run python code chunks (referring to dataframes defined in R)
-
+-   How the openai package can prompt GPT and DALL-E via the API
+-   How Quarto is truly *multi-language*: this page runs both R and python code chunks (even sharing the diamonds_df dataframe)
 
 ```{r}
 #| echo: false
 
-# openai_key = "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"
-openai_key = "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"
+openai_key = REDACTED by David H
 
 ```
 
@@ -40,14 +38,15 @@ library(tidyverse)
 
 prompt_dalle <- "Create a high quality background for my laptop with a minimalist landscape of a mountain with forest with multiple sky colors during sunset"
 
-# landscape <- create_image(prompt_dalle)
-# landscape_url <- landscape$data$url
+landscape <- create_image(prompt_dalle)
+landscape_url <- landscape$data$url
+
 # destination <- "mylandscape.png"
 # download.file(landscape_url, destfile = destination, mode = "wb")
 
 ```
 
-![landscape by DALL·E](mylandscape.png){width=300 fig-align="left"}
+![landscape by DALL·E](mylandscape.png){width="300" fig-align="left"}
 
 Similarly, [create_chat_completion](https://platform.openai.com/docs/api-reference/chat/create) returns a list. We can easily retrieve the reply:
 
@@ -128,7 +127,7 @@ diamonds_data_py["Residuals"] = mod.resid
 
 ```
 
-And, finally, I will revert back to R to utilize ggplot. As [explained by Nicola Rennie](https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/) the key here is to load the reticulate package so that we can use the **py** prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, **diamonds_df**, was retreived in python, via **diamonds_data_py = r.diamonds_df**, and then R retrieved that model via **diamonds_residuals <- py$diamonds_data_py**. Sweet!
+And, finally, I will revert back to R to utilize ggplot. As [explained by Nicola Rennie](https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/) the key here is to load the reticulate package so that we can use the **py** prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, **diamonds_df**, was retreived in python, via **diamonds_data_py = r.diamonds_df**, and then R retrieved that model via **diamonds_residuals \<- py\$diamonds_data_py**. Sweet!
 
 ```{r}
 #| label: plotting
@@ -148,6 +147,3 @@ ggplot(data = diamonds_residuals,
     geom_hline(yintercept = 0, colour = "red") +
     theme_economist()
 ```
-
-
-
