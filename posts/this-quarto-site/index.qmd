@@ -9,21 +9,22 @@ execute:
   warning: false
 ---
 
-In this post, I simply want to test-demo Quarto's capabilities (the how-to details will go here on my substack). My previous data science blog was [this distill site](https://dh-data.org/). Specifically, I'd like to show:
+I want to test-demo Quarto's capabilities (how-to details are here on my substack). My previous data science blog was [this distill site](https://dh-data.org/). Specifically, in this post I'd like to show:
 
 -   How the openai package can prompt GPT and DALL-E via the API
 -   How Quarto is truly *multi-language*: this page runs both R and python code chunks (even sharing the diamonds_df dataframe)
+-   How the [gptstudio package](https://github.com/MichelNivard/gptstudio) enables GPT as a copilot within the RStudio IDE (this is not a Quarto feature per se)
 
 ```{r}
 #| echo: false
 
-openai_key = REDACTED by David H
+# openai_key = REDACTED HERE in pre-rendered .QMD
 
 ```
 
 ### Prompting GPT and DALL-E via API
 
-The [openai package](https://github.com/irudnyts/openai) includes [create_image()](https://platform.openai.com/docs/api-reference/images) which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated.
+The [openai package](https://github.com/irudnyts/openai) includes [create_image()](https://platform.openai.com/docs/api-reference/images) which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file because I don't like every image; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated. In other words, the response to my prompt ("what are likely to be the top three implications of artificial intelligence on edtech?") is different each time the page is rendered.
 
 ```{r}
 #| echo: true
@@ -127,7 +128,7 @@ diamonds_data_py["Residuals"] = mod.resid
 
 ```
 
-And, finally, I will revert back to R to utilize ggplot. As [explained by Nicola Rennie](https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/) the key here is to load the reticulate package so that we can use the **py** prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, **diamonds_df**, was retreived in python, via **diamonds_data_py = r.diamonds_df**, and then R retrieved that model via **diamonds_residuals \<- py\$diamonds_data_py**. Sweet!
+And, finally, I will revert back to R to utilize ggplot. As [explained by Nicola Rennie](https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/) the key here is to load the reticulate package so that we can use the **py** prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, **diamonds_df**, was retreived in python, via **diamonds_data_py = r.diamonds_df**, and then R retrieved that model via **diamonds_residuals \<- py\$diamonds_data_py**. Sweet! But, okay, not the best line we've ever fit. That's why we look at the residuals, after all.
 
 ```{r}
 #| label: plotting
@@ -146,4 +147,54 @@ ggplot(data = diamonds_residuals,
     geom_point(colour = "#2F4F4F") +
     geom_hline(yintercept = 0, colour = "red") +
     theme_economist()
+```
+
+### RStudio Co-pilot with gptstudio package
+
+What you can't easily see on the page is the co-pilot enabled by the [gptstudio package](https://github.com/MichelNivard/gptstudio). Once the package is installed, I only neeed to setup the API key via the command:
+
+```{r}
+#| echo: true
+#| message: false
+#| eval: false
+
+Sys.setenv(OPENAI_API_KEY = "<APIKEY>")
+```
+
+For example, below I call for help with this prompt ("generate a ggplot ...")
+
+![gptstudio as co-pilot](gptstudio-first.png)
+
+... and the comment changes to the following:
+
+![changes the comment to code!](gptstudio-second.png)
+
+It's not a great example but instructive. This code requires two quick tweaks in order to work. You do need to know how to write code, but at the same time, co-pilot clearly saves time; e.g., for some analyis, it's cut the time required in half or better.
+
+```{r}
+#| echo: false
+#| warning: false
+
+# First, we need to install and load the 'ggplot2' package
+# install.packages("ggplot2")
+library(ggplot2)
+
+# Next, we can generate the bivariate standard normal random variable using the 'mvtnorm' package
+# install.packages("mvtnorm")
+library(mvtnorm)
+
+# Set the seed for reproducibility
+set.seed(123)
+
+# Generate the bivariate standard normal random variable
+data <- rmvnorm(n = 1000, mean = c(0, 0), sigma = matrix(c(1, 0, 0, 1), nrow = 2))
+data_df <- as.data.frame(data)
+
+# Create the ggplot object
+plot <- ggplot(data_df, aes(x = V1, y = V2)) +
+  geom_point()
+
+# Display the plot
+plot
+
 ```

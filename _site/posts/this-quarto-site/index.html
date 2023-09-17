@@ -187,14 +187,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>In this post, I simply want to test-demo Quarto’s capabilities (the how-to details will go here on my substack). My previous data science blog was <a href="https://dh-data.org/">this distill site</a>. Specifically, I’d like to show:</p>
+<p>I want to test-demo Quarto’s capabilities (how-to details are here on my substack). My previous data science blog was <a href="https://dh-data.org/">this distill site</a>. Specifically, in this post I’d like to show:</p>
 <ul>
 <li>How the openai package can prompt GPT and DALL-E via the API</li>
 <li>How Quarto is truly <em>multi-language</em>: this page runs both R and python code chunks (even sharing the diamonds_df dataframe)</li>
+<li>How the <a href="https://github.com/MichelNivard/gptstudio">gptstudio package</a> enables GPT as a copilot within the RStudio IDE (this is not a Quarto feature per se)</li>
 </ul>
 <section id="prompting-gpt-and-dall-e-via-api" class="level3">
 <h3 class="anchored" data-anchor-id="prompting-gpt-and-dall-e-via-api">Prompting GPT and DALL-E via API</h3>
-<p>The <a href="https://github.com/irudnyts/openai">openai package</a> includes <a href="https://platform.openai.com/docs/api-reference/images">create_image()</a> which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated.</p>
+<p>The <a href="https://github.com/irudnyts/openai">openai package</a> includes <a href="https://platform.openai.com/docs/api-reference/images">create_image()</a> which returns a convenient list that contains a URL of the image. For this post, I only evaluated create_image() once and saved the DALL-E image to a .png file because I don’t like every image; then commented the code. However, the subsequent GPT text prompt (i.e., completion object) is evaluated. In other words, the response to my prompt (“what are likely to be the top three implications of artificial intelligence on edtech?”) is different each time the page is rendered.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">OPENAI_API_KEY =</span> openai_key)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -251,17 +252,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(token_stats_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Total tokens = 304 . Given 230 words and 1775 characters, that's 1.322 tokens/word and 0.171 tokens/character."</code></pre>
+<pre><code>[1] "Total tokens = 302 . Given 241 words and 1822 characters, that's 1.253 tokens/word and 0.166 tokens/character."</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(reply_gpt_message, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1. Personalized Learning: Artificial Intelligence (AI) has the potential to revolutionize education technology by offering personalized learning experiences to students. AI-powered systems can analyze students' performance, identify their strengths and weaknesses, and provide tailored recommendations, resources, and assessments. This individualized approach can help students learn at their own pace and optimize their educational journeys.
+<pre><code>The top three implications of artificial intelligence (AI) on edtech (education technology) are:
 
-2. Data-Driven Decision Making: AI's ability to collect, process, and analyze vast amounts of data can significantly enhance the decision-making process in edtech. Educators and administrators can leverage AI to gain insights into student performance, identify areas needing improvement, track learning progress over time, and make data-driven decisions to shape instructional strategies and interventions. By leveraging AI, educational institutions can enhance efficiency and effectiveness in their operations.
+1. Personalized learning: AI has the potential to revolutionize education by enabling personalized learning experiences tailored to the individual needs and abilities of each student. AI-powered systems can analyze vast amounts of data collected from students to identify their strengths, weaknesses, and learning styles, allowing educators to provide customized content, resources, and feedback. This helps students learn at their own pace and in ways that align with their specific requirements.
 
-3. Supportive Teaching Assistants and Chatbots: AI-powered virtual assistants and chatbots can play a crucial role in the realm of edtech. These assistants can provide instant feedback, assistance, and guidance to students, even outside of traditional learning hours. They can help answer questions, provide explanations, offer additional resources, or recommend relevant activities. AI-powered chatbots can also streamline administrative tasks, such as managing course registrations, scheduling, grading, or providing reminders.
+2. Intelligent tutoring: AI-powered intelligent tutoring systems offer individualized support and guidance to students, mimicking the role of a human tutor. These systems use natural language processing and machine learning algorithms to assess students' knowledge, predict misconceptions, and provide targeted recommendations and explanations. With AI, students can access on-demand assistance and personalized tutoring, which enhances their understanding and academic success.
 
-Overall, the implications of AI in edtech offer the potential for personalized learning experiences, data-driven decision-making, and efficient support systems that benefit both students and educators.</code></pre>
+3. Enhanced administrative processes: AI can streamline administrative tasks and processes within education institutions, freeing up time for educators to focus on teaching. AI-powered tools can automate routine tasks such as grading assessments, generating reports, and managing student records. This automation improves efficiency, reduces administrative burdens, and enables educators to devote more time to instruction and student engagement.
+
+Overall, AI in edtech holds the potential to provide tailored learning experiences, personalized tutoring, and improved administrative efficiency, ultimately enhancing the quality and effectiveness of education.</code></pre>
 </div>
 </div>
 </section>
@@ -300,7 +303,7 @@ Overall, the implications of AI in edtech offer the potential for personalized l
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>diamonds_data_py[<span class="st">"Residuals"</span>] <span class="op">=</span> mod.resid</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And, finally, I will revert back to R to utilize ggplot. As <a href="https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/">explained by Nicola Rennie</a> the key here is to load the reticulate package so that we can use the <strong>py</strong> prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, <strong>diamonds_df</strong>, was retreived in python, via <strong>diamonds_data_py = r.diamonds_df</strong>, and then R retrieved that model via <strong>diamonds_residuals &lt;- py$diamonds_data_py</strong>. Sweet!</p>
+<p>And, finally, I will revert back to R to utilize ggplot. As <a href="https://nrennie.rbind.io/blog/combining-r-and-python-with-reticulate-and-quarto/">explained by Nicola Rennie</a> the key here is to load the reticulate package so that we can use the <strong>py</strong> prefix to retrieve the diamonds_data_py object. But you can see: the original R dataframe, <strong>diamonds_df</strong>, was retreived in python, via <strong>diamonds_data_py = r.diamonds_df</strong>, and then R retrieved that model via <strong>diamonds_residuals &lt;- py$diamonds_data_py</strong>. Sweet! But, okay, not the best line we’ve ever fit. That’s why we look at the residuals, after all.</p>
 <div class="cell" data-layout-align="left">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -318,6 +321,33 @@ Overall, the implications of AI in edtech offer the potential for personalized l
 <p><img src="index_files/figure-html/plotting-1.png" class="img-fluid figure-img" alt="Scatter plot of predicted and residual values for the fitted linear model." width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+</section>
+<section id="rstudio-co-pilot-with-gptstudio-package" class="level3">
+<h3 class="anchored" data-anchor-id="rstudio-co-pilot-with-gptstudio-package">RStudio Co-pilot with gptstudio package</h3>
+<p>What you can’t easily see on the page is the co-pilot enabled by the <a href="https://github.com/MichelNivard/gptstudio">gptstudio package</a>. Once the package is installed, I only neeed to setup the API key via the command:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(<span class="at">OPENAI_API_KEY =</span> <span class="st">"&lt;APIKEY&gt;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For example, below I call for help with this prompt (“generate a ggplot …”)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gptstudio-first.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">gptstudio as co-pilot</figcaption>
+</figure>
+</div>
+<p>… and the comment changes to the following:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="gptstudio-second.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">changes the comment to code!</figcaption>
+</figure>
+</div>
+<p>It’s not a great example but instructive. This code requires two quick tweaks in order to work. You do need to know how to write code, but at the same time, co-pilot clearly saves time; e.g., for some analyis, it’s cut the time required in half or better.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
