@@ -1,0 +1,196 @@
+---
+title: Decision Trees (part 1)
+description: Just some description here for now
+author: David Harper, CFA, FRM
+date: 2023-10-07
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+Contents
+
+* Train (and graph) dividend payer with rpart(), rpart.plot and C5.0
+* Loan default train
+* Loan default prediction
+* Adding penalty matrix to make false negatives costly
+* Trees are random but not too fragile
+
+To write a PQ set for decision trees, I experimented below. First the libraries:
+
+```{r}
+#| echo: true
+#| output: false
+
+my_libraries <- c("C50", "gmodels", "tidyverse", "openxlsx", 
+                  "rattle", "rpart", "rpart.plot")
+lapply(my_libraries, library, character.only = TRUE)
+
+```
+
+### Predicting dividend
+
+GARP's motivating example is a super simple (n = 20) dataset of public companies the either pay or do not pay a Dividend. The my20firms dataframe (you can see) is slightly altered to achieve a tree that I liked better for purposes of a practice question:
+
+```{r}
+
+# my20firms <- garp_data
+# my20firms$Dividend[1] <- 0
+# my20firms$Dividend[9] <- 0
+# my20firms$Dividend[12] <- 1
+# my20firms$Dividend[13] <- 0
+# my20firms$Dividend[15] <- 0
+
+# colnames(my20firms)[colnames(my20firms) == "Retail_investor"] <- "Retail"
+# colnames(my20firms)[colnames(my20firms) == "Large_cap"] <- "LargeCap"
+
+# write.xlsx(my20firms, file = "dividendExampleModified_v3.xlsx")
+# my20firms <- read.xlsx("dividendExampleModified_v3.xlsx")
+# saveRDS(my20firms, file = "my20firms-rds.RDS")
+
+my20firms <- readRDS("my20firms-rds.RDS")
+my20firms
+
+fit2 <- rpart(Dividend ~ ., data = my20firms, 
+              parms = list(split = "gini"),
+              control = rpart.control(minsplit = 1, 
+                                      minbucket = 1,
+                                      maxdepth = 4))
+
+# summary(fit2) printout is too long
+print(fit2)
+printcp(fit2)
+
+rpart.plot(fit2, yesno = 2, left=FALSE, type=2, branch.lty = 3, nn= TRUE, 
+           box.palette = "BuGn", leaf.round=0)
+
+# converting the target to factor
+my20firms$Dividend <- as_factor(my20firms$Dividend)
+
+
+fit3 <- rpart(Dividend ~ ., data = my20firms, 
+              parms = list(split = "gini"),
+              control = rpart.control(minsplit = 1, 
+                                      minbucket = 1,
+                                      maxdepth = 4))
+
+print(fit3)
+rpart.plot(fit3, yesno = 2, left=FALSE, type=2, branch.lty = 3, nn= TRUE, 
+           box.palette = "BuGn", leaf.round=0)
+
+```
+
+I had to refresh my knowledge of decision trees, and for that I depended on the awesome book () that I will review in the future (almost done!). He uses C5.0 algorithm (per the C50 package) and I just wanted to see its defaults:
+
+```{r}
+
+tree_c5 <- C5.0(Dividend ~ ., data = my20firms)
+plot(tree_c5)
+
+# set MinCases = 1
+
+tree_c5_v2 <- C5.0(Dividend ~ ., 
+                   control = C5.0Control(minCases = 1),
+                   data = my20firms)
+plot(tree_c5_v2)
+
+```
+
+### Loan default examples
+
+Now I will switch datasets, and use the same loan default dataset used in the book. But I will use the more familiar rpart() function to train the tree. The result is similar but not identical (and please not the difference is not due to sampling varation: my test sample is the same).
+
+```{r}
+
+set.seed(9829)
+train_sample <- sample(1000, 900)
+
+credit <- read.csv("credit.csv", stringsAsFactors = TRUE)
+
+# split the data frames
+credit_train <- credit[train_sample, ]
+credit_test  <- credit[-train_sample, ]
+
+credit_train$credit_history <- credit_train$credit_history |> 
+    fct_relevel("critical", "poor", "good", "very good", "perfect")
+
+tree_credit_train <- rpart(default ~ ., data = credit_train,
+                           parms = list(split = "gini"),
+                           control = rpart.control(minsplit = 1, 
+                                                   minbucket = 1,
+                                                   maxdepth = 4))
+
+rpart.plot(tree_credit_train, yesno = 2, left=FALSE, type=2, branch.lty = 3, nn= TRUE, 
+           box.palette = c("palegreen", "pink"), leaf.round=0, extra = 101, digits = 4)
+
+print(tree_credit_train)
+printcp(tree_credit_train)
+
+
+```
+
+### Default prediction
+
+Because there is a 10% test set, we can test the decision tree. It's not great. In terms of the mistake, notice that 28/35 actual defaulters were incorrectly predicted to repay; that's terrible. Compare this to only 7/65 actual re-payers who were predicted to default.
+
+```{r}
+
+tree_credit_pred <- predict(tree_credit_train, credit_test, type = "class")
+
+
+CrossTable(credit_test$default, tree_credit_pred,
+           prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+           dnn = c('actual default', 'predicted default'))
+
+```
+
+### Adding a loss (aka, penalty, cost) matrix
+
+It's really easy to impose a penalty matrix. We will make the false negative three times more costly than a false positive. As desired, the false negatives flip with huge improvement: the updated model correctly traps 28/35 defaults with only 7/35 false negatives. But this comes with an equally huge trade-off: false positives jump from 7/65 to 27 out of 65 who are predicted to default but actually repay.
+
+```{r}
+penalty_matrix <- matrix(c(0, 3,   # Actual: No
+                           1, 0),  # Actual: Yes
+                         ncol=2)
+
+rownames(penalty_matrix) <- colnames(penalty_matrix) <- c("No", "Yes")
+
+tree_credit_cost_train <- rpart(default ~ ., data = credit_train,
+                           parms = list(split = "gini", loss=penalty_matrix),
+                           control = rpart.control(minsplit = 1, 
+                                                   minbucket = 1,
+                                                   maxdepth = 4))
+
+tree_credit_cost_pred <- predict(tree_credit_cost_train, credit_test, type = "class")
+
+CrossTable(credit_test$default, tree_credit_cost_pred,
+           prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+           dnn = c('actual default', 'predicted default'))
+```
+
+### Can I easily randomize?
+
+I'm interested in the fact that decision trees have random qualities (aside from sampling variation). Below I set a different seed and switched the split algo to entropy. But the ultimate tree is the same.
+
+```{r}
+
+# different see and switch gini to information; aka, entropy
+set.seed(448)
+
+tree_credit_train_2 <- rpart(default ~ ., data = credit_train,
+                           parms = list(split = "information"),
+                           control = rpart.control(minsplit = 1, 
+                                                   minbucket = 1,
+                                                   maxdepth = 4))
+
+rpart.plot(tree_credit_train_2, yesno = 2, left=FALSE, type=2, branch.lty = 3, nn= TRUE, 
+           box.palette = c("palegreen", "pink"), leaf.round=0, extra = 101, digits = 4)
+
+print(tree_credit_train_2)
+printcp(tree_credit_train_2)
+
+identical(tree_credit_train, tree_credit_train_2)
+all.equal(tree_credit_train, tree_credit_train_2)
+
+```

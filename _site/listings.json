@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/decision-tree-p1/index.html",
       "/posts/this-quarto-site/index.html",
       "/posts/logistic-coeff/index.html",
       "/posts/sim-equity-risk-premium/index.html",
