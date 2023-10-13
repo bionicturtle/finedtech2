@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/nearest-neighbors/index.html",
       "/posts/decision-tree-p1/index.html",
       "/posts/this-quarto-site/index.html",
       "/posts/logistic-coeff/index.html",
