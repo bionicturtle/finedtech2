@@ -1,6 +1,6 @@
 ---
 title: Nearest neighbors
-description: This lazy learning algorithm requires us to select k, but it's fast and (I think) a very intuitive classifer
+description: This lazy learning algorithm requires us to select k, but it's a fast and intuitive classifer
 author: David Harper, CFA, FRM
 date: 2023-10-13
 categories: [code, analysis]
@@ -21,7 +21,7 @@ First the libraries:
 #| echo: true
 #| output: false
 
-my_libraries <- c("tidyverse", "ggforce", "openxlsx", "patchwork", # for mine
+my_libraries <- c("tidyverse", "ggforce", "janitor", "openxlsx", "patchwork", # for mine
                   "class", "GGally", "viridis") # for Lantz's data
 lapply(my_libraries, library, character.only = TRUE)
 
@@ -50,19 +50,21 @@ labels <- ifelse(credit_scores < 600 | incomes < 40000, "default", "repay")
 random_indices <- sample(1:n, n/10) # Arbitrary 10%
 labels[random_indices] <- "default"
 
-data <- data.frame(credit_score=credit_scores, income=incomes, label=labels)
+train <- data.frame(credit_score=credit_scores, income=incomes, label=labels)
 # In k-nn, we should either standardize or normalize the data
-data$credit_score_std <- (data$credit_score - mean(data$credit_score)) / sd(data$credit_score)
-data$income_std <- (data$income - mean(data$income)) / sd(data$income)
+mu_credit <- mean(train$credit_score); sig_credit <- sd(train$credit_score)
+mu_income <- mean(train$income); sig_income <- sd(train$income)
+train$credit_score_std <- (train$credit_score - mu_credit) / sig_credit
+train$income_std <- (train$income - mu_income) / sig_income
 
 # The test point; then standardized
-x_point <- 605
-y_point <- 41000
-x_point_std <- (x_point - mean(data$credit_score)) / sd(data$credit_score)
-y_point_std <- (y_point - mean(data$income)) / sd(data$income)
+x <- 605
+y <- 41000
+x_std <- (x - mu_credit) / sig_credit
+y_std <- (y - mu_income) / sig_income
 
 # Euclidean distance (from all points) to test point
-distances_std <- sqrt((data$credit_score_std - x_point_std)^2 + (data$income_std - y_point_std)^2)
+distances_std <- sqrt((train$credit_score_std - x_std)^2 + (train$income_std - y_std)^2)
 
 # The k-nearest neighbors are simply the k (=5 or =10 or =15, eg) smallest distances
 k05 <- 5; k10 <- 10; k15 <- 15
@@ -72,11 +74,14 @@ k_nearest_indices_std_10 <- order(distances_std)[1:k10]
 k_nearest_indices_std_15 <- order(distances_std)[1:k15]
 
 # Add distances column and display  k-nearest neighbors with their distance
-k_nearest_neighbors <- data[k_nearest_indices_std_15, ]
-nearest_distances <- distances_std[k_nearest_indices_std_15]
-k_nearest_neighbors$distance <- nearest_distances
-# write.xlsx(k_nearest_neighbors, "k_nearest_neighbors.xlsx") # Save to XLSX for my manual test
-k_nearest_neighbors
+k_nn <- train[k_nearest_indices_std_15, ]
+nearest <- distances_std[k_nearest_indices_std_15]
+k_nn$distance <- nearest
+
+# k_nearest_neighbors
+k_nn |> adorn_rounding(digits = 0, rounding = "half up", 
+                                      all_of(c("credit_score", "income"))) |> 
+    adorn_rounding(digits = 3, rounding = "half up", credit_score_std:distance)
 
 # Now the ggplots!
 # colors
@@ -84,14 +89,14 @@ three_colors <- c("default" = "lightpink1", "repay" = "lightgreen")
 five_colors <- c("default" = "lightpink1", "repay" = "lightgreen", "NN Default" = "red", "NN Repay" = "green4")    
 
 # Base plots, with labels and without (and zoomed in per coord_cartesian)
-p_base_lab <- ggplot(data, aes(x=credit_score_std, y=income_std)) +
-    geom_point(aes(x=x_point_std, y=y_point_std), color="dodgerblue2", shape=17, size=4) +
+p_base_lab <- ggplot(train, aes(x=credit_score_std, y=income_std)) +
+    geom_point(aes(x=x_std, y=y_std), color="dodgerblue2", shape=17, size=4) +
     xlab("Credit Score (Standardized)") +
     ylab("Income (Standardized)") +
     theme_minimal()
 
-p_base <- ggplot(data, aes(x=credit_score_std, y=income_std)) + 
-    geom_point(aes(x=x_point_std, y=y_point_std), color="dodgerblue2", shape=17, size=4) +
+p_base <- ggplot(train, aes(x=credit_score_std, y=income_std)) + 
+    geom_point(aes(x=x_std, y=y_std), color="dodgerblue2", shape=17, size=4) +
     theme_minimal() +
     theme(legend.position = "none", axis.title = element_blank()) +
     coord_cartesian(xlim = c(-1.75, 0), ylim = c(-1.75, 0))
@@ -104,13 +109,13 @@ p1_lab <- p_base_lab +
     scale_color_manual(values = three_colors)
 
 p3_lab <- p_base_lab +
-    geom_point(aes(color = ifelse(row.names(data) %in% row.names(data[k_nearest_indices_std_10, ]),
+    geom_point(aes(color = ifelse(row.names(train) %in% row.names(train[k_nearest_indices_std_10, ]),
                                   ifelse(label == "default", "NN Default", "NN Repay"),
                                   label)), size = 3) +
     labs(title = paste("Let's ask k = 10 neighbors to vote"),
          subtitle = paste("Six defaulted and four repaid (radius is ~0.652)"),
          color = "Borrower") +
-    geom_circle(aes(x0 = x_point_std, y0 = y_point_std, r = 0.658), 
+    geom_circle(aes(x0 = x_std, y0 = y_std, r = 0.658), 
               color = "blue",linetype="dashed", fill = NA) +
     scale_color_manual(values = five_colors)
 
@@ -122,26 +127,26 @@ p1 <- p_base +
     scale_color_manual(values = three_colors)
 
 p2 <- p_base + 
-    geom_point(aes(color = ifelse(row.names(data) %in% row.names(data[k_nearest_indices_std_05, ]),
+    geom_point(aes(color = ifelse(row.names(train) %in% row.names(train[k_nearest_indices_std_05, ]),
                                   ifelse(label == "default", "NN Default", "NN Repay"),
                                   label)), size = 3) +
-    geom_circle(aes(x0 = x_point_std, y0 = y_point_std, r = 0.330), 
+    geom_circle(aes(x0 = x_std, y0 = y_std, r = 0.330), 
               color = "blue",linetype="dashed", fill = NA) +
     scale_color_manual(values = five_colors) 
 
  p3 <- p_base +
-    geom_point(aes(color = ifelse(row.names(data) %in% row.names(data[k_nearest_indices_std_10, ]),
+    geom_point(aes(color = ifelse(row.names(train) %in% row.names(train[k_nearest_indices_std_10, ]),
                                   ifelse(label == "default", "NN Default", "NN Repay"),
                                   label)), size = 3) +
-    geom_circle(aes(x0 = x_point_std, y0 = y_point_std, r = 0.658), 
+    geom_circle(aes(x0 = x_std, y0 = y_std, r = 0.658), 
               color = "blue",linetype="dashed", fill = NA) +
     scale_color_manual(values = five_colors)
 
  p4 <- p_base +
-    geom_point(aes(color = ifelse(row.names(data) %in% row.names(data[k_nearest_indices_std_15, ]),
+    geom_point(aes(color = ifelse(row.names(train) %in% row.names(train[k_nearest_indices_std_15, ]),
                                   ifelse(label == "default", "NN Default", "NN Repay"),
                                   label)), size = 3) +
-     geom_circle(aes(x0 = x_point_std, y0 = y_point_std, r = 0.763), 
+     geom_circle(aes(x0 = x_std, y0 = y_std, r = 0.763), 
               color = "blue",linetype="dashed", fill = NA) +
     scale_color_manual(values = five_colors) 
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Harper, CFA, FRM">
 <meta name="dcterms.date" content="2023-10-13">
-<meta name="description" content="This lazy learning algorithm requires us to select k, but it’s fast and (I think) a very intuitive classifer">
+<meta name="description" content="This lazy learning algorithm requires us to select k, but it’s a fast and intuitive classifer">
 
 <title>finedtech by David Harper, CFA, FRM - Nearest neighbors</title>
 <style>
@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Nearest neighbors</h1>
                   <div>
         <div class="description">
-          This lazy learning algorithm requires us to select k, but it’s fast and (I think) a very intuitive classifer
+          This lazy learning algorithm requires us to select k, but it’s a fast and intuitive classifer
         </div>
       </div>
                           <div class="quarto-categories">
@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>First the libraries:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_libraries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"ggforce"</span>, <span class="st">"openxlsx"</span>, <span class="st">"patchwork"</span>, <span class="co"># for mine</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_libraries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"ggforce"</span>, <span class="st">"janitor"</span>, <span class="st">"openxlsx"</span>, <span class="st">"patchwork"</span>, <span class="co"># for mine</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"class"</span>, <span class="st">"GGally"</span>, <span class="st">"viridis"</span>) <span class="co"># for Lantz's data</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(my_libraries, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -219,50 +219,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>random_indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n, n<span class="sc">/</span><span class="dv">10</span>) <span class="co"># Arbitrary 10%</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>labels[random_indices] <span class="ot">&lt;-</span> <span class="st">"default"</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">credit_score=</span>credit_scores, <span class="at">income=</span>incomes, <span class="at">label=</span>labels)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">credit_score=</span>credit_scores, <span class="at">income=</span>incomes, <span class="at">label=</span>labels)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># In k-nn, we should either standardize or normalize the data</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>credit_score_std <span class="ot">&lt;-</span> (data<span class="sc">$</span>credit_score <span class="sc">-</span> <span class="fu">mean</span>(data<span class="sc">$</span>credit_score)) <span class="sc">/</span> <span class="fu">sd</span>(data<span class="sc">$</span>credit_score)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>income_std <span class="ot">&lt;-</span> (data<span class="sc">$</span>income <span class="sc">-</span> <span class="fu">mean</span>(data<span class="sc">$</span>income)) <span class="sc">/</span> <span class="fu">sd</span>(data<span class="sc">$</span>income)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># The test point; then standardized</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>x_point <span class="ot">&lt;-</span> <span class="dv">605</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>y_point <span class="ot">&lt;-</span> <span class="dv">41000</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>x_point_std <span class="ot">&lt;-</span> (x_point <span class="sc">-</span> <span class="fu">mean</span>(data<span class="sc">$</span>credit_score)) <span class="sc">/</span> <span class="fu">sd</span>(data<span class="sc">$</span>credit_score)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>y_point_std <span class="ot">&lt;-</span> (y_point <span class="sc">-</span> <span class="fu">mean</span>(data<span class="sc">$</span>income)) <span class="sc">/</span> <span class="fu">sd</span>(data<span class="sc">$</span>income)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Euclidean distance (from all points) to test point</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>distances_std <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((data<span class="sc">$</span>credit_score_std <span class="sc">-</span> x_point_std)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (data<span class="sc">$</span>income_std <span class="sc">-</span> y_point_std)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># The k-nearest neighbors are simply the k (=5 or =10 or =15, eg) smallest distances</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>k05 <span class="ot">&lt;-</span> <span class="dv">5</span>; k10 <span class="ot">&lt;-</span> <span class="dv">10</span>; k15 <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_05 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k05]</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_10 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k10]</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_15 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k15]</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Add distances column and display  k-nearest neighbors with their distance</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>k_nearest_neighbors <span class="ot">&lt;-</span> data[k_nearest_indices_std_15, ]</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>nearest_distances <span class="ot">&lt;-</span> distances_std[k_nearest_indices_std_15]</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>k_nearest_neighbors<span class="sc">$</span>distance <span class="ot">&lt;-</span> nearest_distances</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># write.xlsx(k_nearest_neighbors, "k_nearest_neighbors.xlsx") # Save to XLSX for my manual test</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>k_nearest_neighbors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>mu_credit <span class="ot">&lt;-</span> <span class="fu">mean</span>(train<span class="sc">$</span>credit_score); sig_credit <span class="ot">&lt;-</span> <span class="fu">sd</span>(train<span class="sc">$</span>credit_score)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>mu_income <span class="ot">&lt;-</span> <span class="fu">mean</span>(train<span class="sc">$</span>income); sig_income <span class="ot">&lt;-</span> <span class="fu">sd</span>(train<span class="sc">$</span>income)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>credit_score_std <span class="ot">&lt;-</span> (train<span class="sc">$</span>credit_score <span class="sc">-</span> mu_credit) <span class="sc">/</span> sig_credit</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>train<span class="sc">$</span>income_std <span class="ot">&lt;-</span> (train<span class="sc">$</span>income <span class="sc">-</span> mu_income) <span class="sc">/</span> sig_income</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># The test point; then standardized</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">605</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">41000</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>x_std <span class="ot">&lt;-</span> (x <span class="sc">-</span> mu_credit) <span class="sc">/</span> sig_credit</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>y_std <span class="ot">&lt;-</span> (y <span class="sc">-</span> mu_income) <span class="sc">/</span> sig_income</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Euclidean distance (from all points) to test point</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>distances_std <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((train<span class="sc">$</span>credit_score_std <span class="sc">-</span> x_std)<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> (train<span class="sc">$</span>income_std <span class="sc">-</span> y_std)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># The k-nearest neighbors are simply the k (=5 or =10 or =15, eg) smallest distances</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>k05 <span class="ot">&lt;-</span> <span class="dv">5</span>; k10 <span class="ot">&lt;-</span> <span class="dv">10</span>; k15 <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_05 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k05]</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_10 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k10]</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>k_nearest_indices_std_15 <span class="ot">&lt;-</span> <span class="fu">order</span>(distances_std)[<span class="dv">1</span><span class="sc">:</span>k15]</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Add distances column and display  k-nearest neighbors with their distance</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>k_nn <span class="ot">&lt;-</span> train[k_nearest_indices_std_15, ]</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>nearest <span class="ot">&lt;-</span> distances_std[k_nearest_indices_std_15]</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>k_nn<span class="sc">$</span>distance <span class="ot">&lt;-</span> nearest</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co"># k_nearest_neighbors</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>k_nn <span class="sc">|&gt;</span> <span class="fu">adorn_rounding</span>(<span class="at">digits =</span> <span class="dv">0</span>, <span class="at">rounding =</span> <span class="st">"half up"</span>, </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">all_of</span>(<span class="fu">c</span>(<span class="st">"credit_score"</span>, <span class="st">"income"</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">adorn_rounding</span>(<span class="at">digits =</span> <span class="dv">3</span>, <span class="at">rounding =</span> <span class="st">"half up"</span>, credit_score_std<span class="sc">:</span>distance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   credit_score   income   label credit_score_std income_std  distance
-8      610.8605 41987.97   repay       -0.8042146 -0.7593859 0.1453720
-82     598.2657 39397.72 default       -1.0348797 -1.0164438 0.2012362
-41     602.8589 43183.69   repay       -0.9507571 -0.6407216 0.2202299
-4      591.9976 39166.05 default       -1.1496752 -1.0394348 0.2997177
-64     603.8825 44168.34   repay       -0.9320112 -0.5430040 0.3150938
-32     586.9258 41993.56 default       -1.2425608 -0.7588305 0.3453891
-75     621.0166 44366.85   repay       -0.6182127 -0.5233040 0.4446188
-53     626.7646 38748.80 default       -0.5129427 -1.0808429 0.4569423
-1      583.3860 46196.67 default       -1.3073894 -0.3417120 0.6501233
-45     597.7104 34567.15 default       -1.0450498 -1.4958331 0.6522107
-11     639.3767 43147.74   repay       -0.2819618 -0.6442893 0.6646845
-80     640.4270 43630.19   repay       -0.2627255 -0.5964111 0.6993563
-84     642.8316 43094.04   repay       -0.2186871 -0.6496188 0.7233526
-52     646.2817 41063.93   repay       -0.1555017 -0.8510878 0.7560703
-99     638.6851 45497.35   repay       -0.2946265 -0.4111129 0.7614394</code></pre>
+<pre><code>   credit_score income   label credit_score_std income_std distance
+8           611  41988   repay           -0.804     -0.759    0.145
+82          598  39398 default           -1.035     -1.016    0.201
+41          603  43184   repay           -0.951     -0.641    0.220
+4           592  39166 default           -1.150     -1.039    0.300
+64          604  44168   repay           -0.932     -0.543    0.315
+32          587  41994 default           -1.243     -0.759    0.345
+75          621  44367   repay           -0.618     -0.523    0.445
+53          627  38749 default           -0.513     -1.081    0.457
+1           583  46197 default           -1.307     -0.342    0.650
+45          598  34567 default           -1.045     -1.496    0.652
+11          639  43148   repay           -0.282     -0.644    0.665
+80          640  43630   repay           -0.263     -0.596    0.699
+84          643  43094   repay           -0.219     -0.650    0.723
+52          646  41064   repay           -0.156     -0.851    0.756
+99          639  45497   repay           -0.295     -0.411    0.761</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now the ggplots!</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># colors</span></span>
@@ -270,14 +275,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>five_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"default"</span> <span class="ot">=</span> <span class="st">"lightpink1"</span>, <span class="st">"repay"</span> <span class="ot">=</span> <span class="st">"lightgreen"</span>, <span class="st">"NN Default"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"NN Repay"</span> <span class="ot">=</span> <span class="st">"green4"</span>)    </span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Base plots, with labels and without (and zoomed in per coord_cartesian)</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>p_base_lab <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>credit_score_std, <span class="at">y=</span>income_std)) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x_point_std, <span class="at">y=</span>y_point_std), <span class="at">color=</span><span class="st">"dodgerblue2"</span>, <span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>p_base_lab <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(train, <span class="fu">aes</span>(<span class="at">x=</span>credit_score_std, <span class="at">y=</span>income_std)) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x_std, <span class="at">y=</span>y_std), <span class="at">color=</span><span class="st">"dodgerblue2"</span>, <span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">"Credit Score (Standardized)"</span>) <span class="sc">+</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Income (Standardized)"</span>) <span class="sc">+</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span>credit_score_std, <span class="at">y=</span>income_std)) <span class="sc">+</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x_point_std, <span class="at">y=</span>y_point_std), <span class="at">color=</span><span class="st">"dodgerblue2"</span>, <span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(train, <span class="fu">aes</span>(<span class="at">x=</span>credit_score_std, <span class="at">y=</span>income_std)) <span class="sc">+</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>x_std, <span class="at">y=</span>y_std), <span class="at">color=</span><span class="st">"dodgerblue2"</span>, <span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>, <span class="at">axis.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.75</span>, <span class="dv">0</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.75</span>, <span class="dv">0</span>))</span>
@@ -290,13 +295,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> three_colors)</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>p3_lab <span class="ot">&lt;-</span> p_base_lab <span class="sc">+</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(data) <span class="sc">%in%</span> <span class="fu">row.names</span>(data[k_nearest_indices_std_10, ]),</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(train) <span class="sc">%in%</span> <span class="fu">row.names</span>(train[k_nearest_indices_std_10, ]),</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">"default"</span>, <span class="st">"NN Default"</span>, <span class="st">"NN Repay"</span>),</span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                                  label)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Let's ask k = 10 neighbors to vote"</span>),</span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"Six defaulted and four repaid (radius is ~0.652)"</span>),</span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"Borrower"</span>) <span class="sc">+</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_point_std, <span class="at">y0 =</span> y_point_std, <span class="at">r =</span> <span class="fl">0.658</span>), </span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_std, <span class="at">y0 =</span> y_std, <span class="at">r =</span> <span class="fl">0.658</span>), </span>
 <span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"blue"</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> five_colors)</span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
@@ -313,26 +318,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> three_colors)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> p_base <span class="sc">+</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(data) <span class="sc">%in%</span> <span class="fu">row.names</span>(data[k_nearest_indices_std_05, ]),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(train) <span class="sc">%in%</span> <span class="fu">row.names</span>(train[k_nearest_indices_std_05, ]),</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">"default"</span>, <span class="st">"NN Default"</span>, <span class="st">"NN Repay"</span>),</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                                  label)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_point_std, <span class="at">y0 =</span> y_point_std, <span class="at">r =</span> <span class="fl">0.330</span>), </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_std, <span class="at">y0 =</span> y_std, <span class="at">r =</span> <span class="fl">0.330</span>), </span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"blue"</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> five_colors) </span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> p3 <span class="ot">&lt;-</span> p_base <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(data) <span class="sc">%in%</span> <span class="fu">row.names</span>(data[k_nearest_indices_std_10, ]),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(train) <span class="sc">%in%</span> <span class="fu">row.names</span>(train[k_nearest_indices_std_10, ]),</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">"default"</span>, <span class="st">"NN Default"</span>, <span class="st">"NN Repay"</span>),</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                                  label)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_point_std, <span class="at">y0 =</span> y_point_std, <span class="at">r =</span> <span class="fl">0.658</span>), </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_std, <span class="at">y0 =</span> y_std, <span class="at">r =</span> <span class="fl">0.658</span>), </span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"blue"</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> five_colors)</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a> p4 <span class="ot">&lt;-</span> p_base <span class="sc">+</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(data) <span class="sc">%in%</span> <span class="fu">row.names</span>(data[k_nearest_indices_std_15, ]),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(<span class="fu">row.names</span>(train) <span class="sc">%in%</span> <span class="fu">row.names</span>(train[k_nearest_indices_std_15, ]),</span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">"default"</span>, <span class="st">"NN Default"</span>, <span class="st">"NN Repay"</span>),</span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>                                  label)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_point_std, <span class="at">y0 =</span> y_point_std, <span class="at">r =</span> <span class="fl">0.763</span>), </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>     <span class="fu">geom_circle</span>(<span class="fu">aes</span>(<span class="at">x0 =</span> x_std, <span class="at">y0 =</span> y_std, <span class="at">r =</span> <span class="fl">0.763</span>), </span>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"blue"</span>,<span class="at">linetype=</span><span class="st">"dashed"</span>, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> five_colors) </span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
