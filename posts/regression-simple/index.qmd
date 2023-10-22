@@ -1,0 +1,293 @@
+---
+title: Univariate regression
+description: Description to go here
+author: David Harper, CFA, FRM
+date: 2023-10-22
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+### Contents
+
+-   Illustration of residual sum of squares (RSS) with n = 12 subset
+-   Univariate (aka, simple) linear regression: AAPL vs S&P 1500, n = 72 months
+-   Model diagnostics
+-   Autocorrelation test
+
+Loading packages
+
+```{r}
+
+library(tidyverse); library(gt)
+library(patchwork)
+
+library(broom); library(performance); library(lmtest)
+library(desk)
+
+```
+
+## Regressing Apple's (AAPL) returns against S&P 1500
+
+### Subset of 12 months just to illustrate RSS boxes
+
+The full set is 72 months of returns. The sample of 12 months is just to illustrate the residual sum of squares (RSS) concept; the squares are less cluttered.
+
+```{r}
+
+data_72 <- readRDS("t2-20-17-aapl-sp1500.rds") # 72 monthly returns
+row.names(data_72) <- 1:nrow(data_72)
+model_72 <- lm(r_m_AAPL ~ r_SP_1500, data = data_72) # linear model
+
+set.seed(97531) # Adding Y ~ X just because they're familiar axes
+data_12 <- sample_n(data_72, 12) # sample of 12 monthly returns 
+data_12$y <- data_12$r_m_AAPL # just to illustrate RSS
+data_12$x <- data_12$r_SP_1500
+
+model_12 <- lm(y ~ x, data=data_12) # linear model
+data_12$residuals <- residuals(model_12)
+
+sum(model_12$residuals^2)
+RSS <- sum(model_12$residuals^2) 
+pred_Y <- predict(model_12)
+
+# colors for plots
+green_line = "#3aaf85"; blue_points = "#1b6ca8"; red_color = "#cd201f"
+
+p1 <- data_12 |> ggplot(aes(x=x, y=y)) +
+    geom_point(size=3, color=blue_points) +
+    geom_smooth(method="lm", se=FALSE, color=green_line) + # Adding regression line
+    theme_minimal() +
+    theme(axis.title = element_blank()) + 
+    coord_cartesian(xlim = c(-0.15, 0.05), ylim = c(-0.15, 0.20))
+
+p2 <- data_12 |> ggplot(aes(x=x, y=y)) +
+    geom_point(size=3, color=blue_points) +
+    geom_smooth(method="lm", se=FALSE, color=green_line) + 
+    # geom_segment(aes(xend=x, yend=y - residuals), color=red_color, linewidth = 1, linetype = "dashed") +
+    geom_rect(aes(xmin = x - abs(residuals),
+                  xmax = x, 
+                  ymin = ifelse(residuals > 0, y - abs(residuals), y), 
+                  ymax = ifelse(residuals > 0, y, y + abs(residuals))), 
+              fill="purple4", color="purple", linewidth=0.5, alpha = 0.10) +
+    theme_minimal() +
+    theme(axis.title = element_blank()) + 
+    coord_cartesian(xlim = c(-0.15, 0.05), ylim = c(-0.15, 0.20))
+
+scatter_pw <- p1 + p2 
+scatter_pw + plot_annotation(
+    title = "The OLS line minimizes the residual sum of squares (RSS)",
+    subtitle = sprintf("In ths case, RSS = %.4f", RSS)
+)
+
+# To show the residuals in a gt table
+result_df <- data.frame(
+  X = data_12$x,
+  Y = data_12$y,
+  Pred_Y = pred_Y,
+  residual = model_12$residuals,
+  residual_sq = model_12$residuals^2
+)
+
+# But sorting by X = SP1500 
+result_df_sorted <- result_df[order(result_df$X), ]
+result_df_sorted_tbl <- gt(result_df_sorted)
+p1_tbl <- result_df_sorted_tbl |> 
+    fmt_percent(
+        columns = 1:4,
+        decimals = 2
+    ) |> 
+    fmt_number(
+        columns = 5,
+        decimals = 5
+    ) |> 
+    cols_label(
+        X = md("**S&P 1500**"),
+        Y = md("**AAPL**"),
+        Pred_Y = md("**Pred(AAPL)**"),
+        residual = md("**Residual**"),
+        residual_sq = md("**Residual^2**")
+    ) |> 
+    data_color(
+        columns = 5,
+        palette = c("white","purple4"),
+        domain = c(0,0.02),
+        na_color = "lightgrey"
+    ) |> 
+    tab_options(
+        table.font.size = 12
+    )
+
+p1_tbl
+
+```
+
+### The full dataset of 72 monthly returns
+
+```{r}
+
+row.names(data_72) <- 1:nrow(data_72)
+model_72 <- lm(r_m_AAPL ~ r_SP_1500, data = data_72)
+model_72_coeff <- coef(model_72)
+equation_label <- sprintf("Y = %.3fX + %.3f", model_72_coeff[2], model_72_coeff[1])
+
+p1_model_72 <- data_72 %>% ggplot(aes(r_SP_1500, r_m_AAPL)) +
+    geom_point(size = 2, color = blue_points) +
+    geom_smooth(method = "lm", color = green_line, fill = "mediumpurple1", alpha = 0.20) +
+    theme_minimal() +
+    xlab("S&P 1500 return") +
+    ylab("AAPL return") + 
+    annotate("text", x = -0.06, y = 0.15, label = equation_label, 
+             size = 5.0, color = "black")
+
+p1_model_72
+
+summary(model_72) # Just to show the standard/typical output
+
+```
+
+### Model output in gt table
+
+```{r}
+
+model_72_tidy <- tidy(model_72)
+gt_table_model_72 <- gt(model_72_tidy)
+
+gt_table_model_72 <- 
+  gt_table_model_72 %>% 
+  tab_options(
+    table.font.size = 14
+  ) %>% 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body()
+  ) %>% 
+  tab_header(
+    title = "AAPL versus S&P_1500: Gross (incl. Rf) monthly log return",
+    subtitle = md("Six years (2014 - 2019), n = 72 months")
+  ) %>% 
+  tab_source_note(
+    source_note = "Source: tidyquant https://cran.r-project.org/web/packages/tidyquant/"
+  ) %>% cols_label(
+    term = "Coefficient",
+    estimate = "Estimate",
+    std.error = "Std Error",
+    statistic = "t-stat",
+    p.value = "p value"
+  ) %>% fmt_number(
+    columns = vars(estimate, std.error, statistic),
+    decimals = 3
+  ) %>% fmt_scientific(
+    columns = vars(p.value),
+  ) %>% 
+  tab_options(
+    heading.title.font.size = 14,
+    heading.subtitle.font.size = 12
+  )
+
+gt_table_model_72
+
+```
+
+The table above is featured in one of my [practice questions](https://forum.bionicturtle.com/threads/p1-t2-20-17-hypothesis-tests-of-univariate-linear-regression-model.23451/):
+
+::: {.callout-note icon="false"}
+## BT Question 20.17.1
+
+Below \[above\] the results of a linear regression analysis are displayed. The dataset is monthly returns over a six-year period; i.e., n = 72 months. The gross returns of Apple's stock (ticker: AAPL) were regressed against the S&P 1500 Index (the S&P 1500 is our proxy for the market). The explanatory variable is SP_1500 and the response (aka, dependent) variable is AAPL.
+
+Which is nearest to the 90.0% confidence interval for the beta of Apple's (AAPL) stock?
+
+a.  90.0% CI = (0.56; 1.98)
+b.  90.0% CI = (0.70; 1.84)
+c.  90.0% CI = (0.91; 1.63)
+d.  90.0% CI = (-0.004; 0.020)
+:::
+
+::: callout-tip
+## Answer: C. True: 90.0% CI = (0.91; 1.63)
+
+The two-tailed critical-Z at 90.0% confidence is 1.645 such that the CI = 1.270 +/- 1.645 × 0.216 = (0.91; 1.63). The confidence interval is given by: coefficient ± (standard error) × (critical value). The sample size is large so we can use the normal deviate of 1.645 associated with 90.0% two-tailed confidence; note this should not require any lookup because we already know the 95.0% confident one-tailed normal deviate is 1.645. With 70 degrees of freedom, the critical t value is T.INV.2T(0.10, 70) = 1.666914, so we can see that normal Z is a close approximation.
+:::
+
+```{r}
+
+# Confidence interval around the slope
+beta <- model_72_tidy$estimate[2]
+se_beta <- model_72_tidy$std.error[2]
+ci_confidence = 0.90
+z_2s <- qnorm((1 + ci_confidence)/2)
+ci_lower <- beta - se_beta*z_2s
+ci_upper <- beta + se_beta*z_2s
+
+ci_lower
+ci_upper
+
+```
+
+## Model diagnostics
+
+There are many choices but I like the [performance package](https://easystats.github.io/performance/).
+
+```{r}
+
+check_model(model_72, check = c("linearity", "homogeneity", "outliers", "qq"))
+
+```
+
+In regard to the above:
+
+-   *Linearity* plot; aka, *Tukey-Anscombe*
+-   *Homogeneity* (of variance); aka, *scale-location* plot
+-   *Outliers* (Influential Observations) uses *Cook's distance*
+-   *Q-Q plot* is test of residual normality
+
+Both of the first two plots (upper row) can be used to check for heteroscedasticity. The second is supposedly better: by rooting the absolute value, differences are amplified. Notice it's Y-axis (Homogeneity of Variance) is non-negative such that the "perfect" reference line is nearer to one than zero.
+
+## Autocorrelation tests
+
+First, Durbin-Watson with [check_autocorrelation()](https://easystats.github.io/performance/reference/check_autocorrelation.html) in performance package:
+
+```{r}
+
+check_autocorrelation(model_72)
+
+```
+
+Let's plot residual against lag 1 residual.
+
+```{r}
+
+residuals_72 <- residuals(model_72)
+lagged_residuals_72 <- c(NA, residuals_72[-length(residuals_72)])
+
+residual_data <- data.frame(
+  Residuals = residuals_72[-1],  # Exclude the first value as it doesn't have a lagged residual
+  Lagged_Residuals = lagged_residuals_72[-1]  # Exclude the last value as it is NA
+)
+
+ggplot(residual_data, aes(x = Lagged_Residuals, y = Residuals)) +
+  geom_point(color = blue_points) +
+  labs(title = "Scatter Plot of Residuals vs. Lagged Residuals",
+       x = "Lagged Residuals (i-1)",
+       y = "Residuals (i)") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = green_line) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = green_line) +
+  theme_minimal()
+
+linear_model <- lm(Residuals ~ Lagged_Residuals, data = residual_data)
+linear_model
+cor(residual_data$Residuals, residual_data$Lagged_Residuals)
+summary(linear_model)$r.squared
+cor(residual_data$Residuals, residual_data$Lagged_Residuals)^2
+
+```
+
+Finally, let's try dw.test from the [desk package](https://github.com/OvGU-SH/desk) which is new but looks good:
+
+```{r}
+dw.test(model_72, dir = "left")
+dw.test(model_72, dir = "right")
+
+```
