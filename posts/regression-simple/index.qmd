@@ -48,24 +48,27 @@ data_12$x <- data_12$r_SP_1500
 model_12 <- lm(y ~ x, data=data_12) # linear model
 data_12$residuals <- residuals(model_12)
 
+
 sum(model_12$residuals^2)
 RSS <- sum(model_12$residuals^2) 
 pred_Y <- predict(model_12)
+cooks_d <- cooks.distance(model_12)
 
 # colors for plots
 green_line = "#3aaf85"; blue_points = "#1b6ca8"; red_color = "#cd201f"
 
-p1 <- data_12 |> ggplot(aes(x=x, y=y)) +
+p0 <- data_12 |> ggplot(aes(x=x, y=y)) +
     geom_point(size=3, color=blue_points) +
-    geom_smooth(method="lm", se=FALSE, color=green_line) + # Adding regression line
+    geom_smooth(method="lm", se=FALSE, color=green_line)
+
+p1 <- p0 +
     theme_minimal() +
-    theme(axis.title = element_blank()) + 
+    xlab("S&P 1500 return") +
+    ylab("AAPL return") + 
     coord_cartesian(xlim = c(-0.15, 0.05), ylim = c(-0.15, 0.20))
 
-p2 <- data_12 |> ggplot(aes(x=x, y=y)) +
-    geom_point(size=3, color=blue_points) +
-    geom_smooth(method="lm", se=FALSE, color=green_line) + 
-    # geom_segment(aes(xend=x, yend=y - residuals), color=red_color, linewidth = 1, linetype = "dashed") +
+p2 <- p0 +
+    geom_segment(aes(xend=x, yend=y - residuals), color="purple4", linewidth = 1, linetype = "dashed") +
     geom_rect(aes(xmin = x - abs(residuals),
                   xmax = x, 
                   ymin = ifelse(residuals > 0, y - abs(residuals), y), 
@@ -87,7 +90,8 @@ result_df <- data.frame(
   Y = data_12$y,
   Pred_Y = pred_Y,
   residual = model_12$residuals,
-  residual_sq = model_12$residuals^2
+  residual_sq = model_12$residuals^2,
+  cooksD = cooks_d
 )
 
 # But sorting by X = SP1500 
@@ -99,7 +103,7 @@ p1_tbl <- result_df_sorted_tbl |>
         decimals = 2
     ) |> 
     fmt_number(
-        columns = 5,
+        columns = 5:6,
         decimals = 5
     ) |> 
     cols_label(
@@ -107,12 +111,19 @@ p1_tbl <- result_df_sorted_tbl |>
         Y = md("**AAPL**"),
         Pred_Y = md("**Pred(AAPL)**"),
         residual = md("**Residual**"),
-        residual_sq = md("**Residual^2**")
+        residual_sq = md("**Residual^2**"),
+        cooksD = md("**Cook's D**")
     ) |> 
     data_color(
         columns = 5,
         palette = c("white","purple4"),
         domain = c(0,0.02),
+        na_color = "lightgrey"
+    ) |> 
+     data_color(
+        columns = 6,
+        palette = c("white","purple4"),
+        domain = c(0,0.50),
         na_color = "lightgrey"
     ) |> 
     tab_options(
@@ -123,6 +134,46 @@ p1_tbl
 
 ```
 
+Let's see the effect of removing the most influential observation:
+
+```{r}
+
+influential_obs <- which.max(cooks_d)
+data_11_no_influential <- data_12[-influential_obs, ]
+model_11_no_influential <- lm(y ~ x, data = data_11_no_influential)
+
+coef_original <- coef(model_12)
+coef_no_influential <- coef(model_11_no_influential)
+
+comparison <- data.frame(Original = coef_original, Minus_Influential = coef_no_influential)
+comparison
+
+equation_label_p1 <- sprintf("Y = %.3f + %.3fX", coef_original[1], coef_original[2])
+equation_label_p1i <- sprintf("Y = %.3f + %.3fX", coef_no_influential[1], coef_no_influential[2])
+
+p1 <- p1 + 
+    geom_vline(xintercept = 0, linetype = "dashed", color = "black") +  # X = 0 axis
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") + # Y = 0 axis
+    annotate("text", x = -0.08, y = 0.15, label = equation_label_p1, 
+             size = 5.0, color = "black")
+
+p1i <- data_11_no_influential |> ggplot(aes(x=x, y=y)) +
+    geom_point(size=3, color=blue_points) +
+    geom_smooth(method="lm", se=FALSE, color=green_line) + # Adding regression line
+    geom_vline(xintercept = 0, linetype = "dashed", color = "black") +  # X = 0 axis
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Y = 0 axis
+    annotate("text", x = -0.08, y = 0.15, label = equation_label_p1i, 
+             size = 5.0, color = "black") + 
+    theme_minimal() +
+    theme(axis.title = element_blank()) +
+    coord_cartesian(xlim = c(-0.15, 0.05), ylim = c(-0.15, 0.20))
+
+p1 + p1i
+
+```
+
+
+
 ### The full dataset of 72 monthly returns
 
 ```{r}
@@ -130,15 +181,17 @@ p1_tbl
 row.names(data_72) <- 1:nrow(data_72)
 model_72 <- lm(r_m_AAPL ~ r_SP_1500, data = data_72)
 model_72_coeff <- coef(model_72)
-equation_label <- sprintf("Y = %.3fX + %.3f", model_72_coeff[2], model_72_coeff[1])
+equation_label_72 <- sprintf("Y = %.3f + %.3fX", model_72_coeff[1], model_72_coeff[2])
 
 p1_model_72 <- data_72 %>% ggplot(aes(r_SP_1500, r_m_AAPL)) +
     geom_point(size = 2, color = blue_points) +
     geom_smooth(method = "lm", color = green_line, fill = "mediumpurple1", alpha = 0.20) +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "black") +  # X = 0 axis
+    geom_hline(yintercept = 0, linetype = "dashed", color = "black") +  # Y = 0 axis
     theme_minimal() +
     xlab("S&P 1500 return") +
     ylab("AAPL return") + 
-    annotate("text", x = -0.06, y = 0.15, label = equation_label, 
+    annotate("text", x = -0.06, y = 0.15, label = equation_label_72, 
              size = 5.0, color = "black")
 
 p1_model_72
@@ -287,7 +340,8 @@ cor(residual_data$Residuals, residual_data$Lagged_Residuals)^2
 Finally, let's try dw.test from the [desk package](https://github.com/OvGU-SH/desk) which is new but looks good:
 
 ```{r}
-dw.test(model_72, dir = "left")
+
 dw.test(model_72, dir = "right")
+dw.test(model_72, dir = "both")
 
 ```
