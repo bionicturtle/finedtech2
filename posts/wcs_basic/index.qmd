@@ -1,0 +1,105 @@
+---
+title: Worst case scenario simulation (basic)
+description: The expected worst loss over 10,000 trials for different horizons
+author: David Harper, CFA, FRM
+date: 2023-11-02
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+## Worst case scenario v1
+
+Here is GARP's lame explainer (source: [GARP](https://www.garp.org/#!/frm/frm-exam-preparation/frm-study-materials)): 
+
+::: {.callout-note icon=false}
+
+## 2.11 WORST CASE ANALYSIS:
+
+Occasionally, when there are repeated trials, an analyst will calculate statistics for worst-case results. For example, if a portfolio manager reports results every week, he or she might ask what the worst result will be over a period of 52 weeks. If the distribution of the returns in one week is known, a Monte Carlo simulation can be used to calculate statistics for this worst-case result. For example, one can calculate the expected worst-case result over 52 weeks, the 95th percentile of the worst-case result, and so on. 
+:::
+
+Here is my interpretation, and the numbers are very similar to Linda Allen's table.
+
+```{r}
+
+library(tidyverse)
+# includes purrr, dplyr, tidyr, ggplot2, tibble
+library(gt)
+
+set.seed(73914)
+
+# Vector of different numbers of days
+days_vector <- c(5, 20, 100, 250)
+
+# Number of trials
+Y <- 10000 # trials; aka, sims
+
+# A full experiment; e.g., first will be 10,000 rows * 5 columns = 5 days
+# Each experiment has 10000 rows but they have 5 | 20 | 100 | 250 columns
+simulate_trials <- function(X) {
+  simulations <- matrix(rnorm(X * Y), nrow=Y)
+  return(simulations)
+}
+
+# List to of NULLs to store four simulations: 5, 20, 100, 250 days
+simulations_list <- setNames(vector("list", length(days_vector)), days_vector)
+
+# Do an experiment for each number of days
+simulations_list <- map(days_vector, ~ simulate_trials(.x))
+str(simulations_list[[1]])
+
+# Function: Get the worst return for each row (trial)
+get_worst_returns <- function(simulation) {
+  worst_returns <- map_dbl(1:nrow(simulation), ~ min(simulation[.x, ]))
+  return(worst_returns)
+}
+
+# Get the worst returns for each set of days
+worst_returns_list <- map(simulations_list, ~ get_worst_returns(.x))
+
+# Function: Get percentiles and mean
+get_percentiles_and_mean <- function(returns) {
+  percentiles <- quantile(returns, probs = c(0.01, 0.05, 0.1, 0.25, 0.5))
+  mean_val <- mean(returns)
+  c(percentiles, mean = mean_val)
+}
+
+# Get them 
+percentiles_and_mean_list <- map(worst_returns_list, ~ get_percentiles_and_mean(.x))
+
+# Print percentiles and mean
+percentiles_and_mean_list
+
+# Name the list elements
+names(percentiles_and_mean_list) <- days_vector
+# has_rownames(percentiles_and_mean_list) # FALSE
+
+# The rest is awesome gt table stuff
+percentiles_df <- as_tibble(percentiles_and_mean_list)
+descriptive_stat <- c("1 %ile", "5 %ile", "10 %ile", "25 %ile", "50 %ile", "Exp WCS (mean)")
+
+percentiles_df <- add_column(percentiles_df, descriptive_stat, .before = 1)
+
+percentiles_df_gt <- percentiles_df |> 
+    gt(rowname_col = "descriptive_stat") |> 
+    fmt_number(
+        columns = c(`5`, `20`, `100`, `250`),
+        decimals = 2
+    ) |>
+    tab_stubhead(label = "Descriptive Stat") |> 
+    tab_spanner(
+        label = "Horizon in Days",
+        columns = c('5', '20', '100', '250')
+    ) |> 
+    tab_style(
+        style = cell_text(weight = "bold"),
+        locations = list(cells_column_labels(),
+                         cells_stubhead(),
+                         cells_column_spanners())
+    )
+    
+percentiles_df_gt
+
+```

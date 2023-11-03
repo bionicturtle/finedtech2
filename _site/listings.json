@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/wcs_basic/index.html",
       "/posts/logistic-regression/index.html",
       "/posts/regression-simple/index.html",
       "/posts/nearest-neighbors/index.html",
