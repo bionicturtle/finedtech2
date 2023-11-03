@@ -11,13 +11,12 @@ execute:
 
 ## Worst case scenario v1
 
-Here is GARP's lame explainer (source: [GARP](https://www.garp.org/#!/frm/frm-exam-preparation/frm-study-materials)): 
+Here is GARP's lame explainer (source: [GARP](https://www.garp.org/#!/frm/frm-exam-preparation/frm-study-materials)):
 
-::: {.callout-note icon=false}
-
+::: {.callout-note icon="false"}
 ## 2.11 WORST CASE ANALYSIS:
 
-Occasionally, when there are repeated trials, an analyst will calculate statistics for worst-case results. For example, if a portfolio manager reports results every week, he or she might ask what the worst result will be over a period of 52 weeks. If the distribution of the returns in one week is known, a Monte Carlo simulation can be used to calculate statistics for this worst-case result. For example, one can calculate the expected worst-case result over 52 weeks, the 95th percentile of the worst-case result, and so on. 
+Occasionally, when there are repeated trials, an analyst will calculate statistics for worst-case results. For example, if a portfolio manager reports results every week, he or she might ask what the worst result will be over a period of 52 weeks. If the distribution of the returns in one week is known, a Monte Carlo simulation can be used to calculate statistics for this worst-case result. For example, one can calculate the expected worst-case result over 52 weeks, the 95th percentile of the worst-case result, and so on.
 :::
 
 Here is my interpretation, and the numbers are very similar to Linda Allen's table.
@@ -98,6 +97,13 @@ percentiles_df_gt <- percentiles_df |>
         locations = list(cells_column_labels(),
                          cells_stubhead(),
                          cells_column_spanners())
+    ) |> 
+    tab_options(
+        table.font.size = 14
+    ) |> 
+    data_color(
+        rows = 6,
+        palette = "lightcyan1"
     )
     
 percentiles_df_gt

@@ -297,9 +297,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">locations =</span> <span class="fu">list</span>(<span class="fu">cells_column_labels</span>(),</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_stubhead</span>(),</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_column_spanners</span>())</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">table.font.size =</span> <span class="dv">14</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data_color</span>(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">rows =</span> <span class="dv">6</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">palette =</span> <span class="st">"lightcyan1"</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div id="typunkdldu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -325,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
@@ -785,10 +792,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td headers="stub_1_5 100" class="gt_row gt_right">−2.46</td>
 <td headers="stub_1_5 250" class="gt_row gt_right">−2.77</td></tr>
     <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">Exp WCS (mean)</th>
-<td headers="stub_1_6 5" class="gt_row gt_right">−1.17</td>
-<td headers="stub_1_6 20" class="gt_row gt_right">−1.87</td>
-<td headers="stub_1_6 100" class="gt_row gt_right">−2.51</td>
-<td headers="stub_1_6 250" class="gt_row gt_right">−2.82</td></tr>
+<td headers="stub_1_6 5" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−1.17</td>
+<td headers="stub_1_6 20" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−1.87</td>
+<td headers="stub_1_6 100" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−2.51</td>
+<td headers="stub_1_6 250" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−2.82</td></tr>
   </tbody>
   
   
