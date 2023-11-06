@@ -2,7 +2,7 @@
 title: Value at Risk (VaR) Introduction
 description: Historical simulation (basic + bootstrap, MCS, and parametric)
 author: David Harper, CFA, FRM
-date: 2023-11-02
+date: 2023-11-05
 categories: [code, analysis]
 execute: 
   echo: true
@@ -221,16 +221,16 @@ First a single path:
 
 sim_gbm <- function(price, mu, sigma, periods) {
   dt <- 1/52  # we'll assume period is one week
-  stock_prices <- numeric(periods)
-  stock_prices[1] <- price
+  prices <- numeric(periods)
+  prices[1] <- price
 
     for(t in 2:periods) {
     Z <- rnorm(1) # random standar normal quantile
     
     # GBM
-    stock_prices[t] <- stock_prices[t-1] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * Z)
+    prices[t] <- prices[t-1]*exp((mu -0.5*sigma^2)*dt +sigma*sqrt(dt)*Z)
     }
-  return(stock_prices)
+  return(prices)
 }
 
 set.seed(952347)
@@ -252,27 +252,27 @@ Now multiple (say 20) trials:
 
 sim_gbm_matrix <- function(price, mu, sigma, periods, simulations) {
   dt <- 1/52  
-  stock_prices <- matrix(price, nrow = periods, ncol = simulations)
+  prices <- matrix(price, nrow = periods, ncol = simulations)
   for(t in 2:periods) {
     Z <- rnorm(simulations)
-    stock_prices[t, ] <- stock_prices[t-1, ] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * Z)
+    prices[t, ] <- prices[t-1, ] * exp((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * Z)
   }
-  return(stock_prices)
+  return(prices)
 }
 
 set.seed(84923)
 simulations <- 20
-sim_stock_prices_matrix <- sim_gbm_matrix(100, 0.09, 0.3, 50, simulations)
+sim_prices_matrix <- sim_gbm_matrix(100, 0.09, 0.3, 50, simulations)
 
-sim_stock_prices_df <- as_tibble(sim_stock_prices_matrix, .name_repair = "minimal")
-names(sim_stock_prices_df) <- 1:ncol(sim_stock_prices_df)
-sim_stock_prices_df <- sim_stock_prices_df |> rownames_to_column("period")
-sim_stock_prices_df$period <- as.integer(sim_stock_prices_df$period)
+sim_prices_df <- as_tibble(sim_prices_matrix, .name_repair = "minimal")
+names(sim_prices_df) <- 1:ncol(sim_prices_df)
+sim_prices_df <- sim_prices_df |> rownames_to_column("period")
+sim_prices_df$period <- as.integer(sim_prices_df$period)
 
-sim_stock_prices_long <- sim_stock_prices_df |> 
+sim_prices_long <- sim_prices_df |> 
   pivot_longer(cols = !period, names_to = "Trial", values_to = "Price")
 
-p_mcs <- sim_stock_prices_long |> ggplot(aes(x = period, y = Price, group = Trial, color = Trial)) +
+p_mcs <- sim_prices_long |> ggplot(aes(x = period, y = Price, group = Trial, color = Trial)) +
     geom_line() +
     labs(x = "Week",
          y = "Price") +
