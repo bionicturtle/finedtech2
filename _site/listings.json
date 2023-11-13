@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/volatility/index.html",
       "/posts/var_intro/index.html",
       "/posts/wcs_basic/index.html",
       "/posts/logistic-regression/index.html",
