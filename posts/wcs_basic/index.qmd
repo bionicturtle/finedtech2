@@ -19,6 +19,19 @@ Here is GARP's lame explainer (source: [GARP](https://www.garp.org/#!/frm/frm-ex
 Occasionally, when there are repeated trials, an analyst will calculate statistics for worst-case results. For example, if a portfolio manager reports results every week, he or she might ask what the worst result will be over a period of 52 weeks. If the distribution of the returns in one week is known, a Monte Carlo simulation can be used to calculate statistics for this worst-case result. For example, one can calculate the expected worst-case result over 52 weeks, the 95th percentile of the worst-case result, and so on.
 :::
 
+Below simulations_list will contain five matrices
+
+* The first matrix is 10,000 rows by 1 column (H = 1 day; not realistic just illustrative)
+* The second matrix is 10,000 rows by 5 columns (H = 5 days)
+* The third matrix is 10,000 rows by 20 columns (H = 20 days)
+
+Note Linda Allen:
+
+> In contrast to VaR, WCS focuses on the distribution of the loss during the worst trading period (“period” being, e.g., one day or two weeks), over a given horizon (“horizon” being, e.g., 100 days or one year).
+The key point is that a worst period will occur with probability one.
+
+So if each row is a trial, then we're retrieving a vector of the worst *period* within the *horizon* for each of 10,000 trials. In this simulation, all *periods* are one day. So, the second matrix will retrieve the worst one-day period in a five-day horizon. The third matrix will retrieve the worst one-day period in a 20-day horizon. The first matrix has only column, so the worst is the only value in the row: the statistics are the same. 
+
 Here is my interpretation, and the numbers are very similar to Linda Allen's table.
 
 ```{r}
@@ -30,29 +43,36 @@ library(gt)
 set.seed(73914)
 
 # Vector of different numbers of days
-days_vector <- c(5, 20, 100, 250)
+days_vector <- c(1, 5, 20, 100, 250)
 
 # Number of trials
 Y <- 10000 # trials; aka, sims
 
-# A full experiment; e.g., first will be 10,000 rows * 5 columns = 5 days
-# Each experiment has 10000 rows but they have 5 | 20 | 100 | 250 columns
+# A full experiment; e.g., 2nd experiment will be 10,000 rows * 5 columns(= 5 days)
+# Each experiment has 10,000 rows but they have 5 | 20 | 100 | 250 columns
 simulate_trials <- function(X) {
-  simulations <- matrix(rnorm(X * Y), nrow=Y)
-  return(simulations)
+    simulations <- matrix(rnorm(X * Y), nrow=Y)
+    return(simulations)
 }
 
-# List to of NULLs to store four simulations: 5, 20, 100, 250 days
+# List to of NULLs to store five simulations: 1, 5, 20, 100, 250 days
 simulations_list <- setNames(vector("list", length(days_vector)), days_vector)
 
 # Do an experiment for each number of days
 simulations_list <- map(days_vector, ~ simulate_trials(.x))
+# This first LIST item is a matrix with 10,000 rows and 1 column
+# This second LIST item is a matrix with 10,000 rows and 5 (= horizon days) column
 str(simulations_list[[1]])
+str(simulations_list[[2]])
 
 # Function: Get the worst return for each row (trial)
 get_worst_returns <- function(simulation) {
-  worst_returns <- map_dbl(1:nrow(simulation), ~ min(simulation[.x, ]))
-  return(worst_returns)
+    
+    # .x is the current row index in the iteration
+    # simulation[.x, ] selects the entire row because [x., ] is all columns
+    # such that ~ min(simulation[.x, ]) is the minimum value in the row
+    worst_returns <- map_dbl(1:nrow(simulation), ~ min(simulation[.x, ]))
+    return(worst_returns)
 }
 
 # Get the worst returns for each set of days
@@ -60,9 +80,9 @@ worst_returns_list <- map(simulations_list, ~ get_worst_returns(.x))
 
 # Function: Get percentiles and mean
 get_percentiles_and_mean <- function(returns) {
-  percentiles <- quantile(returns, probs = c(0.01, 0.05, 0.1, 0.25, 0.5))
-  mean_val <- mean(returns)
-  c(percentiles, mean = mean_val)
+    percentiles <- quantile(returns, probs = c(0.01, 0.05, 0.1, 0.25, 0.5))
+    mean_val <- mean(returns)
+    c(percentiles, mean = mean_val)
 }
 
 # Get them 
@@ -84,13 +104,13 @@ percentiles_df <- add_column(percentiles_df, descriptive_stat, .before = 1)
 percentiles_df_gt <- percentiles_df |> 
     gt(rowname_col = "descriptive_stat") |> 
     fmt_number(
-        columns = c(`5`, `20`, `100`, `250`),
+        columns = c(`1`, `5`, `20`, `100`, `250`),
         decimals = 2
     ) |>
     tab_stubhead(label = "Descriptive Stat") |> 
     tab_spanner(
         label = "Horizon in Days",
-        columns = c('5', '20', '100', '250')
+        columns = c('1', '5', '20', '100', '250')
     ) |> 
     tab_style(
         style = cell_text(weight = "bold"),
@@ -104,6 +124,10 @@ percentiles_df_gt <- percentiles_df |>
     data_color(
         rows = 6,
         palette = "lightcyan1"
+    ) |> 
+    data_color(
+        columns = 2,
+        palette = "lightgrey"
     )
     
 percentiles_df_gt

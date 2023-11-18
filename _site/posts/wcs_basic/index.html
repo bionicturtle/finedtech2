@@ -203,6 +203,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Occasionally, when there are repeated trials, an analyst will calculate statistics for worst-case results. For example, if a portfolio manager reports results every week, he or she might ask what the worst result will be over a period of 52 weeks. If the distribution of the returns in one week is known, a Monte Carlo simulation can be used to calculate statistics for this worst-case result. For example, one can calculate the expected worst-case result over 52 weeks, the 95th percentile of the worst-case result, and so on.</p>
 </div>
 </div>
+<p>Below simulations_list will contain five matrices</p>
+<ul>
+<li>The first matrix is 10,000 rows by 1 column (H = 1 day; not realistic just illustrative)</li>
+<li>The second matrix is 10,000 rows by 5 columns (H = 5 days)</li>
+<li>The third matrix is 10,000 rows by 20 columns (H = 20 days)</li>
+</ul>
+<p>Note Linda Allen:</p>
+<blockquote class="blockquote">
+<p>In contrast to VaR, WCS focuses on the distribution of the loss during the worst trading period (“period” being, e.g., one day or two weeks), over a given horizon (“horizon” being, e.g., 100 days or one year). The key point is that a worst period will occur with probability one.</p>
+</blockquote>
+<p>So if each row is a trial, then we’re retrieving a vector of the worst <em>period</em> within the <em>horizon</em> for each of 10,000 trials. In this simulation, all <em>periods</em> are one day. So, the second matrix will retrieve the worst one-day period in a five-day horizon. The third matrix will retrieve the worst one-day period in a 20-day horizon. The first matrix has only column, so the worst is the only value in the row: the statistics are the same.</p>
 <p>Here is my interpretation, and the numbers are very similar to Linda Allen’s table.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -212,120 +223,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">73914</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of different numbers of days</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>days_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">250</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>days_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">20</span>, <span class="dv">100</span>, <span class="dv">250</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of trials</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="co"># trials; aka, sims</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># A full experiment; e.g., first will be 10,000 rows * 5 columns = 5 days</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Each experiment has 10000 rows but they have 5 | 20 | 100 | 250 columns</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># A full experiment; e.g., 2nd experiment will be 10,000 rows * 5 columns(= 5 days)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Each experiment has 10,000 rows but they have 5 | 20 | 100 | 250 columns</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>simulate_trials <span class="ot">&lt;-</span> <span class="cf">function</span>(X) {</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  simulations <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(X <span class="sc">*</span> Y), <span class="at">nrow=</span>Y)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(simulations)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    simulations <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(X <span class="sc">*</span> Y), <span class="at">nrow=</span>Y)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(simulations)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># List to of NULLs to store four simulations: 5, 20, 100, 250 days</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># List to of NULLs to store five simulations: 1, 5, 20, 100, 250 days</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>simulations_list <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">vector</span>(<span class="st">"list"</span>, <span class="fu">length</span>(days_vector)), days_vector)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Do an experiment for each number of days</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>simulations_list <span class="ot">&lt;-</span> <span class="fu">map</span>(days_vector, <span class="sc">~</span> <span class="fu">simulate_trials</span>(.x))</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(simulations_list[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># This first LIST item is a matrix with 10,000 rows and 1 column</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># This second LIST item is a matrix with 10,000 rows and 5 (= horizon days) column</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(simulations_list[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> num [1:10000, 1:5] 0.21 0.337 -0.248 -0.744 -2.258 ...</code></pre>
+<pre><code> num [1:10000, 1] 0.21 0.337 -0.248 -0.744 -2.258 ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function: Get the worst return for each row (trial)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>get_worst_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(simulation) {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  worst_returns <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(simulation), <span class="sc">~</span> <span class="fu">min</span>(simulation[.x, ]))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(worst_returns)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the worst returns for each set of days</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>worst_returns_list <span class="ot">&lt;-</span> <span class="fu">map</span>(simulations_list, <span class="sc">~</span> <span class="fu">get_worst_returns</span>(.x))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function: Get percentiles and mean</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>get_percentiles_and_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(returns) {</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  percentiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(returns, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  mean_val <span class="ot">&lt;-</span> <span class="fu">mean</span>(returns)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(percentiles, <span class="at">mean =</span> mean_val)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Get them </span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>percentiles_and_mean_list <span class="ot">&lt;-</span> <span class="fu">map</span>(worst_returns_list, <span class="sc">~</span> <span class="fu">get_percentiles_and_mean</span>(.x))</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Print percentiles and mean</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>percentiles_and_mean_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(simulations_list[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:10000, 1:5] -0.279 0.752 1.203 1.138 -0.157 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function: Get the worst return for each row (trial)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>get_worst_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(simulation) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .x is the current row index in the iteration</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simulation[.x, ] selects the entire row because [x., ] is all columns</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># such that ~ min(simulation[.x, ]) is the minimum value in the row</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    worst_returns <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(simulation), <span class="sc">~</span> <span class="fu">min</span>(simulation[.x, ]))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(worst_returns)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the worst returns for each set of days</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>worst_returns_list <span class="ot">&lt;-</span> <span class="fu">map</span>(simulations_list, <span class="sc">~</span> <span class="fu">get_worst_returns</span>(.x))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Function: Get percentiles and mean</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>get_percentiles_and_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(returns) {</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    percentiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(returns, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    mean_val <span class="ot">&lt;-</span> <span class="fu">mean</span>(returns)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(percentiles, <span class="at">mean =</span> mean_val)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Get them </span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>percentiles_and_mean_list <span class="ot">&lt;-</span> <span class="fu">map</span>(worst_returns_list, <span class="sc">~</span> <span class="fu">get_percentiles_and_mean</span>(.x))</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Print percentiles and mean</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>percentiles_and_mean_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-       1%        5%       10%       25%       50%      mean 
--2.917471 -2.346954 -2.046126 -1.588160 -1.133034 -1.168440 
+           1%            5%           10%           25%           50% 
+-2.3408352635 -1.6258636416 -1.2747263559 -0.6772910421  0.0009027502 
+         mean 
+-0.0080410293 
 
 [[2]]
        1%        5%       10%       25%       50%      mean 
--3.284776 -2.772099 -2.545338 -2.186905 -1.820354 -1.867838 
+-2.901285 -2.337821 -2.049299 -1.598782 -1.133643 -1.169856 
 
 [[3]]
        1%        5%       10%       25%       50%      mean 
--3.726754 -3.284101 -3.072783 -2.759020 -2.462369 -2.506897 
+-3.273848 -2.768015 -2.545114 -2.187286 -1.818529 -1.866486 
 
 [[4]]
        1%        5%       10%       25%       50%      mean 
--3.931741 -3.529215 -3.330623 -3.045216 -2.773540 -2.816320 </code></pre>
+-3.735132 -3.284581 -3.072783 -2.760331 -2.462535 -2.506729 
+
+[[5]]
+       1%        5%       10%       25%       50%      mean 
+-3.931741 -3.526280 -3.330623 -3.045503 -2.773540 -2.816351 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name the list elements</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(percentiles_and_mean_list) <span class="ot">&lt;-</span> days_vector</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># has_rownames(percentiles_and_mean_list) # FALSE</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The rest is awesome gt table stuff</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>percentiles_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(percentiles_and_mean_list)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>descriptive_stat <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1 %ile"</span>, <span class="st">"5 %ile"</span>, <span class="st">"10 %ile"</span>, <span class="st">"25 %ile"</span>, <span class="st">"50 %ile"</span>, <span class="st">"Exp WCS (mean)"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>percentiles_df <span class="ot">&lt;-</span> <span class="fu">add_column</span>(percentiles_df, descriptive_stat, <span class="at">.before =</span> <span class="dv">1</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt <span class="ot">&lt;-</span> percentiles_df <span class="sc">|&gt;</span> </span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"descriptive_stat"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">5</span><span class="st">`</span>, <span class="st">`</span><span class="at">20</span><span class="st">`</span>, <span class="st">`</span><span class="at">100</span><span class="st">`</span>, <span class="st">`</span><span class="at">250</span><span class="st">`</span>),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">decimals =</span> <span class="dv">2</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_stubhead</span>(<span class="at">label =</span> <span class="st">"Descriptive Stat"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_spanner</span>(</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Horizon in Days"</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'5'</span>, <span class="st">'20'</span>, <span class="st">'100'</span>, <span class="st">'250'</span>)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_style</span>(</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">locations =</span> <span class="fu">list</span>(<span class="fu">cells_column_labels</span>(),</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_stubhead</span>(),</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_column_spanners</span>())</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">table.font.size =</span> <span class="dv">14</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data_color</span>(</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">rows =</span> <span class="dv">6</span>,</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">palette =</span> <span class="st">"lightcyan1"</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name the list elements</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(percentiles_and_mean_list) <span class="ot">&lt;-</span> days_vector</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># has_rownames(percentiles_and_mean_list) # FALSE</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The rest is awesome gt table stuff</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>percentiles_df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(percentiles_and_mean_list)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>descriptive_stat <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1 %ile"</span>, <span class="st">"5 %ile"</span>, <span class="st">"10 %ile"</span>, <span class="st">"25 %ile"</span>, <span class="st">"50 %ile"</span>, <span class="st">"Exp WCS (mean)"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>percentiles_df <span class="ot">&lt;-</span> <span class="fu">add_column</span>(percentiles_df, descriptive_stat, <span class="at">.before =</span> <span class="dv">1</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt <span class="ot">&lt;-</span> percentiles_df <span class="sc">|&gt;</span> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"descriptive_stat"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">1</span><span class="st">`</span>, <span class="st">`</span><span class="at">5</span><span class="st">`</span>, <span class="st">`</span><span class="at">20</span><span class="st">`</span>, <span class="st">`</span><span class="at">100</span><span class="st">`</span>, <span class="st">`</span><span class="at">250</span><span class="st">`</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_stubhead</span>(<span class="at">label =</span> <span class="st">"Descriptive Stat"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_spanner</span>(</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Horizon in Days"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'1'</span>, <span class="st">'5'</span>, <span class="st">'20'</span>, <span class="st">'100'</span>, <span class="st">'250'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_style</span>(</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">locations =</span> <span class="fu">list</span>(<span class="fu">cells_column_labels</span>(),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_stubhead</span>(),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">cells_column_spanners</span>())</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">table.font.size =</span> <span class="dv">14</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data_color</span>(</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">rows =</span> <span class="dv">6</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">palette =</span> <span class="st">"lightcyan1"</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data_color</span>(</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">columns =</span> <span class="dv">2</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">palette =</span> <span class="st">"lightgrey"</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>percentiles_df_gt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="typunkdldu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#typunkdldu table {
+<div id="ydnfepvvfx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ydnfepvvfx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#typunkdldu thead, #typunkdldu tbody, #typunkdldu tfoot, #typunkdldu tr, #typunkdldu td, #typunkdldu th {
+#ydnfepvvfx thead, #ydnfepvvfx tbody, #ydnfepvvfx tfoot, #ydnfepvvfx tr, #ydnfepvvfx td, #ydnfepvvfx th {
   border-style: none;
 }
 
-#typunkdldu p {
+#ydnfepvvfx p {
   margin: 0;
   padding: 0;
 }
 
-#typunkdldu .gt_table {
+#ydnfepvvfx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -351,12 +382,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#typunkdldu .gt_caption {
+#ydnfepvvfx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#typunkdldu .gt_title {
+#ydnfepvvfx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -368,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#typunkdldu .gt_subtitle {
+#ydnfepvvfx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -380,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#typunkdldu .gt_heading {
+#ydnfepvvfx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -392,13 +423,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#typunkdldu .gt_bottom_border {
+#ydnfepvvfx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#typunkdldu .gt_col_headings {
+#ydnfepvvfx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -413,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#typunkdldu .gt_col_heading {
+#ydnfepvvfx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -433,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#typunkdldu .gt_column_spanner_outer {
+#ydnfepvvfx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -445,15 +476,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#typunkdldu .gt_column_spanner_outer:first-child {
+#ydnfepvvfx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#typunkdldu .gt_column_spanner_outer:last-child {
+#ydnfepvvfx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#typunkdldu .gt_column_spanner {
+#ydnfepvvfx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -465,11 +496,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#typunkdldu .gt_spanner_row {
+#ydnfepvvfx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#typunkdldu .gt_group_heading {
+#ydnfepvvfx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -495,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#typunkdldu .gt_empty_group_heading {
+#ydnfepvvfx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -510,15 +541,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#typunkdldu .gt_from_md > :first-child {
+#ydnfepvvfx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#typunkdldu .gt_from_md > :last-child {
+#ydnfepvvfx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#typunkdldu .gt_row {
+#ydnfepvvfx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -537,7 +568,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#typunkdldu .gt_stub {
+#ydnfepvvfx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -550,7 +581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#typunkdldu .gt_stub_row_group {
+#ydnfepvvfx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -564,15 +595,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#typunkdldu .gt_row_group_first td {
+#ydnfepvvfx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#typunkdldu .gt_row_group_first th {
+#ydnfepvvfx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#typunkdldu .gt_summary_row {
+#ydnfepvvfx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -582,16 +613,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#typunkdldu .gt_first_summary_row {
+#ydnfepvvfx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#typunkdldu .gt_first_summary_row.thick {
+#ydnfepvvfx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#typunkdldu .gt_last_summary_row {
+#ydnfepvvfx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -601,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#typunkdldu .gt_grand_summary_row {
+#ydnfepvvfx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -611,7 +642,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#typunkdldu .gt_first_grand_summary_row {
+#ydnfepvvfx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -621,7 +652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#typunkdldu .gt_last_grand_summary_row_top {
+#ydnfepvvfx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -631,11 +662,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#typunkdldu .gt_striped {
+#ydnfepvvfx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#typunkdldu .gt_table_body {
+#ydnfepvvfx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -644,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#typunkdldu .gt_footnotes {
+#ydnfepvvfx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -658,7 +689,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#typunkdldu .gt_footnote {
+#ydnfepvvfx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -667,7 +698,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#typunkdldu .gt_sourcenotes {
+#ydnfepvvfx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -681,7 +712,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#typunkdldu .gt_sourcenote {
+#ydnfepvvfx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -689,63 +720,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#typunkdldu .gt_left {
+#ydnfepvvfx .gt_left {
   text-align: left;
 }
 
-#typunkdldu .gt_center {
+#ydnfepvvfx .gt_center {
   text-align: center;
 }
 
-#typunkdldu .gt_right {
+#ydnfepvvfx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#typunkdldu .gt_font_normal {
+#ydnfepvvfx .gt_font_normal {
   font-weight: normal;
 }
 
-#typunkdldu .gt_font_bold {
+#ydnfepvvfx .gt_font_bold {
   font-weight: bold;
 }
 
-#typunkdldu .gt_font_italic {
+#ydnfepvvfx .gt_font_italic {
   font-style: italic;
 }
 
-#typunkdldu .gt_super {
+#ydnfepvvfx .gt_super {
   font-size: 65%;
 }
 
-#typunkdldu .gt_footnote_marks {
+#ydnfepvvfx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#typunkdldu .gt_asterisk {
+#ydnfepvvfx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#typunkdldu .gt_indent_1 {
+#ydnfepvvfx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#typunkdldu .gt_indent_2 {
+#ydnfepvvfx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#typunkdldu .gt_indent_3 {
+#ydnfepvvfx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#typunkdldu .gt_indent_4 {
+#ydnfepvvfx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#typunkdldu .gt_indent_5 {
+#ydnfepvvfx .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -754,11 +785,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
     <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" style="font-weight: bold;" scope="col" id="Descriptive Stat">Descriptive Stat</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" style="font-weight: bold;" scope="colgroup" id="Horizon in Days">
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="5" style="font-weight: bold;" scope="colgroup" id="Horizon in Days">
         <span class="gt_column_spanner">Horizon in Days</span>
       </th>
     </tr>
     <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="1">1</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="5">5</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="20">20</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-weight: bold;" scope="col" id="100">100</th>
@@ -767,31 +799,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </thead>
   <tbody class="gt_table_body">
     <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">1 %ile</th>
-<td headers="stub_1_1 5" class="gt_row gt_right">−2.92</td>
-<td headers="stub_1_1 20" class="gt_row gt_right">−3.28</td>
-<td headers="stub_1_1 100" class="gt_row gt_right">−3.73</td>
+<td headers="stub_1_1 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">−2.34</td>
+<td headers="stub_1_1 5" class="gt_row gt_right">−2.90</td>
+<td headers="stub_1_1 20" class="gt_row gt_right">−3.27</td>
+<td headers="stub_1_1 100" class="gt_row gt_right">−3.74</td>
 <td headers="stub_1_1 250" class="gt_row gt_right">−3.93</td></tr>
     <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">5 %ile</th>
-<td headers="stub_1_2 5" class="gt_row gt_right">−2.35</td>
+<td headers="stub_1_2 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">−1.63</td>
+<td headers="stub_1_2 5" class="gt_row gt_right">−2.34</td>
 <td headers="stub_1_2 20" class="gt_row gt_right">−2.77</td>
 <td headers="stub_1_2 100" class="gt_row gt_right">−3.28</td>
 <td headers="stub_1_2 250" class="gt_row gt_right">−3.53</td></tr>
     <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">10 %ile</th>
+<td headers="stub_1_3 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">−1.27</td>
 <td headers="stub_1_3 5" class="gt_row gt_right">−2.05</td>
 <td headers="stub_1_3 20" class="gt_row gt_right">−2.55</td>
 <td headers="stub_1_3 100" class="gt_row gt_right">−3.07</td>
 <td headers="stub_1_3 250" class="gt_row gt_right">−3.33</td></tr>
     <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">25 %ile</th>
-<td headers="stub_1_4 5" class="gt_row gt_right">−1.59</td>
+<td headers="stub_1_4 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">−0.68</td>
+<td headers="stub_1_4 5" class="gt_row gt_right">−1.60</td>
 <td headers="stub_1_4 20" class="gt_row gt_right">−2.19</td>
 <td headers="stub_1_4 100" class="gt_row gt_right">−2.76</td>
 <td headers="stub_1_4 250" class="gt_row gt_right">−3.05</td></tr>
     <tr><th id="stub_1_5" scope="row" class="gt_row gt_left gt_stub">50 %ile</th>
+<td headers="stub_1_5 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">0.00</td>
 <td headers="stub_1_5 5" class="gt_row gt_right">−1.13</td>
 <td headers="stub_1_5 20" class="gt_row gt_right">−1.82</td>
 <td headers="stub_1_5 100" class="gt_row gt_right">−2.46</td>
 <td headers="stub_1_5 250" class="gt_row gt_right">−2.77</td></tr>
     <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">Exp WCS (mean)</th>
+<td headers="stub_1_6 1" class="gt_row gt_right" style="background-color: #D3D3D3; color: #000000;">−0.01</td>
 <td headers="stub_1_6 5" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−1.17</td>
 <td headers="stub_1_6 20" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−1.87</td>
 <td headers="stub_1_6 100" class="gt_row gt_right" style="background-color: #E0FFFF; color: #000000;">−2.51</td>

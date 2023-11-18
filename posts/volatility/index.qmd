@@ -258,13 +258,13 @@ custom_alphas <- c("rolling_sd_20" = 0.5,
                    "rolling_sd_250" = 1.0,
                    "rolling_sd_500" = 1.0)
 
-pg_plot <- plot_rolling_sd(pg_data, "PG", c(0, 0.0350), custom_colors, custom_alphas)
-jpm_plot <- plot_rolling_sd(jpm_data, "JPM", c(0, 0.0550), custom_colors, custom_alphas)
-nvda_plot <- plot_rolling_sd(nvda_data, "NVDA", c(0, 0.0750), custom_colors, custom_alphas)
+pg_roll_plot <- plot_rolling_sd(pg_data, "PG", c(0, 0.0350), custom_colors, custom_alphas)
+jpm_roll_plot <- plot_rolling_sd(jpm_data, "JPM", c(0, 0.0550), custom_colors, custom_alphas)
+nvda_roll_plot <- plot_rolling_sd(nvda_data, "NVDA", c(0, 0.0750), custom_colors, custom_alphas)
 
-pg_plot
-jpm_plot
-nvda_plot
+pg_roll_plot
+jpm_roll_plot
+nvda_roll_plot
 
 ```
 
@@ -484,16 +484,16 @@ custom_alphas <- c("lambda_0.91" = 0.6,
                    "lambda_0.94" = 0.8, 
                    "lambda_0.97" = 1.0)
 
-plot_jpm <- plot_ewma_for_stock(jpm_data, "JPM", "daily.returns", lambda_list, 
+jpm_ewma_plot <- plot_ewma_for_stock(jpm_data, "JPM", "daily.returns", lambda_list, 
                                 custom_colors, custom_alphas, 0.080)
-plot_pg <- plot_ewma_for_stock(pg_data, "PG", "daily.returns", lambda_list, 
+pg_ewma_plot <- plot_ewma_for_stock(pg_data, "PG", "daily.returns", lambda_list, 
                                custom_colors, custom_alphas, 0.0550)
-plot_nvda <- plot_ewma_for_stock(nvda_data, "NVDA", "daily.returns", lambda_list, 
+nvda_ewma_plot <- plot_ewma_for_stock(nvda_data, "NVDA", "daily.returns", lambda_list, 
                                  custom_colors, custom_alphas, 0.070)
 
-plot_jpm
-plot_pg
-plot_nvda
+jpm_ewma_plot
+pg_ewma_plot
+nvda_ewma_plot
 
 ```
 
@@ -625,13 +625,13 @@ plot_histogram_with_normal <- function(stock_data, symbol, return_col) {
         coord_cartesian(xlim = c(-0.1, 0.1))
 }
 
-plot_jpm <- plot_histogram_with_normal(jpm_data, "JPM", "daily.returns")
-plot_pg <- plot_histogram_with_normal(pg_data, "PG", "daily.returns")
-plot_nvda <- plot_histogram_with_normal(nvda_data, "NVDA", "daily.returns")
+jpm_hist_plot <- plot_histogram_with_normal(jpm_data, "JPM", "daily.returns")
+pg_hist_plot <- plot_histogram_with_normal(pg_data, "PG", "daily.returns")
+nvda_hist_plot <- plot_histogram_with_normal(nvda_data, "NVDA", "daily.returns")
 
-plot_jpm
-plot_pg
-plot_nvda
+jpm_hist_plot
+pg_hist_plot
+nvda_hist_plot
 
 ```
 
@@ -682,3 +682,11 @@ stats_tibble |> gt() |>
     )
 
 ```
+
+For fun (the social thumb)
+```{r}
+
+nvda_roll_plot / garch_p1
+
+```
+
