@@ -30,7 +30,9 @@ Note Linda Allen:
 > In contrast to VaR, WCS focuses on the distribution of the loss during the worst trading period (“period” being, e.g., one day or two weeks), over a given horizon (“horizon” being, e.g., 100 days or one year).
 The key point is that a worst period will occur with probability one.
 
-So if each row is a trial, then we're retrieving a vector of the worst *period* within the *horizon* for each of 10,000 trials. In this simulation, all *periods* are one day. So, the second matrix will retrieve the worst one-day period in a five-day horizon. The third matrix will retrieve the worst one-day period in a 20-day horizon. The first matrix has only column, so the worst is the only value in the row: the statistics are the same. 
+So if each row is a trial (i.e., 10,000 rows = 10,000 trials), then we're retrieving a vector of the worst *period* within the *horizon* for each of 10,000 trials. In this simulation, all *periods* are one day. So, the second matrix will retrieve (a vector of length 10,000 of) the worst one-day period in a five-day horizon. The third matrix will retrieve the worst one-day period in a 20-day horizon. The first matrix has only column, so the worst is the only value in the row: the statistics are the same. 
+
+The key function is **worst_returns <- map_dbl(1:nrow(simulation), ~ min(simulation[.x, ]))**. Because it finds the minimum (ie, worst) value in each of the 10,000 rows. That's the worst_returns vector.
 
 Here is my interpretation, and the numbers are very similar to Linda Allen's table.
 
