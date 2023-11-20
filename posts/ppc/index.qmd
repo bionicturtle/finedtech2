@@ -1,0 +1,373 @@
+---
+title: Portfolio Possibilities Curve (PPC)
+description: PPC with GPT4 as my coding partner
+author: David Harper, CFA, FRM
+date: 2023-11-19
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+Contents
+
+* Define the sets of stocks/indices
+* Retrieve returns for each periodicity
+* Analyze: add the analysis list column
+* Setup the simulation
+* Run the simulation
+* Visualize
+
+load libraries
+
+```{r}
+
+library(tidyverse)
+library(tidyquant)
+# library(dplyr); library(tidyr); library(purrr)
+# library(ggplot)
+
+```
+
+
+## Define the SETS of stocks/indices
+
+The container in this approach is **stock_sets**, a dataframe the we initialize (our TOC) with three columns:
+
+* set_id
+* description
+* symbols: a list of tickers
+
+```{r}
+
+sector_3eft_list <- c( "XLK", "XLV", "XLP") # Tech, Health, Staples
+# sector_4etf_list <- c( "XLK", "XLV", "XLP",  "XLE",) # Tech, Health, Staples, Energy
+sector_5etf_list <- c( "XLK", "XLV", "XLP", "XLE", "XLF") # Tech, Health, Staples, Energy, Financials
+# sector_7etf_list <- c(sector_5etf_list, "XLI", "XLU")
+
+size_etfs <- c("SPY", "MDY", "IWM") # Large, Mid, Small
+# size_style_etfs <- c("IWF",  # Large-Cap Growth
+#                      "IWD",  # Large-Cap Value
+#                      "SPY",  # Large-Cap Blend
+#                      "IWP",  # Mid-Cap Growth
+#                      "IWS",  # Mid-Cap Value
+#                      "MDY",  # Mid-Cap Blend
+#                      "IWO",  # Small-Cap Growth
+#                      "IWN",  # Small-Cap Value
+#                      "IWM")  # Small-Cap Blend
+
+stock_sets <- tibble(
+    set_id =      c("3_Sectors", "5_Sectors","3_Sizes"),
+    description = c("3 Sectors picked by GPT-4: Tech, Health, Staples",
+                    "5 Sectors picked by GPT-4: above + Energy + Financials",
+                    "Size: Large, Mid, Small--Blend"),
+    
+    # this is a list column, see https://adv-r.hadley.nz/vectors-chap.html#list-columns 
+    symbols = list(sector_3eft_list, sector_5etf_list, size_etfs)
+    )
+
+# c(                    "XLK",  # Technology
+#                       "XLV",  # Health Care
+#                       "XLF",  # Financials
+#                       "XLY",  # Consumer Discretionary
+#                       "XLP",  # Consumer Staples
+#                       "XLE",  # Energy
+#                       "XLU",  # Utilities
+#                       "XLI",  # Industrials
+#                       "XLB",  # Materials
+#                       "XLRE", # Real Estate
+#                       "XLC") # Communication Services
+
+date_start <- "2013-01-01"
+date_end   <- "2023-11-17"
+
+```
+
+## Retrieve returns for each periodicity; aka, frequency
+
+For each SET of tickers, **get_returns** will retrieve log returns for each of three periods:
+
+* daily
+* weekly
+* monthly
+
+Then we will call the get_returns function via map (my favorite function) to create a new list column called **nested_data**. Each row of nested_data *will contain a list* of three dataframes, one for each period. These dataframes will contain the log returns for each ticker in the set. 
+
+```{r}
+
+get_returns <- function(symbols, start_date, end_date) {
+    mult_stocks <- tq_get(symbols, get = "stock.prices", 
+                          from = start_date, to = end_date)
+    
+    periods <- c("daily", "weekly", "monthly")
+    returns_list <- lapply(periods, function(period) {
+        mult_stocks |> 
+            group_by(symbol) |> 
+            tq_transmute(select = adjusted,
+                         mutate_fun = periodReturn, 
+                         period = period, 
+                         type = "log")
+    })
+    
+    names(returns_list) <- periods
+    return(returns_list)
+}
+
+# Nest return data for each stock set
+stock_sets <- stock_sets |> 
+    mutate(nested_data = map(symbols, 
+                             ~ get_returns(.x, date_start, date_end)))
+
+print(stock_sets)
+
+```
+
+## Analyze: add the analysis list column
+
+For each set and periodicity, the analysis list column generates:
+
+* vector of volatilities
+* vector of average returns
+* correlation matrix (diagonal is 1)
+* average correlation (as a *rough* measure of diversification)
+
+
+```{r}
+
+perform_analysis <- function(data, returns_column) {
+    volatilities <- data |>  
+        group_by(symbol) |>  
+        summarise(volatility = sd(.data[[returns_column]], na.rm = TRUE)) |>  
+        ungroup()
+    
+    avg_returns <- data |>  
+        group_by(symbol) |>  
+        summarise(avg_return = mean(.data[[returns_column]], na.rm = TRUE)) |>  
+        ungroup()
+    
+    data_wide <- data |>  
+        pivot_wider(names_from = symbol, values_from = .data[[returns_column]])
+    corr_matrix <- cor(select(data_wide, -date), use = "complete.obs")
+    avg_corr <- mean(corr_matrix[lower.tri(corr_matrix)])
+    
+    return(list(volatilities = volatilities, avg_returns = avg_returns, corr_matrix = corr_matrix, avg_corr = avg_corr))
+}
+
+# Applying the perform_analysis function to the stock_sets
+stock_sets <- stock_sets |> 
+    mutate(analysis = map(nested_data, ~ {
+        data_daily <- .x$daily
+        data_weekly <- .x$weekly
+        data_monthly <- .x$monthly
+        
+        analysis_daily <- perform_analysis(data_daily, "daily.returns")
+        analysis_weekly <- perform_analysis(data_weekly, "weekly.returns")
+        analysis_monthly <- perform_analysis(data_monthly, "monthly.returns")
+        
+        list(daily = analysis_daily, weekly = analysis_weekly, monthly = analysis_monthly)
+    }))
+
+# Examine data structure 
+print(stock_sets) # Notice the analysis list column has been added
+glimpse(stock_sets)
+stock_sets$analysis[[1]] # first row is the first stock set
+
+```
+
+Here is a class diagram of the stock_sets data structure rendered by [DiagrammeR via Graphviz](https://graphviz.org/Gallery/directed/UML_Class_diagram.html).
+
+```{r echo=FALSE}
+
+library(DiagrammeR)
+
+graphviz_script <- "
+digraph stock_sets_structure {
+    graph [splines=ortho]
+    
+    node [shape=record]
+    
+    stock_sets [label=\"{stock_sets|+ set_id : String\\l+ description : String\\l+ symbols : List\\l+ nested_data : List\\l+ analysis : List\\l}\"]
+
+    nested_data [label=\"{nested_data|+ daily : DataFrame\\l+ weekly : DataFrame\\l+ monthly : DataFrame\\l}\"]
+
+    analysis [label=\"{analysis|+ daily_analysis : List\\l+ weekly_analysis : List\\l+ monthly_analysis : List\\l}\"]
+
+    daily_analysis [label=\"{daily_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
+
+    weekly_analysis [label=\"{weekly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
+
+    monthly_analysis [label=\"{monthly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
+
+    stock_sets -> nested_data
+    stock_sets -> analysis
+    analysis -> daily_analysis
+    analysis -> weekly_analysis
+    analysis -> monthly_analysis
+}
+"
+
+DiagrammeR(graphviz_script, type = "graphviz")
+
+```
+
+## Setup the simulation
+
+The **get_random_weights** function returns a dataframe of random weights. Each column is a set of weights for a single simulation. Each row is the weight for a single stock. The weights are normalized so that they sum to 1. 
+
+So I'm starting with an incredibly naive approach to the simulation. I'm going to assume that the expected return for each stock is the average return for that stock over the entire period. I'm also going to assume that the volatility for each stock is the average volatility for that stock over the entire period. *Most importantly*, the only randomness in the simulation is the weights and they are totally naive because they are independent of the analysis. We can't expect anything like an efficient frontier from the raw scatterplot. However, this will illustrate the future risk/reward trade-off faced by a "totally naive" investor!
+
+```{r}
+
+# returns a data frame of random weights
+# rows = weight per stock; columns = number of simulations
+get_random_weights <- function(num_stocks, num_simulations) {
+    set.seed(123)
+    weights_df <- matrix(nrow = num_stocks, ncol = num_simulations)
+
+    for (i in 1:num_simulations) {
+        weights <- runif(num_stocks)
+        weights_df[, i] <- weights / sum(weights)
+    }
+
+    return(as.data.frame(weights_df))
+}
+
+# single simulation: given a set of weights, computes the expected return and volatility
+port_sim <- function(exp_returns, volatilities, corr_matrix, weights) {
+    
+    cov_matrix <- outer(volatilities, volatilities) * corr_matrix
+    port_variance <- t(weights) %*% cov_matrix %*% weights
+    port_exp_return <- sum(weights * exp_returns)
+
+    return(list(exp_returns = exp_returns, 
+                volatilities = volatilities,
+                cov_matrix = cov_matrix, 
+                corr_matrix = corr_matrix,
+                port_variance = port_variance,
+                port_exp_return = port_exp_return))
+}
+
+# runs a port_simulation for each column in the weights_df
+run_sims <- function(exp_returns, volatilities, corr_matrix, weights_df) {
+    simulations <- map(1:ncol(weights_df), ~ {
+        weights_vector <- weights_df[, .x]
+        port_sim(exp_returns, volatilities, corr_matrix, weights_vector)
+        })
+    
+    return(simulations)
+}
+
+```
+
+## Run the simulation (on a single set)
+
+```{r}
+
+# Selecting the desired set (e.g., "Set 1")
+select_set <- stock_sets |> 
+    filter(set_id == "5_Sectors") |> 
+    pull("analysis")
+
+analyze_set <- select_set[[1]]
+analyze_period <- analyze_set$monthly
+
+# Extracting components from the selected set
+exp_returns_period <- analyze_period$avg_returns$avg_return
+volatilities_period <- analyze_period$volatilities$volatility
+corr_matrix_period <- analyze_period$corr_matrix
+num_stocks_period <- length(volatilities_period)
+
+num_sims <- 20000  # Set the number of simulations
+random_weights_df_period <- get_random_weights(num_stocks_period, num_sims)
+sim_results_period <- run_sims(exp_returns_period, 
+                              volatilities_period, 
+                              corr_matrix_period, 
+                              random_weights_df_period)
+
+# Print results of the first simulation
+print(sim_results_period[[1]])
+
+results_df_period <- map_dfr(sim_results_period, ~ data.frame(Exp_Return = .x$port_exp_return, 
+                                                            Std_Dev = sqrt(.x$port_variance)))
+# View summarized results for daily returns
+print(head(results_df_period))
+results_df <- results_df_period
+
+```
+
+## Visualize the results
+
+```{r}
+
+library(patchwork)
+
+results_df <- results_df |> 
+    arrange(Std_Dev) |> 
+    mutate(is_efficient = Exp_Return >= cummax(Exp_Return))
+
+efficient_portfolios <- results_df |> 
+    arrange(Std_Dev)  |> 
+    mutate(cummax_return = cummax(Exp_Return)) |> 
+    filter(Exp_Return >= cummax_return)
+
+efficient_model <- lm(Exp_Return ~ poly(Std_Dev, 2), data = efficient_portfolios)
+
+p1 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = is_efficient)) +
+    geom_point() +
+    scale_color_manual(values = c("azure2", "springgreen4")) + 
+    theme_minimal() +
+    theme(
+        axis.title = element_blank(),
+        legend.position = "none"
+    )
+
+p2 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return)) +
+    geom_point(aes(color = is_efficient), size = 1) +  # Default size for all points
+    geom_point(data = filter(results_df, is_efficient), 
+               aes(color = is_efficient), size = 2) +  # Larger size for efficient points
+    scale_color_manual(values = c("azure2", "springgreen4")) +
+    theme_minimal() +
+    geom_line(data = efficient_portfolios, aes(x = Std_Dev, y = Exp_Return), colour = "springgreen2") +
+    theme(
+        axis.title = element_blank(),
+        legend.position = "none"
+    )
+
+p3 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return)) +
+    geom_point(color = "azure2") +
+    geom_smooth(data = efficient_portfolios, method = "lm", formula = y ~ poly(x, 2), 
+                se = FALSE, colour = "springgreen4", linewidth = 1.5) +
+    labs(x = "Std Dev (Risk)",
+         y = "Return") +
+    theme_minimal()
+
+# Calculate a color metric based on Exp_Return and Std_Dev
+
+RiskFree_temp <- 0.0
+results_df <- results_df %>%
+    mutate(efficiency = (Exp_Return - RiskFree_temp)/ Std_Dev)
+
+# Create a scatterplot with color gradient based on the color_metric
+# p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = color_metric)) +
+#     geom_point() +
+#     scale_color_gradient2(low = "azure3", high = "springgreen1", mid = "yellow", 
+#                           midpoint = median(results_df$color_metric)) +
+#     theme_minimal() +
+#     labs(color = "Color Metric")
+
+# Assuming results_df and color_metric are already defined appropriately
+
+p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = efficiency)) +
+    geom_point() +
+    scale_color_gradientn(colors = c("azure4", "lightgoldenrod1", "springgreen2"),
+                          values = scales::rescale(c(min(results_df$efficiency), 
+                                                     max(results_df$efficiency)))) +
+    theme_minimal() +
+    labs(x = "Std Dev (Risk)",
+         y = "Return", 
+         color = "efficiency") 
+
+(p1 + p2) / (p3 + p4 )
+
+```
+
