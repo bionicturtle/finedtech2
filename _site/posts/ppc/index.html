@@ -220,42 +220,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sector_4etf_list &lt;- c( "XLK", "XLV", "XLP",  "XLE",) # Tech, Health, Staples, Energy</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sector_5etf_list <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">"XLK"</span>, <span class="st">"XLV"</span>, <span class="st">"XLP"</span>, <span class="st">"XLE"</span>, <span class="st">"XLF"</span>) <span class="co"># Tech, Health, Staples, Energy, Financials</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sector_7etf_list &lt;- c(sector_5etf_list, "XLI", "XLU")</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>size_etfs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SPY"</span>, <span class="st">"MDY"</span>, <span class="st">"IWM"</span>) <span class="co"># Large, Mid, Small</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># size_style_etfs &lt;- c("IWF",  # Large-Cap Growth</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWD",  # Large-Cap Value</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "SPY",  # Large-Cap Blend</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWP",  # Mid-Cap Growth</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWS",  # Mid-Cap Value</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "MDY",  # Mid-Cap Blend</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWO",  # Small-Cap Growth</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWN",  # Small-Cap Value</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWM")  # Small-Cap Blend</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sector_11etf_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"XLK"</span>,  <span class="co"># Technology</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLV"</span>,  <span class="co"># Health Care</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLF"</span>,  <span class="co"># Financials</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLY"</span>,  <span class="co"># Consumer Discretionary</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLP"</span>,  <span class="co"># Consumer Staples</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLE"</span>,  <span class="co"># Energy</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLU"</span>,  <span class="co"># Utilities</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLI"</span>,  <span class="co"># Industrials</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLB"</span>,  <span class="co"># Materials</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLRE"</span>, <span class="co"># Real Estate</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLC"</span>) <span class="co"># Communication Services</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>stock_sets <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_id =</span>      <span class="fu">c</span>(<span class="st">"3_Sectors"</span>, <span class="st">"5_Sectors"</span>,<span class="st">"3_Sizes"</span>),</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">c</span>(<span class="st">"3 Sectors picked by GPT-4: Tech, Health, Staples"</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"5 Sectors picked by GPT-4: above + Energy + Financials"</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Size: Large, Mid, Small--Blend"</span>),</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a list column, see https://adv-r.hadley.nz/vectors-chap.html#list-columns </span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbols =</span> <span class="fu">list</span>(sector_3eft_list, sector_5etf_list, size_etfs)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># c(                    "XLK",  # Technology</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLV",  # Health Care</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLF",  # Financials</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLY",  # Consumer Discretionary</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLP",  # Consumer Staples</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLE",  # Energy</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLU",  # Utilities</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLI",  # Industrials</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLB",  # Materials</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLRE", # Real Estate</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                       "XLC") # Communication Services</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>date_start <span class="ot">&lt;-</span> <span class="st">"2013-01-01"</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>date_end   <span class="ot">&lt;-</span> <span class="st">"2023-11-17"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>size_etfs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SPY"</span>, <span class="st">"MDY"</span>, <span class="st">"IWM"</span>) <span class="co"># Large, Mid, Small</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># size_style_etfs &lt;- c("IWF",  # Large-Cap Growth</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWD",  # Large-Cap Value</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "SPY",  # Large-Cap Blend</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWP",  # Mid-Cap Growth</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWS",  # Mid-Cap Value</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "MDY",  # Mid-Cap Blend</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWO",  # Small-Cap Growth</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWN",  # Small-Cap Value</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWM")  # Small-Cap Blend</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>stock_sets <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_id =</span> <span class="fu">c</span>(<span class="st">"3_sectors"</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>               <span class="st">"5_sectors"</span>, </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>               <span class="st">"11_sectors"</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>               <span class="st">"3_sizes"</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">c</span>(<span class="st">"3 Sectors picked by GPT-4: Tech, Health, Staples"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"5 Sectors picked by GPT-4: above + Energy + Financials"</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"All  11 Sectors"</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Size: Large, Mid, Small--Blend"</span>),</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a list column, see https://adv-r.hadley.nz/vectors-chap.html#list-columns </span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbols =</span> <span class="fu">list</span>(sector_3eft_list, sector_5etf_list, sector_11etf_list, size_etfs)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>date_start <span class="ot">&lt;-</span> <span class="st">"2013-01-01"</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>date_end   <span class="ot">&lt;-</span> <span class="st">"2023-11-17"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="retrieve-returns-for-each-periodicity-aka-frequency" class="level2">
@@ -293,12 +297,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(stock_sets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 4
-  set_id    description                                     symbols nested_data 
-  &lt;chr&gt;     &lt;chr&gt;                                           &lt;list&gt;  &lt;list&gt;      
-1 3_Sectors 3 Sectors picked by GPT-4: Tech, Health, Stapl… &lt;chr&gt;   &lt;named list&gt;
-2 5_Sectors 5 Sectors picked by GPT-4: above + Energy + Fi… &lt;chr&gt;   &lt;named list&gt;
-3 3_Sizes   Size: Large, Mid, Small--Blend                  &lt;chr&gt;   &lt;named list&gt;</code></pre>
+<pre><code># A tibble: 4 × 4
+  set_id     description                                    symbols nested_data 
+  &lt;chr&gt;      &lt;chr&gt;                                          &lt;list&gt;  &lt;list&gt;      
+1 3_sectors  3 Sectors picked by GPT-4: Tech, Health, Stap… &lt;chr&gt;   &lt;named list&gt;
+2 5_sectors  5 Sectors picked by GPT-4: above + Energy + F… &lt;chr&gt;   &lt;named list&gt;
+3 11_sectors All  11 Sectors                                &lt;chr&gt;   &lt;named list&gt;
+4 3_sizes    Size: Large, Mid, Small--Blend                 &lt;chr&gt;   &lt;named list&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -348,18 +353,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine data structure </span></span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(stock_sets) <span class="co"># Notice the analysis list column has been added</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  set_id    description                        symbols nested_data  analysis    
-  &lt;chr&gt;     &lt;chr&gt;                              &lt;list&gt;  &lt;list&gt;       &lt;list&gt;      
-1 3_Sectors 3 Sectors picked by GPT-4: Tech, … &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
-2 5_Sectors 5 Sectors picked by GPT-4: above … &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
-3 3_Sizes   Size: Large, Mid, Small--Blend     &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;</code></pre>
+<pre><code># A tibble: 4 × 5
+  set_id     description                       symbols nested_data  analysis    
+  &lt;chr&gt;      &lt;chr&gt;                             &lt;list&gt;  &lt;list&gt;       &lt;list&gt;      
+1 3_sectors  3 Sectors picked by GPT-4: Tech,… &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+2 5_sectors  5 Sectors picked by GPT-4: above… &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+3 11_sectors All  11 Sectors                   &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+4 3_sizes    Size: Large, Mid, Small--Blend    &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(stock_sets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 3
+<pre><code>Rows: 4
 Columns: 5
-$ set_id      &lt;chr&gt; "3_Sectors", "5_Sectors", "3_Sizes"
+$ set_id      &lt;chr&gt; "3_sectors", "5_sectors", "11_sectors", "3_sizes"
 $ description &lt;chr&gt; "3 Sectors picked by GPT-4: Tech, Health, Staples", "5 Sec…
 $ symbols     &lt;list&gt; &lt;"XLK", "XLV", "XLP"&gt;, &lt;"XLK", "XLV", "XLP", "XLE", "XLF"&gt;…
 $ nested_data &lt;list&gt; [[&lt;grouped_df[8217 x 3]&gt;], [&lt;grouped_df[1704 x 3]&gt;], [&lt;gr…
@@ -386,12 +392,12 @@ $daily$avg_returns
 
 $daily$corr_matrix
           XLK       XLV       XLP
-XLK 1.0000000 0.7254974 0.6357678
-XLV 0.7254974 1.0000000 0.7182654
-XLP 0.6357678 0.7182654 1.0000000
+XLK 1.0000000 0.7254977 0.6357681
+XLV 0.7254977 1.0000000 0.7182649
+XLP 0.6357681 0.7182649 1.0000000
 
 $daily$avg_corr
-[1] 0.6931768
+[1] 0.6931769
 
 
 $weekly
@@ -413,12 +419,12 @@ $weekly$avg_returns
 
 $weekly$corr_matrix
           XLK       XLV       XLP
-XLK 1.0000000 0.6976197 0.6515024
-XLV 0.6976197 1.0000000 0.7046559
-XLP 0.6515024 0.7046559 1.0000000
+XLK 1.0000000 0.6976196 0.6515028
+XLV 0.6976196 1.0000000 0.7046562
+XLP 0.6515028 0.7046562 1.0000000
 
 $weekly$avg_corr
-[1] 0.6845926
+[1] 0.6845929
 
 
 $monthly
@@ -440,19 +446,19 @@ $monthly$avg_returns
 
 $monthly$corr_matrix
           XLK       XLV       XLP
-XLK 1.0000000 0.6136571 0.5679382
-XLV 0.6136571 1.0000000 0.6780581
-XLP 0.5679382 0.6780581 1.0000000
+XLK 1.0000000 0.6136564 0.5679385
+XLV 0.6136564 1.0000000 0.6780583
+XLP 0.5679385 0.6780583 1.0000000
 
 $monthly$avg_corr
-[1] 0.6198845</code></pre>
+[1] 0.6198844</code></pre>
 </div>
 </div>
 <p>Here is a class diagram of the stock_sets data structure rendered by <a href="https://graphviz.org/Gallery/directed/UML_Class_diagram.html">DiagrammeR via Graphviz</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-bb2b9d9c3dba8444370f" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-bb2b9d9c3dba8444370f">{"x":{"diagram":"\ndigraph stock_sets_structure {\n    graph [splines=ortho]\n    \n    node [shape=record]\n    \n    stock_sets [label=\"{stock_sets|+ set_id : String\\l+ description : String\\l+ symbols : List\\l+ nested_data : List\\l+ analysis : List\\l}\"]\n\n    nested_data [label=\"{nested_data|+ daily : DataFrame\\l+ weekly : DataFrame\\l+ monthly : DataFrame\\l}\"]\n\n    analysis [label=\"{analysis|+ daily_analysis : List\\l+ weekly_analysis : List\\l+ monthly_analysis : List\\l}\"]\n\n    daily_analysis [label=\"{daily_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    weekly_analysis [label=\"{weekly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    monthly_analysis [label=\"{monthly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    stock_sets -> nested_data\n    stock_sets -> analysis\n    analysis -> daily_analysis\n    analysis -> weekly_analysis\n    analysis -> monthly_analysis\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c5d41eb0228d4f0af9ad" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-c5d41eb0228d4f0af9ad">{"x":{"diagram":"\ndigraph stock_sets_structure {\n    graph [splines=ortho]\n    \n    node [shape=record]\n    \n    stock_sets [label=\"{stock_sets|+ set_id : String\\l+ description : String\\l+ symbols : List\\l+ nested_data : List\\l+ analysis : List\\l}\"]\n\n    nested_data [label=\"{nested_data|+ daily : DataFrame\\l+ weekly : DataFrame\\l+ monthly : DataFrame\\l}\"]\n\n    analysis [label=\"{analysis|+ daily_analysis : List\\l+ weekly_analysis : List\\l+ monthly_analysis : List\\l}\"]\n\n    daily_analysis [label=\"{daily_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    weekly_analysis [label=\"{weekly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    monthly_analysis [label=\"{monthly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]\n\n    stock_sets -> nested_data\n    stock_sets -> analysis\n    analysis -> daily_analysis\n    analysis -> weekly_analysis\n    analysis -> monthly_analysis\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -506,7 +512,7 @@ $monthly$avg_corr
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the desired set (e.g., "Set 1")</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>select_set <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"5_Sectors"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"5_sectors"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="st">"analysis"</span>)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>analyze_set <span class="ot">&lt;-</span> select_set[[<span class="dv">1</span>]]</span>
@@ -529,30 +535,30 @@ $monthly$avg_corr
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sim_results_period[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$exp_returns
-[1] 0.004030846 0.008677509 0.015025343 0.007222013 0.010114013
+[1] 0.004030846 0.008677509 0.015025342 0.007222011 0.010114014
 
 $volatilities
-[1] 0.08350622 0.05444006 0.05165271 0.03642457 0.03991407
+[1] 0.08350623 0.05444006 0.05165270 0.03642462 0.03991410
 
 $cov_matrix
             XLK          XLV          XLP          XLE         XLF
-XLK 0.006973289 0.0027897355 0.0024497016 0.0013125259 0.002137822
-XLV 0.002789736 0.0029637205 0.0019066846 0.0008771241 0.001387132
-XLP 0.002449702 0.0019066846 0.0026680028 0.0007372934 0.001139679
-XLE 0.001312526 0.0008771241 0.0007372934 0.0013267490 0.001034450
-XLF 0.002137822 0.0013871318 0.0011396792 0.0010344498 0.001593133
+XLK 0.006973290 0.0027897366 0.0024497012 0.0013125262 0.002137823
+XLV 0.002789737 0.0029637200 0.0019066845 0.0008771254 0.001387132
+XLP 0.002449701 0.0019066845 0.0026680010 0.0007372934 0.001139679
+XLE 0.001312526 0.0008771254 0.0007372934 0.0013267528 0.001034452
+XLF 0.002137823 0.0013871321 0.0011396791 0.0010344519 0.001593135
 
 $corr_matrix
           XLK       XLV       XLP       XLE       XLF
-XLK 1.0000000 0.6136568 0.5679384 0.4315138 0.6413967
-XLV 0.6136568 1.0000000 0.6780584 0.4423316 0.6383709
-XLP 0.5679384 0.6780584 1.0000000 0.3918797 0.5527942
-XLE 0.4315138 0.4423316 0.3918797 1.0000000 0.7115231
-XLF 0.6413967 0.6383709 0.5527942 0.7115231 1.0000000
+XLK 1.0000000 0.6136571 0.5679384 0.4315132 0.6413965
+XLV 0.6136571 1.0000000 0.6780586 0.4423317 0.6383707
+XLP 0.5679384 0.6780586 1.0000000 0.3918793 0.5527939
+XLE 0.4315132 0.4423317 0.3918793 1.0000000 0.7115231
+XLF 0.6413965 0.6383707 0.5527939 0.7115231 1.0000000
 
 $port_variance
             [,1]
-[1,] 0.001517293
+[1,] 0.001517294
 
 $port_exp_return
 [1] 0.009078192</code></pre>
@@ -563,12 +569,12 @@ $port_exp_return
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(results_df_period))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Exp_Return    Std_Dev
-1 0.009078192 0.03895244
-2 0.010822327 0.03906638
-3 0.008376930 0.04953396
-4 0.007454898 0.04938543
-5 0.008529609 0.04357777
-6 0.008795630 0.04981343</code></pre>
+1 0.009078192 0.03895245
+2 0.010822326 0.03906639
+3 0.008376929 0.04953396
+4 0.007454897 0.04938544
+5 0.008529608 0.04357777
+6 0.008795629 0.04981343</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df_period</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

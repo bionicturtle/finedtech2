@@ -1,8 +1,8 @@
 ---
-title: Portfolio Possibilities Curve (PPC)
-description: PPC with GPT4 as my coding partner
+title: PPC v2
+description: Description here
 author: David Harper, CFA, FRM
-date: 2023-11-19
+date: 2023-11-22
 categories: [code, analysis]
 execute: 
   echo: true
@@ -38,7 +38,6 @@ The container in this approach is **stock_sets**, a dataframe the we initialize 
 -   symbols: a list of tickers
 
 ```{r}
-
 sector_3eft_list <- c( "XLK", "XLV", "XLP") # Tech, Health, Staples
 # sector_4etf_list <- c( "XLK", "XLV", "XLP",  "XLE",) # Tech, Health, Staples, Energy
 sector_5etf_list <- c( "XLK", "XLV", "XLP", "XLE", "XLF") # Tech, Health, Staples, Energy, Financials
@@ -137,19 +136,26 @@ For each set and periodicity, the analysis list column generates:
 ```{r}
 
 perform_analysis <- function(data, returns_column) {
-    volatilities <- data |>  
+    # Sort the data by symbol and date
+    data_sorted <- data |> arrange(symbol, date)
+    
+    volatilities <- data_sorted |>  
         group_by(symbol) |>  
         summarise(volatility = sd(.data[[returns_column]], na.rm = TRUE)) |>  
         ungroup()
     
-    avg_returns <- data |>  
+    avg_returns <- data_sorted |>  
         group_by(symbol) |>  
         summarise(avg_return = mean(.data[[returns_column]], na.rm = TRUE)) |>  
         ungroup()
     
-    data_wide <- data |>  
+    # Pivot to wide format for correlation matrix calculation
+    # Ensuring the data is sorted correctly helps in keeping the order of symbols consistent
+    data_wide <- data_sorted |>  
         pivot_wider(names_from = symbol, values_from = .data[[returns_column]])
     corr_matrix <- cor(select(data_wide, -date), use = "complete.obs")
+    
+    # Calculate average correlation
     avg_corr <- mean(corr_matrix[lower.tri(corr_matrix)])
     
     return(list(volatilities = volatilities, avg_returns = avg_returns, corr_matrix = corr_matrix, avg_corr = avg_corr))
@@ -176,39 +182,109 @@ stock_sets$analysis[[1]] # first row is the first stock set
 
 ```
 
-Here is a class diagram of the stock_sets data structure rendered by [DiagrammeR via Graphviz](https://graphviz.org/Gallery/directed/UML_Class_diagram.html).
+```{r}
+# Selecting the desired set (e.g., "Set 1")
 
-```{r echo=FALSE}
+select_set <- stock_sets |> 
+    filter(set_id == "11_sectors") |> 
+    pull("analysis")
 
-library(DiagrammeR)
+analyze_set <- select_set[[1]]
+analyze_period <- analyze_set$monthly
 
-graphviz_script <- "
-digraph stock_sets_structure {
-    graph [splines=ortho]
+# Extracting components from the selected set
+exp_returns_period <- analyze_period$avg_returns$avg_return
+names(exp_returns_period) <- analyze_period$avg_returns$symbol
+
+volatilities_period <- analyze_period$volatilities$volatility
+names(volatilities_period) <- analyze_period$volatilities$symbol
+
+corr_matrix_period <- analyze_period$corr_matrix
+num_stocks_period <- length(volatilities_period)
+
+```
+
+Correlation
+
+```{r}
+
+library(ggcorrplot)
+library(MASS)
+library(patchwork)
+
+cp1 <- corr_matrix_period |> ggcorrplot(
+    method = "square", 
+    type = "lower", 
+    lab = TRUE, 
+    colors = c("red", "white", "springgreen"),
+    title = "Correlation Matrix of Daily Returns")
+
+cp1
+
+```
+
+Desirability
+
+```{r}
+
+calculate_desirability <- function(exp_returns, volatilities, corr_matrix, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight) {
+    if(is.null(names(exp_returns)) || is.null(names(volatilities))) {
+        stop("Expected returns and volatilities must have names.")
+    }
     
-    node [shape=record]
+    # Ensure the lengths match
+    if(length(exp_returns) != length(volatilities) || length(exp_returns) != nrow(corr_matrix)) {
+        stop("Lengths of returns, volatilities, and correlation matrix do not match.")
+    }
+    # Ensure the lengths match
+    if(length(exp_returns) != length(volatilities) || length(exp_returns) != nrow(corr_matrix)) {
+        stop("Lengths of returns, volatilities, and correlation matrix do not match.")
+    }
     
-    stock_sets [label=\"{stock_sets|+ set_id : String\\l+ description : String\\l+ symbols : List\\l+ nested_data : List\\l+ analysis : List\\l}\"]
-
-    nested_data [label=\"{nested_data|+ daily : DataFrame\\l+ weekly : DataFrame\\l+ monthly : DataFrame\\l}\"]
-
-    analysis [label=\"{analysis|+ daily_analysis : List\\l+ weekly_analysis : List\\l+ monthly_analysis : List\\l}\"]
-
-    daily_analysis [label=\"{daily_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
-
-    weekly_analysis [label=\"{weekly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
-
-    monthly_analysis [label=\"{monthly_analysis|+ volatilities : DataFrame\\l+ avg_returns : DataFrame\\l+ corr_matrix : Matrix\\l+ avg_corr : Numeric\\l}\"]
-
-    stock_sets -> nested_data
-    stock_sets -> analysis
-    analysis -> daily_analysis
-    analysis -> weekly_analysis
-    analysis -> monthly_analysis
+    # Calculate the variance as the square of volatility
+    variance <- volatilities^2
+    
+    # Calculate the utility for each sector
+    utility <- exp_returns - 0.5 * A * variance
+    
+    # Calculate the Sharpe ratio for each sector
+    sharpe_ratio <- (exp_returns - risk_free_rate) / volatilities
+    
+    # Calculate the average correlation for each sector
+    avg_correlation <- apply(corr_matrix, 1, function(x) mean(x[-which(x == 1)], na.rm = TRUE))
+    write.matrix(corr_matrix, "avg_correlation.csv", sep = ",")
+    
+    # Calculate the desirability score
+    desirability_score <- utility_weight * (utility * 100) +
+        sharpe_weight * (sharpe_ratio * 3 ) -
+        correlation_weight * avg_correlation # Negative because lower correlation is better
+    
+    # Create a data frame for sector desirability
+    desirability_df <- data.frame(sector = names(exp_returns),
+                                  exp_returns = exp_returns,
+                                  volatilities = volatilities,
+                                  utility = utility,
+                                  sharpe_ratio = sharpe_ratio,
+                                  avg_correlation = avg_correlation,
+                                  desirability_score = desirability_score)
+    
+    # Sort by desirability score
+    desirability_df <- desirability_df[order(-desirability_df$desirability_score),]
+    
+    return(desirability_df)
 }
-"
 
-DiagrammeR(graphviz_script, type = "graphviz")
+# Example parameters
+A <- 3  # Risk aversion coefficient
+risk_free_rate <- 0.0  # Risk-free rate
+utility_weight <- 0.3
+sharpe_weight <- 0.4
+correlation_weight <- 0.3
+
+# Calculate desirability using the extracted components
+sector_desirability <- calculate_desirability(exp_returns_period, volatilities_period, corr_matrix_period, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight)
+
+sector_desirability
 
 ```
 
@@ -222,13 +298,14 @@ So I'm starting with an incredibly naive approach to the simulation. I'm going t
 
 # returns a data frame of random weights
 # rows = weight per stock; columns = number of simulations
-get_random_weights <- function(num_stocks, num_simulations) {
+get_random_weights <- function(num_stocks, num_simulations, probabilities) {
     set.seed(123)
     weights_df <- matrix(nrow = num_stocks, ncol = num_simulations)
 
     for (i in 1:num_simulations) {
-        weights <- runif(num_stocks)
-        weights_df[, i] <- weights / sum(weights)
+        # Generate weights influenced by probabilities
+        weights <- runif(num_stocks) * probabilities
+        weights_df[, i] <- weights / sum(weights)  # Normalize the weights
     }
 
     return(as.data.frame(weights_df))
@@ -265,22 +342,14 @@ run_sims <- function(exp_returns, volatilities, corr_matrix, weights_df) {
 
 ```{r}
 
-# Selecting the desired set (e.g., "Set 1")
-select_set <- stock_sets |> 
-    filter(set_id == "5_sectors") |> 
-    pull("analysis")
+num_sims <- 10000  # Set the number of simulations
 
-analyze_set <- select_set[[1]]
-analyze_period <- analyze_set$monthly
+sector_desirability$desirability_score <- pmax(sector_desirability$desirability_score, 0)
+total_score <- sum(sector_desirability$desirability_score)
+probabilities <- sector_desirability$desirability_score / total_score
 
-# Extracting components from the selected set
-exp_returns_period <- analyze_period$avg_returns$avg_return
-volatilities_period <- analyze_period$volatilities$volatility
-corr_matrix_period <- analyze_period$corr_matrix
-num_stocks_period <- length(volatilities_period)
 
-num_sims <- 20000  # Set the number of simulations
-random_weights_df_period <- get_random_weights(num_stocks_period, num_sims)
+random_weights_df_period <- get_random_weights(num_stocks_period, num_sims, probabilities)
 sim_results_period <- run_sims(exp_returns_period, 
                               volatilities_period, 
                               corr_matrix_period, 

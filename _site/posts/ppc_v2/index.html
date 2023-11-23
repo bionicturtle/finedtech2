@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="David Harper, CFA, FRM">
+<meta name="dcterms.date" content="2023-11-19">
+<meta name="description" content="PPC with GPT4 as my coding partner">
+
+<title>finedtech by David Harper, CFA, FRM - PPC v2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">finedtech by David Harper, CFA, FRM</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About David</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/bionicturtle" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.instagram.com/davidharper2/" rel="" target=""><i class="bi bi-instagram" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Portfolio Possibilities Curve (PPC)</h1>
+                  <div>
+        <div class="description">
+          PPC with GPT4 as my coding partner
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>David Harper, CFA, FRM </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">November 19, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>Contents</p>
+<ul>
+<li>Define the sets of stocks/indices</li>
+<li>Retrieve returns for each periodicity</li>
+<li>Analyze: add the analysis list column</li>
+<li>Setup the simulation</li>
+<li>Run the simulation</li>
+<li>Visualize</li>
+</ul>
+<p>load libraries</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dplyr); library(tidyr); library(purrr)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(ggplot)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="define-the-sets-of-stocksindices" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-sets-of-stocksindices">Define the SETS of stocks/indices</h2>
+<p>The container in this approach is <strong>stock_sets</strong>, a dataframe the we initialize (our TOC) with three columns:</p>
+<ul>
+<li>set_id</li>
+<li>description</li>
+<li>symbols: a list of tickers</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sector_3eft_list <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">"XLK"</span>, <span class="st">"XLV"</span>, <span class="st">"XLP"</span>) <span class="co"># Tech, Health, Staples</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sector_4etf_list &lt;- c( "XLK", "XLV", "XLP",  "XLE",) # Tech, Health, Staples, Energy</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sector_5etf_list <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">"XLK"</span>, <span class="st">"XLV"</span>, <span class="st">"XLP"</span>, <span class="st">"XLE"</span>, <span class="st">"XLF"</span>) <span class="co"># Tech, Health, Staples, Energy, Financials</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># sector_7etf_list &lt;- c(sector_5etf_list, "XLI", "XLU")</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sector_11etf_list <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"XLK"</span>,  <span class="co"># Technology</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLV"</span>,  <span class="co"># Health Care</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLF"</span>,  <span class="co"># Financials</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLY"</span>,  <span class="co"># Consumer Discretionary</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLP"</span>,  <span class="co"># Consumer Staples</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLE"</span>,  <span class="co"># Energy</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLU"</span>,  <span class="co"># Utilities</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLI"</span>,  <span class="co"># Industrials</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLB"</span>,  <span class="co"># Materials</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLRE"</span>, <span class="co"># Real Estate</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"XLC"</span>) <span class="co"># Communication Services</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>size_etfs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"SPY"</span>, <span class="st">"MDY"</span>, <span class="st">"IWM"</span>) <span class="co"># Large, Mid, Small</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># size_style_etfs &lt;- c("IWF",  # Large-Cap Growth</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWD",  # Large-Cap Value</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "SPY",  # Large-Cap Blend</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWP",  # Mid-Cap Growth</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWS",  # Mid-Cap Value</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "MDY",  # Mid-Cap Blend</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWO",  # Small-Cap Growth</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWN",  # Small-Cap Value</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                      "IWM")  # Small-Cap Blend</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>stock_sets <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_id =</span> <span class="fu">c</span>(<span class="st">"3_sectors"</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>               <span class="st">"5_sectors"</span>, </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>               <span class="st">"11_sectors"</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>               <span class="st">"3_sizes"</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">c</span>(<span class="st">"3 Sectors picked by GPT-4: Tech, Health, Staples"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"5 Sectors picked by GPT-4: above + Energy + Financials"</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"All  11 Sectors"</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Size: Large, Mid, Small--Blend"</span>),</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is a list column, see https://adv-r.hadley.nz/vectors-chap.html#list-columns </span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">symbols =</span> <span class="fu">list</span>(sector_3eft_list, sector_5etf_list, sector_11etf_list, size_etfs)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>date_start <span class="ot">&lt;-</span> <span class="st">"2013-01-01"</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>date_end   <span class="ot">&lt;-</span> <span class="st">"2023-11-17"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="retrieve-returns-for-each-periodicity-aka-frequency" class="level2">
+<h2 class="anchored" data-anchor-id="retrieve-returns-for-each-periodicity-aka-frequency">Retrieve returns for each periodicity; aka, frequency</h2>
+<p>For each SET of tickers, <strong>get_returns</strong> will retrieve log returns for each of three periods:</p>
+<ul>
+<li>daily</li>
+<li>weekly</li>
+<li>monthly</li>
+</ul>
+<p>Then we will call the get_returns function via map (my favorite function) to create a new list column called <strong>nested_data</strong>. Each row of nested_data <em>will contain a list</em> of three dataframes, one for each period. These dataframes will contain the log returns for each ticker in the set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>get_returns <span class="ot">&lt;-</span> <span class="cf">function</span>(symbols, start_date, end_date) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    mult_stocks <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(symbols, <span class="at">get =</span> <span class="st">"stock.prices"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">from =</span> start_date, <span class="at">to =</span> end_date)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    periods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"daily"</span>, <span class="st">"weekly"</span>, <span class="st">"monthly"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    returns_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(periods, <span class="cf">function</span>(period) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        mult_stocks <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">tq_transmute</span>(<span class="at">select =</span> adjusted,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mutate_fun =</span> periodReturn, </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">period =</span> period, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">type =</span> <span class="st">"log"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(returns_list) <span class="ot">&lt;-</span> periods</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(returns_list)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Nest return data for each stock set</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>stock_sets <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">nested_data =</span> <span class="fu">map</span>(symbols, </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                             <span class="sc">~</span> <span class="fu">get_returns</span>(.x, date_start, date_end)))</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(stock_sets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  set_id     description                                    symbols nested_data 
+  &lt;chr&gt;      &lt;chr&gt;                                          &lt;list&gt;  &lt;list&gt;      
+1 3_sectors  3 Sectors picked by GPT-4: Tech, Health, Stap… &lt;chr&gt;   &lt;named list&gt;
+2 5_sectors  5 Sectors picked by GPT-4: above + Energy + F… &lt;chr&gt;   &lt;named list&gt;
+3 11_sectors All  11 Sectors                                &lt;chr&gt;   &lt;named list&gt;
+4 3_sizes    Size: Large, Mid, Small--Blend                 &lt;chr&gt;   &lt;named list&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="analyze-add-the-analysis-list-column" class="level2">
+<h2 class="anchored" data-anchor-id="analyze-add-the-analysis-list-column">Analyze: add the analysis list column</h2>
+<p>For each set and periodicity, the analysis list column generates:</p>
+<ul>
+<li>vector of volatilities</li>
+<li>vector of average returns</li>
+<li>correlation matrix (diagonal is 1)</li>
+<li>average correlation (as a <em>rough</em> measure of diversification)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>perform_analysis <span class="ot">&lt;-</span> <span class="cf">function</span>(data, returns_column) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort the data by symbol and date</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    data_sorted <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> <span class="fu">arrange</span>(symbol, date)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    volatilities <span class="ot">&lt;-</span> data_sorted <span class="sc">|&gt;</span>  </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span>  </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">volatility =</span> <span class="fu">sd</span>(.data[[returns_column]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span>  </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ungroup</span>()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    avg_returns <span class="ot">&lt;-</span> data_sorted <span class="sc">|&gt;</span>  </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(symbol) <span class="sc">|&gt;</span>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">avg_return =</span> <span class="fu">mean</span>(.data[[returns_column]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span>  </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ungroup</span>()</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pivot to wide format for correlation matrix calculation</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensuring the data is sorted correctly helps in keeping the order of symbols consistent</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    data_wide <span class="ot">&lt;-</span> data_sorted <span class="sc">|&gt;</span>  </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> symbol, <span class="at">values_from =</span> .data[[returns_column]])</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    corr_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(<span class="fu">select</span>(data_wide, <span class="sc">-</span>date), <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate average correlation</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    avg_corr <span class="ot">&lt;-</span> <span class="fu">mean</span>(corr_matrix[<span class="fu">lower.tri</span>(corr_matrix)])</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">volatilities =</span> volatilities, <span class="at">avg_returns =</span> avg_returns, <span class="at">corr_matrix =</span> corr_matrix, <span class="at">avg_corr =</span> avg_corr))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Applying the perform_analysis function to the stock_sets</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>stock_sets <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">analysis =</span> <span class="fu">map</span>(nested_data, <span class="sc">~</span> {</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        data_daily <span class="ot">&lt;-</span> .x<span class="sc">$</span>daily</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        data_weekly <span class="ot">&lt;-</span> .x<span class="sc">$</span>weekly</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        data_monthly <span class="ot">&lt;-</span> .x<span class="sc">$</span>monthly</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        analysis_daily <span class="ot">&lt;-</span> <span class="fu">perform_analysis</span>(data_daily, <span class="st">"daily.returns"</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        analysis_weekly <span class="ot">&lt;-</span> <span class="fu">perform_analysis</span>(data_weekly, <span class="st">"weekly.returns"</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        analysis_monthly <span class="ot">&lt;-</span> <span class="fu">perform_analysis</span>(data_monthly, <span class="st">"monthly.returns"</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(<span class="at">daily =</span> analysis_daily, <span class="at">weekly =</span> analysis_weekly, <span class="at">monthly =</span> analysis_monthly)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine data structure </span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(stock_sets) <span class="co"># Notice the analysis list column has been added</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  set_id     description                       symbols nested_data  analysis    
+  &lt;chr&gt;      &lt;chr&gt;                             &lt;list&gt;  &lt;list&gt;       &lt;list&gt;      
+1 3_sectors  3 Sectors picked by GPT-4: Tech,… &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+2 5_sectors  5 Sectors picked by GPT-4: above… &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+3 11_sectors All  11 Sectors                   &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;
+4 3_sizes    Size: Large, Mid, Small--Blend    &lt;chr&gt;   &lt;named list&gt; &lt;named list&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(stock_sets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 4
+Columns: 5
+$ set_id      &lt;chr&gt; "3_sectors", "5_sectors", "11_sectors", "3_sizes"
+$ description &lt;chr&gt; "3 Sectors picked by GPT-4: Tech, Health, Staples", "5 Sec…
+$ symbols     &lt;list&gt; &lt;"XLK", "XLV", "XLP"&gt;, &lt;"XLK", "XLV", "XLP", "XLE", "XLF"&gt;…
+$ nested_data &lt;list&gt; [[&lt;grouped_df[8217 x 3]&gt;], [&lt;grouped_df[1704 x 3]&gt;], [&lt;gr…
+$ analysis    &lt;list&gt; [[[&lt;tbl_df[3 x 2]&gt;], [&lt;tbl_df[3 x 2]&gt;], &lt;&lt;matrix[3 x 3]&gt;&gt;…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stock_sets<span class="sc">$</span>analysis[[<span class="dv">1</span>]] <span class="co"># first row is the first stock set</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$daily
+$daily$volatilities
+# A tibble: 3 × 2
+  symbol volatility
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK       0.0138 
+2 XLP       0.00906
+3 XLV       0.0105 
+
+$daily$avg_returns
+# A tibble: 3 × 2
+  symbol avg_return
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK      0.000719
+2 XLP      0.000345
+3 XLV      0.000484
+
+$daily$corr_matrix
+          XLK       XLP       XLV
+XLK 1.0000000 0.6357679 0.7254975
+XLP 0.6357679 1.0000000 0.7182656
+XLV 0.7254975 0.7182656 1.0000000
+
+$daily$avg_corr
+[1] 0.693177
+
+
+$weekly
+$weekly$volatilities
+# A tibble: 3 × 2
+  symbol volatility
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK        0.0270
+2 XLP        0.0194
+3 XLV        0.0227
+
+$weekly$avg_returns
+# A tibble: 3 × 2
+  symbol avg_return
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK       0.00347
+2 XLP       0.00167
+3 XLV       0.00233
+
+$weekly$corr_matrix
+          XLK       XLP       XLV
+XLK 1.0000000 0.6515029 0.6976196
+XLP 0.6515029 1.0000000 0.7046559
+XLV 0.6976196 0.7046559 1.0000000
+
+$weekly$avg_corr
+[1] 0.6845928
+
+
+$monthly
+$monthly$volatilities
+# A tibble: 3 × 2
+  symbol volatility
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK        0.0517
+2 XLP        0.0364
+3 XLV        0.0399
+
+$monthly$avg_returns
+# A tibble: 3 × 2
+  symbol avg_return
+  &lt;chr&gt;       &lt;dbl&gt;
+1 XLK       0.0150 
+2 XLP       0.00722
+3 XLV       0.0101 
+
+$monthly$corr_matrix
+          XLK       XLP       XLV
+XLK 1.0000000 0.5679382 0.6136564
+XLP 0.5679382 1.0000000 0.6780580
+XLV 0.6136564 0.6780580 1.0000000
+
+$monthly$avg_corr
+[1] 0.6198842</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the desired set (e.g., "Set 1")</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>select_set <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"11_sectors"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="st">"analysis"</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>analyze_set <span class="ot">&lt;-</span> select_set[[<span class="dv">1</span>]]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>analyze_period <span class="ot">&lt;-</span> analyze_set<span class="sc">$</span>monthly</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting components from the selected set</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>exp_returns_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>avg_return</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(exp_returns_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>symbol</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>volatilities_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>volatility</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(volatilities_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>symbol</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>corr_matrix_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>corr_matrix</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>num_stocks_period <span class="ot">&lt;-</span> <span class="fu">length</span>(volatilities_period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Correlation</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>cp1 <span class="ot">&lt;-</span> corr_matrix_period <span class="sc">|&gt;</span> <span class="fu">ggcorrplot</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"square"</span>, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"lower"</span>, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lab =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>, <span class="st">"springgreen"</span>),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Correlation Matrix of Daily Returns"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>cp1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Desirability</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>calculate_desirability <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">is.null</span>(<span class="fu">names</span>(exp_returns)) <span class="sc">||</span> <span class="fu">is.null</span>(<span class="fu">names</span>(volatilities))) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Expected returns and volatilities must have names."</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure the lengths match</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">length</span>(exp_returns) <span class="sc">!=</span> <span class="fu">length</span>(volatilities) <span class="sc">||</span> <span class="fu">length</span>(exp_returns) <span class="sc">!=</span> <span class="fu">nrow</span>(corr_matrix)) {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Lengths of returns, volatilities, and correlation matrix do not match."</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensure the lengths match</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">length</span>(exp_returns) <span class="sc">!=</span> <span class="fu">length</span>(volatilities) <span class="sc">||</span> <span class="fu">length</span>(exp_returns) <span class="sc">!=</span> <span class="fu">nrow</span>(corr_matrix)) {</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">"Lengths of returns, volatilities, and correlation matrix do not match."</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the variance as the square of volatility</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    variance <span class="ot">&lt;-</span> volatilities<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the utility for each sector</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">&lt;-</span> exp_returns <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> A <span class="sc">*</span> variance</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the Sharpe ratio for each sector</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    sharpe_ratio <span class="ot">&lt;-</span> (exp_returns <span class="sc">-</span> risk_free_rate) <span class="sc">/</span> volatilities</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the average correlation for each sector</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    avg_correlation <span class="ot">&lt;-</span> <span class="fu">apply</span>(corr_matrix, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">mean</span>(x[<span class="sc">-</span><span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.matrix</span>(corr_matrix, <span class="st">"avg_correlation.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the desirability score</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    desirability_score <span class="ot">&lt;-</span> utility_weight <span class="sc">*</span> (utility <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        sharpe_weight <span class="sc">*</span> (sharpe_ratio <span class="sc">*</span> <span class="dv">3</span> ) <span class="sc">-</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        correlation_weight <span class="sc">*</span> avg_correlation <span class="co"># Negative because lower correlation is better</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a data frame for sector desirability</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sector =</span> <span class="fu">names</span>(exp_returns),</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">exp_returns =</span> exp_returns,</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">volatilities =</span> volatilities,</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">utility =</span> utility,</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">sharpe_ratio =</span> sharpe_ratio,</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">avg_correlation =</span> avg_correlation,</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">desirability_score =</span> desirability_score)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort by desirability score</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> desirability_df[<span class="fu">order</span>(<span class="sc">-</span>desirability_df<span class="sc">$</span>desirability_score),]</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(desirability_df)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Example parameters</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># Risk aversion coefficient</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>risk_free_rate <span class="ot">&lt;-</span> <span class="fl">0.0</span>  <span class="co"># Risk-free rate</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>utility_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>sharpe_weight <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>correlation_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate desirability using the extracted components</span></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>sector_desirability <span class="ot">&lt;-</span> <span class="fu">calculate_desirability</span>(exp_returns_period, volatilities_period, corr_matrix_period, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>sector_desirability</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     sector exp_returns volatilities       utility sharpe_ratio avg_correlation
+XLK     XLK 0.015025342   0.05165266  0.0110233459   0.29089192       0.6885434
+XLV     XLV 0.010114015   0.03991406  0.0077243160   0.25339477       0.6580335
+XLY     XLY 0.010399520   0.05421595  0.0059904665   0.19181662       0.7084905
+XLP     XLP 0.007222011   0.03642463  0.0052318807   0.19827274       0.6588569
+XLU     XLU 0.007008193   0.04345244  0.0041760216   0.16128423       0.5483552
+XLI     XLI 0.009141406   0.05120984  0.0052077349   0.17850879       0.7663516
+XLF     XLF 0.008677509   0.05444007  0.0042319278   0.15939564       0.7166628
+XLB     XLB 0.007271933   0.05298609  0.0030606447   0.13724231       0.7629429
+XLRE   XLRE 0.004606752   0.05011872  0.0008389219   0.09191678       0.7092791
+XLC     XLC 0.005837405   0.06085228  0.0002829058   0.09592747       0.6907898
+XLE     XLE 0.004030844   0.08350624 -0.0064290935   0.04826997       0.5421771
+     desirability_score
+XLK          0.47320766
+XLV          0.33839315
+XLY          0.19734680
+XLP          0.19722663
+XLU          0.15431518
+XLI          0.14053713
+XLF          0.10323376
+XLB          0.02762725
+XLRE        -0.07731594
+XLC         -0.08363680
+XLE         -0.29760195</code></pre>
+</div>
+</div>
+</section>
+<section id="setup-the-simulation" class="level2">
+<h2 class="anchored" data-anchor-id="setup-the-simulation">Setup the simulation</h2>
+<p>The <strong>get_random_weights</strong> function returns a dataframe of random weights. Each column is a set of weights for a single simulation. Each row is the weight for a single stock. The weights are normalized so that they sum to 1.</p>
+<p>So I’m starting with an incredibly naive approach to the simulation. I’m going to assume that the expected return for each stock is the average return for that stock over the entire period. I’m also going to assume that the volatility for each stock is the average volatility for that stock over the entire period. <em>Most importantly</em>, the only randomness in the simulation is the weights and they are totally naive because they are independent of the analysis. We can’t expect anything like an efficient frontier from the raw scatterplot. However, this will illustrate the future risk/reward trade-off faced by a “totally naive” investor!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># returns a data frame of random weights</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rows = weight per stock; columns = number of simulations</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>get_random_weights <span class="ot">&lt;-</span> <span class="cf">function</span>(num_stocks, num_simulations, probabilities) {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    weights_df <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> num_stocks, <span class="at">ncol =</span> num_simulations)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_simulations) {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate weights influenced by probabilities</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        weights <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_stocks) <span class="sc">*</span> probabilities</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        weights_df[, i] <span class="ot">&lt;-</span> weights <span class="sc">/</span> <span class="fu">sum</span>(weights)  <span class="co"># Normalize the weights</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">as.data.frame</span>(weights_df))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># single simulation: given a set of weights, computes the expected return and volatility</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>port_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights) {</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    cov_matrix <span class="ot">&lt;-</span> <span class="fu">outer</span>(volatilities, volatilities) <span class="sc">*</span> corr_matrix</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    port_variance <span class="ot">&lt;-</span> <span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    port_exp_return <span class="ot">&lt;-</span> <span class="fu">sum</span>(weights <span class="sc">*</span> exp_returns)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">exp_returns =</span> exp_returns, </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">volatilities =</span> volatilities,</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">cov_matrix =</span> cov_matrix, </span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">corr_matrix =</span> corr_matrix,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_variance =</span> port_variance,</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_exp_return =</span> port_exp_return))</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># runs a port_simulation for each column in the weights_df</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>run_sims <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights_df) {</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    simulations <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(weights_df), <span class="sc">~</span> {</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>        weights_vector <span class="ot">&lt;-</span> weights_df[, .x]</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">port_sim</span>(exp_returns, volatilities, corr_matrix, weights_vector)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(simulations)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-the-simulation-on-a-single-set" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-simulation-on-a-single-set">Run the simulation (on a single set)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>num_sims <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Set the number of simulations</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sector_desirability<span class="sc">$</span>desirability_score <span class="ot">&lt;-</span> <span class="fu">pmax</span>(sector_desirability<span class="sc">$</span>desirability_score, <span class="dv">0</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>total_score <span class="ot">&lt;-</span> <span class="fu">sum</span>(sector_desirability<span class="sc">$</span>desirability_score)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> sector_desirability<span class="sc">$</span>desirability_score <span class="sc">/</span> total_score</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>random_weights_df_period <span class="ot">&lt;-</span> <span class="fu">get_random_weights</span>(num_stocks_period, num_sims, probabilities)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>sim_results_period <span class="ot">&lt;-</span> <span class="fu">run_sims</span>(exp_returns_period, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                              volatilities_period, </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                              corr_matrix_period, </span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>                              random_weights_df_period)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results of the first simulation</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sim_results_period[[<span class="dv">1</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$exp_returns
+        XLB         XLC         XLE         XLF         XLI         XLK 
+0.007271933 0.005837405 0.004030844 0.008677509 0.009141406 0.015025342 
+        XLP        XLRE         XLU         XLV         XLY 
+0.007222011 0.004606752 0.007008193 0.010114015 0.010399520 
+
+$volatilities
+       XLB        XLC        XLE        XLF        XLI        XLK        XLP 
+0.05298609 0.06085228 0.08350624 0.05444007 0.05120984 0.05165266 0.03642463 
+      XLRE        XLU        XLV        XLY 
+0.05011872 0.04345244 0.03991406 0.05421595 
+
+$cov_matrix
+             XLB         XLC         XLE         XLF         XLI         XLK
+XLB  0.002807526 0.002445591 0.002939209 0.002453076 0.002449652 0.002039863
+XLC  0.002445591 0.003703000 0.002729728 0.002525212 0.002395695 0.002707615
+XLE  0.002939209 0.002729728 0.006973292 0.003519155 0.002980982 0.002003833
+XLF  0.002453076 0.002525212 0.003519155 0.002963721 0.002500637 0.001908759
+XLI  0.002449652 0.002395695 0.002980982 0.002500637 0.002622447 0.002071542
+XLK  0.002039863 0.002707615 0.002003833 0.001908759 0.002071542 0.002667998
+XLP  0.001440331 0.001273703 0.001455723 0.001279402 0.001394055 0.001159082
+XLRE 0.002086998 0.002209362 0.001960762 0.001904553 0.001926469 0.001842359
+XLU  0.001410705 0.001306091 0.001132947 0.001157953 0.001280432 0.001077269
+XLV  0.001605595 0.001455557 0.001672473 0.001400932 0.001527509 0.001348071
+XLY  0.002309809 0.002730008 0.002369834 0.002144644 0.002204521 0.002493967
+             XLP        XLRE         XLU         XLV         XLY
+XLB  0.001440331 0.002086998 0.001410705 0.001605595 0.002309809
+XLC  0.001273703 0.002209362 0.001306091 0.001455557 0.002730008
+XLE  0.001455723 0.001960762 0.001132947 0.001672473 0.002369834
+XLF  0.001279402 0.001904553 0.001157953 0.001400932 0.002144644
+XLI  0.001394055 0.001926469 0.001280432 0.001527509 0.002204521
+XLK  0.001159082 0.001842359 0.001077269 0.001348071 0.002493967
+XLP  0.001326754 0.001352455 0.001134192 0.001080211 0.001145343
+XLRE 0.001352455 0.002511886 0.001581032 0.001387531 0.002155425
+XLU  0.001134192 0.001581032 0.001888114 0.001013965 0.001160315
+XLV  0.001080211 0.001387531 0.001013965 0.001593132 0.001412943
+XLY  0.001145343 0.002155425 0.001160315 0.001412943 0.002939369
+
+$corr_matrix
+           XLB       XLC       XLE       XLF       XLI       XLK       XLP
+XLB  1.0000000 0.7584819 0.6642778 0.8504140 0.9027950 0.7453263 0.7462862
+XLC  0.7584819 1.0000000 0.5371847 0.7622585 0.7687785 0.8614248 0.5746405
+XLE  0.6642778 0.5371847 1.0000000 0.7741067 0.6970871 0.4645686 0.4785911
+XLF  0.8504140 0.7622585 0.7741067 1.0000000 0.8969715 0.6787967 0.6451982
+XLI  0.9027950 0.7687785 0.6970871 0.8969715 1.0000000 0.7831547 0.7473627
+XLK  0.7453263 0.8614248 0.4645686 0.6787967 0.7831547 1.0000000 0.6160648
+XLP  0.7462862 0.5746405 0.4785911 0.6451982 0.7473627 0.6160648 1.0000000
+XLRE 0.7858870 0.7244194 0.4684961 0.6980305 0.7506003 0.7116746 0.7408458
+XLU  0.6127171 0.4939495 0.3122313 0.4895063 0.5754254 0.4799737 0.7166010
+XLV  0.7591859 0.5992755 0.5017812 0.6447219 0.7473162 0.6538742 0.7429981
+XLY  0.8040577 0.8274848 0.5234461 0.7266236 0.7940243 0.8905759 0.5799807
+          XLRE       XLU       XLV       XLY
+XLB  0.7858870 0.6127171 0.7591859 0.8040577
+XLC  0.7244194 0.4939495 0.5992755 0.8274848
+XLE  0.4684961 0.3122313 0.5017812 0.5234461
+XLF  0.6980305 0.4895063 0.6447219 0.7266236
+XLI  0.7506003 0.5754254 0.7473162 0.7940243
+XLK  0.7116746 0.4799737 0.6538742 0.8905759
+XLP  0.7408458 0.7166010 0.7429981 0.5799807
+XLRE 1.0000000 0.7259829 0.6936121 0.7932422
+XLU  0.7259829 1.0000000 0.5846324 0.4925322
+XLV  0.6936121 0.5846324 1.0000000 0.6529376
+XLY  0.7932422 0.4925322 0.6529376 1.0000000
+
+$port_variance
+            [,1]
+[1,] 0.002567196
+
+$port_exp_return
+[1] 0.007106525</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>results_df_period <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sim_results_period, <span class="sc">~</span> <span class="fu">data.frame</span>(<span class="at">Exp_Return =</span> .x<span class="sc">$</span>port_exp_return, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                                            <span class="at">Std_Dev =</span> <span class="fu">sqrt</span>(.x<span class="sc">$</span>port_variance)))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># View summarized results for daily returns</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(results_df_period))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Exp_Return    Std_Dev
+1 0.007106525 0.05066750
+2 0.007058208 0.05249469
+3 0.007349765 0.05167136
+4 0.007666882 0.05147461
+5 0.009318553 0.04969520
+6 0.008069111 0.05307626</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df_period</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-results">Visualize the results</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev) <span class="sc">|&gt;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">is_efficient =</span> Exp_Return <span class="sc">&gt;=</span> <span class="fu">cummax</span>(Exp_Return))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>efficient_portfolios <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev)  <span class="sc">|&gt;</span> </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cummax_return =</span> <span class="fu">cummax</span>(Exp_Return)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Exp_Return <span class="sc">&gt;=</span> cummax_return)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>efficient_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Exp_Return <span class="sc">~</span> <span class="fu">poly</span>(Std_Dev, <span class="dv">2</span>), <span class="at">data =</span> efficient_portfolios)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> is_efficient)) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span> </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># Default size for all points</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">filter</span>(results_df, is_efficient), </span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  <span class="co"># Larger size for efficient points</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> efficient_portfolios, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return), <span class="at">colour =</span> <span class="st">"springgreen2"</span>) <span class="sc">+</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"azure2"</span>) <span class="sc">+</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">data =</span> efficient_portfolios, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), </span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">"springgreen4"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>) <span class="sc">+</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate a color metric based on Exp_Return and Std_Dev</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>RiskFree_temp <span class="ot">&lt;-</span> <span class="fl">0.0</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">%&gt;%</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">efficiency =</span> (Exp_Return <span class="sc">-</span> RiskFree_temp)<span class="sc">/</span> Std_Dev)</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a scatterplot with color gradient based on the color_metric</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="co"># p4 &lt;- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = color_metric)) +</span></span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="co">#     geom_point() +</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="co">#     scale_color_gradient2(low = "azure3", high = "springgreen1", mid = "yellow", </span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="co">#                           midpoint = median(results_df$color_metric)) +</span></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_minimal() +</span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="co">#     labs(color = "Color Metric")</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming results_df and color_metric are already defined appropriately</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> efficiency)) <span class="sc">+</span></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_gradientn</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"azure4"</span>, <span class="st">"lightgoldenrod1"</span>, <span class="st">"springgreen2"</span>),</span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="fu">c</span>(<span class="fu">min</span>(results_df<span class="sc">$</span>efficiency), </span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>                                                     <span class="fu">max</span>(results_df<span class="sc">$</span>efficiency)))) <span class="sc">+</span></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>, </span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"efficiency"</span>) </span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">+</span> p2) <span class="sc">/</span> (p3 <span class="sc">+</span> p4 )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
