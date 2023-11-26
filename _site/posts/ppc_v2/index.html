@@ -418,61 +418,75 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 </section>
 <section id="correlation" class="level2">
 <h2 class="anchored" data-anchor-id="correlation">Correlation</h2>
-<section id="single-stocks-are-better-diversifiers" class="level3">
-<h3 class="anchored" data-anchor-id="single-stocks-are-better-diversifiers">Single stocks are better diversifiers</h3>
+<section id="average-average-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="average-average-correlation">Average average correlation</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>create_avg_corr_table <span class="ot">&lt;-</span> <span class="cf">function</span>(monthly_data, <span class="at">title =</span> <span class="st">"Data Analysis"</span>) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    corr_matrix <span class="ot">&lt;-</span> monthly_data<span class="sc">$</span>corr_matrix</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    symbols <span class="ot">&lt;-</span> <span class="fu">rownames</span>(corr_matrix)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># average correlation for each stock excluding the stock itself</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    avg_correlations_per_stock <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(corr_matrix)), <span class="cf">function</span>(i) {</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        row_correlations <span class="ot">&lt;-</span> corr_matrix[i, ]</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>(row_correlations[<span class="sc">-</span>i], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    avg_correlations_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">symbol =</span> symbols, </span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">avg_correlation =</span> avg_correlations_per_stock)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    combined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(monthly_data<span class="sc">$</span>volatilities,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                               monthly_data<span class="sc">$</span>avg_returns, <span class="at">by =</span> <span class="st">"symbol"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">left_join</span>(avg_correlations_df, <span class="at">by =</span> <span class="st">"symbol"</span>)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    gt_table <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span> </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tab_header</span>(<span class="at">title =</span> title) <span class="sc">|&gt;</span> </span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cols_label</span>(</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">symbol =</span> <span class="st">"Symbol"</span>,</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">volatility =</span> <span class="st">"Volatility"</span>,</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_return =</span> <span class="st">"Avg Return"</span>,</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_correlation =</span> <span class="st">"Correlation(*)"</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">4</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tab_footnote</span>(<span class="st">"(*) Pairwise average(ρ): matrix row/column average excluding diagonal"</span>)</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(gt_table)</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">1</span>]]<span class="sc">$</span>monthly</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Sectors, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GPT4 basically wrote this entire chunk: I added it while writing substack</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a dataframe for the average correlations</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>avg_corr_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Portfolio =</span> <span class="fu">character</span>(),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Frequency =</span> <span class="fu">character</span>(),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Average_Correlation =</span> <span class="fu">numeric</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through each portfolio and each frequency</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(stock_sets<span class="sc">$</span>analysis)) {</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    portfolio_id <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>set_id[i]</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (freq <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"daily"</span>, <span class="st">"weekly"</span>, <span class="st">"monthly"</span>)) {</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        avg_corr <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[i]][[freq]]<span class="sc">$</span>avg_corr</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        avg_corr_data <span class="ot">&lt;-</span> avg_corr_data <span class="sc">|&gt;</span> </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">add_row</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">Portfolio =</span> portfolio_id,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">Frequency =</span> freq,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">Average_Correlation =</span> avg_corr</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a wider table format</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>avg_corr_wide <span class="ot">&lt;-</span> avg_corr_data <span class="sc">|&gt;</span> </span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_from =</span> Frequency,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_from =</span> Average_Correlation,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_prefix =</span> <span class="st">"Avg_Corr_"</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for the overall average correlation</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>avg_corr_wide <span class="ot">&lt;-</span> avg_corr_wide <span class="sc">|&gt;</span> </span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Avg_Corr_Total =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(<span class="fu">starts_with</span>(<span class="st">"Avg_Corr_"</span>)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>avg_corr_wide <span class="sc">|&gt;</span> </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Average Correlation per Frequency"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cols_label</span>(</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">Portfolio =</span> <span class="st">"Portfolio"</span>,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">Avg_Corr_daily =</span> <span class="st">"Daily"</span>,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">Avg_Corr_weekly =</span> <span class="st">"Weekly"</span>,</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">Avg_Corr_monthly =</span> <span class="st">"Monthly"</span>,</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">Avg_Corr_Total =</span> <span class="st">"Avg Avg Corr"</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="zmhpmydwit" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zmhpmydwit table {
+<div id="fhfxlstfep" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fhfxlstfep table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zmhpmydwit thead, #zmhpmydwit tbody, #zmhpmydwit tfoot, #zmhpmydwit tr, #zmhpmydwit td, #zmhpmydwit th {
+#fhfxlstfep thead, #fhfxlstfep tbody, #fhfxlstfep tfoot, #fhfxlstfep tr, #fhfxlstfep td, #fhfxlstfep th {
   border-style: none;
 }
 
-#zmhpmydwit p {
+#fhfxlstfep p {
   margin: 0;
   padding: 0;
 }
 
-#zmhpmydwit .gt_table {
+#fhfxlstfep .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -498,12 +512,12 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-left-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_caption {
+#fhfxlstfep .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zmhpmydwit .gt_title {
+#fhfxlstfep .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -515,7 +529,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-width: 0;
 }
 
-#zmhpmydwit .gt_subtitle {
+#fhfxlstfep .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -527,7 +541,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-width: 0;
 }
 
-#zmhpmydwit .gt_heading {
+#fhfxlstfep .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -539,13 +553,13 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_bottom_border {
+#fhfxlstfep .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_col_headings {
+#fhfxlstfep .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -560,7 +574,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_col_heading {
+#fhfxlstfep .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -580,7 +594,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#zmhpmydwit .gt_column_spanner_outer {
+#fhfxlstfep .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -592,15 +606,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 4px;
 }
 
-#zmhpmydwit .gt_column_spanner_outer:first-child {
+#fhfxlstfep .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zmhpmydwit .gt_column_spanner_outer:last-child {
+#fhfxlstfep .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zmhpmydwit .gt_column_spanner {
+#fhfxlstfep .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -612,11 +626,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   width: 100%;
 }
 
-#zmhpmydwit .gt_spanner_row {
+#fhfxlstfep .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zmhpmydwit .gt_group_heading {
+#fhfxlstfep .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -642,7 +656,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   text-align: left;
 }
 
-#zmhpmydwit .gt_empty_group_heading {
+#fhfxlstfep .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -657,15 +671,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: middle;
 }
 
-#zmhpmydwit .gt_from_md > :first-child {
+#fhfxlstfep .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zmhpmydwit .gt_from_md > :last-child {
+#fhfxlstfep .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zmhpmydwit .gt_row {
+#fhfxlstfep .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -684,7 +698,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#zmhpmydwit .gt_stub {
+#fhfxlstfep .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -697,7 +711,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zmhpmydwit .gt_stub_row_group {
+#fhfxlstfep .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -711,15 +725,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: top;
 }
 
-#zmhpmydwit .gt_row_group_first td {
+#fhfxlstfep .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zmhpmydwit .gt_row_group_first th {
+#fhfxlstfep .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zmhpmydwit .gt_summary_row {
+#fhfxlstfep .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -729,16 +743,16 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zmhpmydwit .gt_first_summary_row {
+#fhfxlstfep .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_first_summary_row.thick {
+#fhfxlstfep .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zmhpmydwit .gt_last_summary_row {
+#fhfxlstfep .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -748,7 +762,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_grand_summary_row {
+#fhfxlstfep .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -758,7 +772,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zmhpmydwit .gt_first_grand_summary_row {
+#fhfxlstfep .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -768,7 +782,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_last_grand_summary_row_top {
+#fhfxlstfep .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -778,11 +792,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_striped {
+#fhfxlstfep .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zmhpmydwit .gt_table_body {
+#fhfxlstfep .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -791,7 +805,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_footnotes {
+#fhfxlstfep .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -805,7 +819,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_footnote {
+#fhfxlstfep .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -814,7 +828,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zmhpmydwit .gt_sourcenotes {
+#fhfxlstfep .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -828,7 +842,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zmhpmydwit .gt_sourcenote {
+#fhfxlstfep .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -836,63 +850,579 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zmhpmydwit .gt_left {
+#fhfxlstfep .gt_left {
   text-align: left;
 }
 
-#zmhpmydwit .gt_center {
+#fhfxlstfep .gt_center {
   text-align: center;
 }
 
-#zmhpmydwit .gt_right {
+#fhfxlstfep .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zmhpmydwit .gt_font_normal {
+#fhfxlstfep .gt_font_normal {
   font-weight: normal;
 }
 
-#zmhpmydwit .gt_font_bold {
+#fhfxlstfep .gt_font_bold {
   font-weight: bold;
 }
 
-#zmhpmydwit .gt_font_italic {
+#fhfxlstfep .gt_font_italic {
   font-style: italic;
 }
 
-#zmhpmydwit .gt_super {
+#fhfxlstfep .gt_super {
   font-size: 65%;
 }
 
-#zmhpmydwit .gt_footnote_marks {
+#fhfxlstfep .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zmhpmydwit .gt_asterisk {
+#fhfxlstfep .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zmhpmydwit .gt_indent_1 {
+#fhfxlstfep .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zmhpmydwit .gt_indent_2 {
+#fhfxlstfep .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zmhpmydwit .gt_indent_3 {
+#fhfxlstfep .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zmhpmydwit .gt_indent_4 {
+#fhfxlstfep .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zmhpmydwit .gt_indent_5 {
+#fhfxlstfep .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Average Correlation per Frequency</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Portfolio">Portfolio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Daily">Daily</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Weekly">Weekly</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Monthly">Monthly</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Avg Avg Corr">Avg Avg Corr</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Portfolio" class="gt_row gt_left">11_sectors</td>
+<td headers="Avg_Corr_daily" class="gt_row gt_right">0.676</td>
+<td headers="Avg_Corr_weekly" class="gt_row gt_right">0.682</td>
+<td headers="Avg_Corr_monthly" class="gt_row gt_right">0.677</td>
+<td headers="Avg_Corr_Total" class="gt_row gt_right">0.678</td></tr>
+    <tr><td headers="Portfolio" class="gt_row gt_left">9_styles</td>
+<td headers="Avg_Corr_daily" class="gt_row gt_right">0.899</td>
+<td headers="Avg_Corr_weekly" class="gt_row gt_right">0.902</td>
+<td headers="Avg_Corr_monthly" class="gt_row gt_right">0.899</td>
+<td headers="Avg_Corr_Total" class="gt_row gt_right">0.900</td></tr>
+    <tr><td headers="Portfolio" class="gt_row gt_left">13_top_in_sector</td>
+<td headers="Avg_Corr_daily" class="gt_row gt_right">0.371</td>
+<td headers="Avg_Corr_weekly" class="gt_row gt_right">0.344</td>
+<td headers="Avg_Corr_monthly" class="gt_row gt_right">0.325</td>
+<td headers="Avg_Corr_Total" class="gt_row gt_right">0.346</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="single-stocks-are-better-diversifiers" class="level3">
+<h3 class="anchored" data-anchor-id="single-stocks-are-better-diversifiers">Single stocks are better diversifiers</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>create_avg_corr_table <span class="ot">&lt;-</span> <span class="cf">function</span>(monthly_data, <span class="at">title =</span> <span class="st">"Data Analysis"</span>) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    corr_matrix <span class="ot">&lt;-</span> monthly_data<span class="sc">$</span>corr_matrix</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    symbols <span class="ot">&lt;-</span> <span class="fu">rownames</span>(corr_matrix)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># average correlation for each stock excluding the stock itself</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    avg_correlations_per_stock <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(corr_matrix)), <span class="cf">function</span>(i) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        row_correlations <span class="ot">&lt;-</span> corr_matrix[i, ]</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mean</span>(row_correlations[<span class="sc">-</span>i], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    avg_correlations_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">symbol =</span> symbols, </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">avg_correlation =</span> avg_correlations_per_stock)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    combined_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(monthly_data<span class="sc">$</span>volatilities,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                               monthly_data<span class="sc">$</span>avg_returns, <span class="at">by =</span> <span class="st">"symbol"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">left_join</span>(avg_correlations_df, <span class="at">by =</span> <span class="st">"symbol"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    gt_table <span class="ot">&lt;-</span> combined_data <span class="sc">|&gt;</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tab_header</span>(<span class="at">title =</span> title) <span class="sc">|&gt;</span> </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cols_label</span>(</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">symbol =</span> <span class="st">"Symbol"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">volatility =</span> <span class="st">"Volatility"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_return =</span> <span class="st">"Avg Return"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">avg_correlation =</span> <span class="st">"Correlation(*)"</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span> </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">4</span>, <span class="at">decimals =</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">tab_footnote</span>(<span class="st">"(*) Pairwise average(ρ): matrix row/column average excluding diagonal"</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(gt_table)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">1</span>]]<span class="sc">$</span>monthly</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Sectors, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="iqjuyajnhd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iqjuyajnhd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#iqjuyajnhd thead, #iqjuyajnhd tbody, #iqjuyajnhd tfoot, #iqjuyajnhd tr, #iqjuyajnhd td, #iqjuyajnhd th {
+  border-style: none;
+}
+
+#iqjuyajnhd p {
+  margin: 0;
+  padding: 0;
+}
+
+#iqjuyajnhd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#iqjuyajnhd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#iqjuyajnhd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#iqjuyajnhd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#iqjuyajnhd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#iqjuyajnhd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#iqjuyajnhd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#iqjuyajnhd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#iqjuyajnhd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#iqjuyajnhd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#iqjuyajnhd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#iqjuyajnhd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#iqjuyajnhd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#iqjuyajnhd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#iqjuyajnhd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iqjuyajnhd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#iqjuyajnhd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#iqjuyajnhd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#iqjuyajnhd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iqjuyajnhd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#iqjuyajnhd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iqjuyajnhd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#iqjuyajnhd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iqjuyajnhd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#iqjuyajnhd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#iqjuyajnhd .gt_left {
+  text-align: left;
+}
+
+#iqjuyajnhd .gt_center {
+  text-align: center;
+}
+
+#iqjuyajnhd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#iqjuyajnhd .gt_font_normal {
+  font-weight: normal;
+}
+
+#iqjuyajnhd .gt_font_bold {
+  font-weight: bold;
+}
+
+#iqjuyajnhd .gt_font_italic {
+  font-style: italic;
+}
+
+#iqjuyajnhd .gt_super {
+  font-size: 65%;
+}
+
+#iqjuyajnhd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#iqjuyajnhd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#iqjuyajnhd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#iqjuyajnhd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#iqjuyajnhd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#iqjuyajnhd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#iqjuyajnhd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -964,27 +1494,27 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 </table>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">3</span>]]<span class="sc">$</span>monthly</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Largest Stock in Sector, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">3</span>]]<span class="sc">$</span>monthly</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Largest Stock in Sector, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="wodkpnsrmo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wodkpnsrmo table {
+<div id="udmmoltgww" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#udmmoltgww table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wodkpnsrmo thead, #wodkpnsrmo tbody, #wodkpnsrmo tfoot, #wodkpnsrmo tr, #wodkpnsrmo td, #wodkpnsrmo th {
+#udmmoltgww thead, #udmmoltgww tbody, #udmmoltgww tfoot, #udmmoltgww tr, #udmmoltgww td, #udmmoltgww th {
   border-style: none;
 }
 
-#wodkpnsrmo p {
+#udmmoltgww p {
   margin: 0;
   padding: 0;
 }
 
-#wodkpnsrmo .gt_table {
+#udmmoltgww .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1010,12 +1540,12 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-left-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_caption {
+#udmmoltgww .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wodkpnsrmo .gt_title {
+#udmmoltgww .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1027,7 +1557,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-width: 0;
 }
 
-#wodkpnsrmo .gt_subtitle {
+#udmmoltgww .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1039,7 +1569,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-width: 0;
 }
 
-#wodkpnsrmo .gt_heading {
+#udmmoltgww .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1051,13 +1581,13 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_bottom_border {
+#udmmoltgww .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_col_headings {
+#udmmoltgww .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1072,7 +1602,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_col_heading {
+#udmmoltgww .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1092,7 +1622,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#wodkpnsrmo .gt_column_spanner_outer {
+#udmmoltgww .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1104,15 +1634,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 4px;
 }
 
-#wodkpnsrmo .gt_column_spanner_outer:first-child {
+#udmmoltgww .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wodkpnsrmo .gt_column_spanner_outer:last-child {
+#udmmoltgww .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wodkpnsrmo .gt_column_spanner {
+#udmmoltgww .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1124,11 +1654,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   width: 100%;
 }
 
-#wodkpnsrmo .gt_spanner_row {
+#udmmoltgww .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wodkpnsrmo .gt_group_heading {
+#udmmoltgww .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1154,7 +1684,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   text-align: left;
 }
 
-#wodkpnsrmo .gt_empty_group_heading {
+#udmmoltgww .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1169,15 +1699,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: middle;
 }
 
-#wodkpnsrmo .gt_from_md > :first-child {
+#udmmoltgww .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wodkpnsrmo .gt_from_md > :last-child {
+#udmmoltgww .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wodkpnsrmo .gt_row {
+#udmmoltgww .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1196,7 +1726,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#wodkpnsrmo .gt_stub {
+#udmmoltgww .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1209,7 +1739,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#wodkpnsrmo .gt_stub_row_group {
+#udmmoltgww .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1223,15 +1753,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: top;
 }
 
-#wodkpnsrmo .gt_row_group_first td {
+#udmmoltgww .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wodkpnsrmo .gt_row_group_first th {
+#udmmoltgww .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wodkpnsrmo .gt_summary_row {
+#udmmoltgww .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1241,16 +1771,16 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#wodkpnsrmo .gt_first_summary_row {
+#udmmoltgww .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_first_summary_row.thick {
+#udmmoltgww .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wodkpnsrmo .gt_last_summary_row {
+#udmmoltgww .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1260,7 +1790,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_grand_summary_row {
+#udmmoltgww .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1270,7 +1800,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#wodkpnsrmo .gt_first_grand_summary_row {
+#udmmoltgww .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1280,7 +1810,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_last_grand_summary_row_top {
+#udmmoltgww .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1290,11 +1820,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_striped {
+#udmmoltgww .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wodkpnsrmo .gt_table_body {
+#udmmoltgww .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1303,7 +1833,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_footnotes {
+#udmmoltgww .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1317,7 +1847,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_footnote {
+#udmmoltgww .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1326,7 +1856,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#wodkpnsrmo .gt_sourcenotes {
+#udmmoltgww .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1340,7 +1870,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#wodkpnsrmo .gt_sourcenote {
+#udmmoltgww .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1348,63 +1878,63 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#wodkpnsrmo .gt_left {
+#udmmoltgww .gt_left {
   text-align: left;
 }
 
-#wodkpnsrmo .gt_center {
+#udmmoltgww .gt_center {
   text-align: center;
 }
 
-#wodkpnsrmo .gt_right {
+#udmmoltgww .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wodkpnsrmo .gt_font_normal {
+#udmmoltgww .gt_font_normal {
   font-weight: normal;
 }
 
-#wodkpnsrmo .gt_font_bold {
+#udmmoltgww .gt_font_bold {
   font-weight: bold;
 }
 
-#wodkpnsrmo .gt_font_italic {
+#udmmoltgww .gt_font_italic {
   font-style: italic;
 }
 
-#wodkpnsrmo .gt_super {
+#udmmoltgww .gt_super {
   font-size: 65%;
 }
 
-#wodkpnsrmo .gt_footnote_marks {
+#udmmoltgww .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wodkpnsrmo .gt_asterisk {
+#udmmoltgww .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wodkpnsrmo .gt_indent_1 {
+#udmmoltgww .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wodkpnsrmo .gt_indent_2 {
+#udmmoltgww .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wodkpnsrmo .gt_indent_3 {
+#udmmoltgww .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wodkpnsrmo .gt_indent_4 {
+#udmmoltgww .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wodkpnsrmo .gt_indent_5 {
+#udmmoltgww .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1493,64 +2023,64 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <p>At first, a correlation data frame might seem like an unnecessary complexity compared to the traditional matrix. However, the purpose of corrr is to help use explore these correlations, not to do mathematical or statistical operations. Thus, by having the correlations in a data frame, we can make use of packages that help us work with data frames like dplyr, tidyr, ggplot2, and focus on using data pipelines</p>
 </blockquote>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>colors_corr_plot <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"firebrick3"</span>, <span class="st">"firebrick1"</span>, <span class="st">"yellow"</span>, <span class="st">"seagreen1"</span>, <span class="st">"seagreen4"</span>))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plot_corr <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix, title) {</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    matrix_df <span class="ot">&lt;-</span> <span class="fu">as_cordf</span>(matrix) <span class="sc">|&gt;</span> <span class="fu">shave</span>()</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    matrix_df <span class="sc">|&gt;</span> <span class="fu">rplot</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">print_cor =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">colors =</span> <span class="fu">colors_corr_plot</span>(<span class="dv">5</span>),</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>get_corr_matrices <span class="ot">&lt;-</span> <span class="cf">function</span>(row_df){</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    analyze_this <span class="ot">&lt;-</span> row_df <span class="sc">|&gt;</span> </span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pull</span>(analysis)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    corr_daily_matrix   <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"daily"</span>]]<span class="sc">$</span>corr_matrix</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    corr_weekly_matrix  <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"weekly"</span>]]<span class="sc">$</span>corr_matrix</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    corr_monthly_matrix <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"monthly"</span>]]<span class="sc">$</span>corr_matrix</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_daily_matrix =</span> corr_daily_matrix,</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_weekly_matrix =</span> corr_weekly_matrix,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_monthly_matrix =</span> corr_monthly_matrix</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>select_row_1 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"9_styles"</span>)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_1)</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>cp1 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"9_styles, daily"</span>)</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co"># cp2 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("9_styles, weekly")</span></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"9_styles, monthly"</span>)</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>select_row_2 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"11_sectors"</span>)</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_2)</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>cp4 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"11_sectors, daily"</span>) <span class="sc">+</span> </span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co"># cp5 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("11_sectors, weekly")</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>cp6 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"11_sectors, monthly"</span>) <span class="sc">+</span> </span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>select_row_3 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"13_top_in_sector"</span>)</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_3)</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>cp7 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"13_top_in_sector, daily"</span>)</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="co"># cp8 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("13_top_in_sector, weekly")</span></span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>cp9 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"13_top_in_sector, monthly"</span>)</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>cp1 <span class="sc">+</span> cp4 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Daily frequency: Styles vs Sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrr)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>colors_corr_plot <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"firebrick3"</span>, <span class="st">"firebrick1"</span>, <span class="st">"yellow"</span>, <span class="st">"seagreen1"</span>, <span class="st">"seagreen4"</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plot_corr <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix, title) {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    matrix_df <span class="ot">&lt;-</span> <span class="fu">as_cordf</span>(matrix) <span class="sc">|&gt;</span> <span class="fu">shave</span>()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    matrix_df <span class="sc">|&gt;</span> <span class="fu">rplot</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">print_cor =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">colors =</span> <span class="fu">colors_corr_plot</span>(<span class="dv">5</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>get_corr_matrices <span class="ot">&lt;-</span> <span class="cf">function</span>(row_df){</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    analyze_this <span class="ot">&lt;-</span> row_df <span class="sc">|&gt;</span> </span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">pull</span>(analysis)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    corr_daily_matrix   <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"daily"</span>]]<span class="sc">$</span>corr_matrix</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    corr_weekly_matrix  <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"weekly"</span>]]<span class="sc">$</span>corr_matrix</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    corr_monthly_matrix <span class="ot">&lt;-</span> analyze_this[[<span class="dv">1</span>]][[<span class="st">"monthly"</span>]]<span class="sc">$</span>corr_matrix</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_daily_matrix =</span> corr_daily_matrix,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_weekly_matrix =</span> corr_weekly_matrix,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">corr_monthly_matrix =</span> corr_monthly_matrix</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>select_row_1 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"9_styles"</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_1)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>cp1 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"9_styles, daily"</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co"># cp2 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("9_styles, weekly")</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>cp3 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"9_styles, monthly"</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>select_row_2 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"11_sectors"</span>)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_2)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>cp4 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"11_sectors, daily"</span>) <span class="sc">+</span> </span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co"># cp5 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("11_sectors, weekly")</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>cp6 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"11_sectors, monthly"</span>) <span class="sc">+</span> </span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>select_row_3 <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"13_top_in_sector"</span>)</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>three_matrices <span class="ot">&lt;-</span> <span class="fu">get_corr_matrices</span>(select_row_3)</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>cp7 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_daily_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"13_top_in_sector, daily"</span>)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co"># cp8 &lt;- three_matrices$corr_weekly_matrix |&gt; plot_corr("13_top_in_sector, weekly")</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>cp9 <span class="ot">&lt;-</span> three_matrices<span class="sc">$</span>corr_monthly_matrix <span class="sc">|&gt;</span> <span class="fu">plot_corr</span>(<span class="st">"13_top_in_sector, monthly"</span>)</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>cp1 <span class="sc">+</span> cp4 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Daily frequency: Styles vs Sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cp3 <span class="sc">+</span> cp6 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Monthly frequency: Styles vs Sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cp3 <span class="sc">+</span> cp6 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Monthly frequency: Styles vs Sectors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cp7 <span class="sc">+</span> cp9 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Top Stock in Each Sector: Daily vs Monthly"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cp7 <span class="sc">+</span> cp9 <span class="sc">+</span> <span class="fu">plot_annotation</span>(<span class="st">"Largest Stock in Each Sector: Daily vs Monthly"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1561,105 +2091,105 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <section id="simulation-1.-select-the-portfolio-set-of-tickerssymbols" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-1.-select-the-portfolio-set-of-tickerssymbols">Simulation: 1. Select the portfolio (set of tickers/symbols)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the desired set (e.g., "Set 1")</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>select_set <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"11_sectors"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="st">"analysis"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>analyze_set <span class="ot">&lt;-</span> select_set[[<span class="dv">1</span>]]</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>analyze_period <span class="ot">&lt;-</span> analyze_set<span class="sc">$</span>monthly</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting components from the selected set</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>exp_returns_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>avg_return</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(exp_returns_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>symbol</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>volatilities_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>volatility</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(volatilities_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>symbol</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>corr_matrix_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>corr_matrix</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>num_stocks_period <span class="ot">&lt;-</span> <span class="fu">length</span>(volatilities_period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the desired set (e.g., "Set 1")</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>select_set <span class="ot">&lt;-</span> stock_sets <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(set_id <span class="sc">==</span> <span class="st">"11_sectors"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(<span class="st">"analysis"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>analyze_set <span class="ot">&lt;-</span> select_set[[<span class="dv">1</span>]]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>analyze_period <span class="ot">&lt;-</span> analyze_set<span class="sc">$</span>monthly</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting components from the selected set</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>exp_returns_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>avg_return</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(exp_returns_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>avg_returns<span class="sc">$</span>symbol</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>volatilities_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>volatility</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(volatilities_period) <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>volatilities<span class="sc">$</span>symbol</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>corr_matrix_period <span class="ot">&lt;-</span> analyze_period<span class="sc">$</span>corr_matrix</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>num_stocks_period <span class="ot">&lt;-</span> <span class="fu">length</span>(volatilities_period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulation-2.-bias-the-random-weights" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-2.-bias-the-random-weights">Simulation: 2. Bias the random weights</h3>
 <p>This is an experiment to see if we can bias the random weights to get a better result. Rather than deduce a formula, I decided to ask, what is a more (or less) desirable feature of a diversifying asset? (in the mean-variance framework, it’s an asset with low marginal volatility). I decided to include the Sharpe ratio, expected utility (i.e., the expected rate of return minus half the risk aversion coeffient multiplied by the variance), and average correlation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>calculate_desirability <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, A, risk_free_rate, </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                                   utility_weight, sharpe_weight, correlation_weight) {</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the variance as the square of volatility</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    variance <span class="ot">&lt;-</span> volatilities<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the utility for each sector</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">&lt;-</span> exp_returns <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> A <span class="sc">*</span> variance</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the Sharpe ratio for each sector</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    sharpe_ratio <span class="ot">&lt;-</span> (exp_returns <span class="sc">-</span> risk_free_rate) <span class="sc">/</span> volatilities</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the average correlation for each sector</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    avg_correlation <span class="ot">&lt;-</span> <span class="fu">apply</span>(corr_matrix, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">mean</span>(x[<span class="sc">-</span><span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.matrix</span>(corr_matrix, <span class="st">"avg_correlation.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the desirability score</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    desirability_score <span class="ot">&lt;-</span> utility_weight <span class="sc">*</span> (utility <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        sharpe_weight <span class="sc">*</span> (sharpe_ratio <span class="sc">*</span> <span class="dv">3</span> ) <span class="sc">-</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        correlation_weight <span class="sc">*</span> avg_correlation <span class="co"># Negative because lower correlation is better</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a data frame for sector desirability</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sector =</span> <span class="fu">names</span>(exp_returns),</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">exp_returns =</span> exp_returns,</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">volatilities =</span> volatilities,</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">utility =</span> utility,</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">sharpe_ratio =</span> sharpe_ratio,</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">avg_correlation =</span> avg_correlation,</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">desirability_score =</span> desirability_score)</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort by desirability score</span></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> desirability_df[<span class="fu">order</span>(<span class="sc">-</span>desirability_df<span class="sc">$</span>desirability_score),]</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(desirability_df)</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Example parameters</span></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># Risk aversion coefficient</span></span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>risk_free_rate <span class="ot">&lt;-</span> <span class="fl">0.0</span>  <span class="co"># Risk-free rate</span></span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>utility_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>sharpe_weight <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>correlation_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate desirability using the extracted components</span></span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>sector_desirability <span class="ot">&lt;-</span> <span class="fu">calculate_desirability</span>(exp_returns_period, volatilities_period, corr_matrix_period, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight)</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>sector_desirability <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cols_label</span>(<span class="at">sector =</span> <span class="st">"Ticker"</span>,</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>               <span class="at">exp_returns =</span> <span class="st">"Return"</span>,</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>               <span class="at">volatilities =</span> <span class="st">"Vol"</span>,</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>               <span class="at">utility =</span> <span class="st">"Utility"</span>,</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>               <span class="at">sharpe_ratio =</span> <span class="st">"Sharpe"</span>,</span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>               <span class="at">avg_correlation =</span> <span class="st">"Avg Corr"</span>,</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>               <span class="at">desirability_score =</span> <span class="st">"Desirability"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>, <span class="at">decimals =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>calculate_desirability <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, A, risk_free_rate, </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                   utility_weight, sharpe_weight, correlation_weight) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the variance as the square of volatility</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    variance <span class="ot">&lt;-</span> volatilities<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the utility for each sector</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    utility <span class="ot">&lt;-</span> exp_returns <span class="sc">-</span> <span class="fl">0.5</span> <span class="sc">*</span> A <span class="sc">*</span> variance</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the Sharpe ratio for each sector</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    sharpe_ratio <span class="ot">&lt;-</span> (exp_returns <span class="sc">-</span> risk_free_rate) <span class="sc">/</span> volatilities</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the average correlation for each sector</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    avg_correlation <span class="ot">&lt;-</span> <span class="fu">apply</span>(corr_matrix, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">mean</span>(x[<span class="sc">-</span><span class="fu">which</span>(x <span class="sc">==</span> <span class="dv">1</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.matrix</span>(corr_matrix, <span class="st">"avg_correlation.csv"</span>, <span class="at">sep =</span> <span class="st">","</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the desirability score</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    desirability_score <span class="ot">&lt;-</span> utility_weight <span class="sc">*</span> (utility <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        sharpe_weight <span class="sc">*</span> (sharpe_ratio <span class="sc">*</span> <span class="dv">3</span> ) <span class="sc">-</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        correlation_weight <span class="sc">*</span> avg_correlation <span class="co"># Negative because lower correlation is better</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a data frame for sector desirability</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">sector =</span> <span class="fu">names</span>(exp_returns),</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">exp_returns =</span> exp_returns,</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">volatilities =</span> volatilities,</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">utility =</span> utility,</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">sharpe_ratio =</span> sharpe_ratio,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">avg_correlation =</span> avg_correlation,</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">desirability_score =</span> desirability_score)</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort by desirability score</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    desirability_df <span class="ot">&lt;-</span> desirability_df[<span class="fu">order</span>(<span class="sc">-</span>desirability_df<span class="sc">$</span>desirability_score),]</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(desirability_df)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Example parameters</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># Risk aversion coefficient</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>risk_free_rate <span class="ot">&lt;-</span> <span class="fl">0.0</span>  <span class="co"># Risk-free rate</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>utility_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>sharpe_weight <span class="ot">&lt;-</span> <span class="fl">0.4</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>correlation_weight <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate desirability using the extracted components</span></span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>sector_desirability <span class="ot">&lt;-</span> <span class="fu">calculate_desirability</span>(exp_returns_period, volatilities_period, corr_matrix_period, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight)</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>sector_desirability <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cols_label</span>(<span class="at">sector =</span> <span class="st">"Ticker"</span>,</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>               <span class="at">exp_returns =</span> <span class="st">"Return"</span>,</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>               <span class="at">volatilities =</span> <span class="st">"Vol"</span>,</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>               <span class="at">utility =</span> <span class="st">"Utility"</span>,</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>               <span class="at">sharpe_ratio =</span> <span class="st">"Sharpe"</span>,</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>               <span class="at">avg_correlation =</span> <span class="st">"Avg Corr"</span>,</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>               <span class="at">desirability_score =</span> <span class="st">"Desirability"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>, <span class="at">decimals =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="zqursgxtsj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zqursgxtsj table {
+<div id="gpyxqcdoju" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gpyxqcdoju table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zqursgxtsj thead, #zqursgxtsj tbody, #zqursgxtsj tfoot, #zqursgxtsj tr, #zqursgxtsj td, #zqursgxtsj th {
+#gpyxqcdoju thead, #gpyxqcdoju tbody, #gpyxqcdoju tfoot, #gpyxqcdoju tr, #gpyxqcdoju td, #gpyxqcdoju th {
   border-style: none;
 }
 
-#zqursgxtsj p {
+#gpyxqcdoju p {
   margin: 0;
   padding: 0;
 }
 
-#zqursgxtsj .gt_table {
+#gpyxqcdoju .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1685,12 +2215,12 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-left-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_caption {
+#gpyxqcdoju .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zqursgxtsj .gt_title {
+#gpyxqcdoju .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1702,7 +2232,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-width: 0;
 }
 
-#zqursgxtsj .gt_subtitle {
+#gpyxqcdoju .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1714,7 +2244,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-width: 0;
 }
 
-#zqursgxtsj .gt_heading {
+#gpyxqcdoju .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1726,13 +2256,13 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_bottom_border {
+#gpyxqcdoju .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_col_headings {
+#gpyxqcdoju .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1747,7 +2277,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_col_heading {
+#gpyxqcdoju .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1767,7 +2297,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#zqursgxtsj .gt_column_spanner_outer {
+#gpyxqcdoju .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1779,15 +2309,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 4px;
 }
 
-#zqursgxtsj .gt_column_spanner_outer:first-child {
+#gpyxqcdoju .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zqursgxtsj .gt_column_spanner_outer:last-child {
+#gpyxqcdoju .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zqursgxtsj .gt_column_spanner {
+#gpyxqcdoju .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1799,11 +2329,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   width: 100%;
 }
 
-#zqursgxtsj .gt_spanner_row {
+#gpyxqcdoju .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zqursgxtsj .gt_group_heading {
+#gpyxqcdoju .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1829,7 +2359,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   text-align: left;
 }
 
-#zqursgxtsj .gt_empty_group_heading {
+#gpyxqcdoju .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1844,15 +2374,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: middle;
 }
 
-#zqursgxtsj .gt_from_md > :first-child {
+#gpyxqcdoju .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zqursgxtsj .gt_from_md > :last-child {
+#gpyxqcdoju .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zqursgxtsj .gt_row {
+#gpyxqcdoju .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1871,7 +2401,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   overflow-x: hidden;
 }
 
-#zqursgxtsj .gt_stub {
+#gpyxqcdoju .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1884,7 +2414,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zqursgxtsj .gt_stub_row_group {
+#gpyxqcdoju .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1898,15 +2428,15 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   vertical-align: top;
 }
 
-#zqursgxtsj .gt_row_group_first td {
+#gpyxqcdoju .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zqursgxtsj .gt_row_group_first th {
+#gpyxqcdoju .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zqursgxtsj .gt_summary_row {
+#gpyxqcdoju .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1916,16 +2446,16 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zqursgxtsj .gt_first_summary_row {
+#gpyxqcdoju .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_first_summary_row.thick {
+#gpyxqcdoju .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zqursgxtsj .gt_last_summary_row {
+#gpyxqcdoju .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1935,7 +2465,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_grand_summary_row {
+#gpyxqcdoju .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1945,7 +2475,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zqursgxtsj .gt_first_grand_summary_row {
+#gpyxqcdoju .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1955,7 +2485,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-top-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_last_grand_summary_row_top {
+#gpyxqcdoju .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1965,11 +2495,11 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_striped {
+#gpyxqcdoju .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zqursgxtsj .gt_table_body {
+#gpyxqcdoju .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1978,7 +2508,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-bottom-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_footnotes {
+#gpyxqcdoju .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1992,7 +2522,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_footnote {
+#gpyxqcdoju .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2001,7 +2531,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zqursgxtsj .gt_sourcenotes {
+#gpyxqcdoju .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2015,7 +2545,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   border-right-color: #D3D3D3;
 }
 
-#zqursgxtsj .gt_sourcenote {
+#gpyxqcdoju .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2023,63 +2553,63 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
   padding-right: 5px;
 }
 
-#zqursgxtsj .gt_left {
+#gpyxqcdoju .gt_left {
   text-align: left;
 }
 
-#zqursgxtsj .gt_center {
+#gpyxqcdoju .gt_center {
   text-align: center;
 }
 
-#zqursgxtsj .gt_right {
+#gpyxqcdoju .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zqursgxtsj .gt_font_normal {
+#gpyxqcdoju .gt_font_normal {
   font-weight: normal;
 }
 
-#zqursgxtsj .gt_font_bold {
+#gpyxqcdoju .gt_font_bold {
   font-weight: bold;
 }
 
-#zqursgxtsj .gt_font_italic {
+#gpyxqcdoju .gt_font_italic {
   font-style: italic;
 }
 
-#zqursgxtsj .gt_super {
+#gpyxqcdoju .gt_super {
   font-size: 65%;
 }
 
-#zqursgxtsj .gt_footnote_marks {
+#gpyxqcdoju .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zqursgxtsj .gt_asterisk {
+#gpyxqcdoju .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zqursgxtsj .gt_indent_1 {
+#gpyxqcdoju .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zqursgxtsj .gt_indent_2 {
+#gpyxqcdoju .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zqursgxtsj .gt_indent_3 {
+#gpyxqcdoju .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zqursgxtsj .gt_indent_4 {
+#gpyxqcdoju .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zqursgxtsj .gt_indent_5 {
+#gpyxqcdoju .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2188,129 +2718,129 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <p>This adds one innovation to the (my previous) naive approach. As previously, I still assume: the <em>expected return</em> for each stock is the average return for that stock over the entire period; the <em>volatility</em> for each stock is the average volatility for that stock over the entire period; and the <em>correlation matrix</em> (which obviously implies the <em>covariance matrix</em>) is computed from the pairwise (log) return vectors. In short, I’m assuming that the future will be like the past.</p>
 <p>The innovation is that I bias the random weights to slightly favor the stocks with the highest “desirability” scores, as defined in the previous chunk. Desirability is just a weighted average of Utility, Sharpe ratio and (the inverse of) average correlation. Once random weights are selected, the portfolio return and volatility are calculated; and those don’t depend on the bias. The idea here is simply to (probably <em>slightly</em>) favor the simulation’s density toward the efficient segment.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># returns a data frame of random weights</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rows = weight per stock; columns = number of simulations</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>get_random_weights <span class="ot">&lt;-</span> <span class="cf">function</span>(num_stocks, num_simulations, probabilities, <span class="at">row_names =</span> <span class="cn">NULL</span>) {</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">47391</span>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    weights_df <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> num_stocks, <span class="at">ncol =</span> num_simulations)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_simulations) {</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate weights influenced by probabilities</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        weights <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_stocks) <span class="sc">*</span> probabilities</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        weights_df[, i] <span class="ot">&lt;-</span> weights <span class="sc">/</span> <span class="fu">sum</span>(weights)  <span class="co"># Normalize the weights</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    weights_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(weights_df)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(row_names) <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(row_names) <span class="sc">==</span> num_stocks) {</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rownames</span>(weights_df) <span class="ot">&lt;-</span> row_names</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(weights_df)</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co"># single simulation: given a set of weights, computes the expected return and volatility</span></span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>port_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights) {</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    cov_matrix <span class="ot">&lt;-</span> <span class="fu">outer</span>(volatilities, volatilities) <span class="sc">*</span> corr_matrix</span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    port_variance <span class="ot">&lt;-</span> <span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    port_exp_return <span class="ot">&lt;-</span> <span class="fu">sum</span>(weights <span class="sc">*</span> exp_returns)</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">exp_returns =</span> exp_returns, </span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                <span class="at">volatilities =</span> volatilities,</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">cov_matrix =</span> cov_matrix, </span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">corr_matrix =</span> corr_matrix,</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_variance =</span> port_variance,</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_exp_return =</span> port_exp_return))</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co"># runs a port_simulation for each column in the weights_df</span></span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>run_sims <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights_df) {</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    simulations <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(weights_df), <span class="sc">~</span> {</span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>        weights_vector <span class="ot">&lt;-</span> weights_df[, .x]</span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">port_sim</span>(exp_returns, volatilities, corr_matrix, weights_vector)</span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(simulations)</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># returns a data frame of random weights</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rows = weight per stock; columns = number of simulations</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>get_random_weights <span class="ot">&lt;-</span> <span class="cf">function</span>(num_stocks, num_simulations, probabilities, <span class="at">row_names =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(<span class="dv">47391</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    weights_df <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">nrow =</span> num_stocks, <span class="at">ncol =</span> num_simulations)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_simulations) {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate weights influenced by probabilities</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        weights <span class="ot">&lt;-</span> <span class="fu">runif</span>(num_stocks) <span class="sc">*</span> probabilities</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        weights_df[, i] <span class="ot">&lt;-</span> weights <span class="sc">/</span> <span class="fu">sum</span>(weights)  <span class="co"># Normalize the weights</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    weights_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(weights_df)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(row_names) <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(row_names) <span class="sc">==</span> num_stocks) {</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rownames</span>(weights_df) <span class="ot">&lt;-</span> row_names</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(weights_df)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># single simulation: given a set of weights, computes the expected return and volatility</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>port_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights) {</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    cov_matrix <span class="ot">&lt;-</span> <span class="fu">outer</span>(volatilities, volatilities) <span class="sc">*</span> corr_matrix</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    port_variance <span class="ot">&lt;-</span> <span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    port_exp_return <span class="ot">&lt;-</span> <span class="fu">sum</span>(weights <span class="sc">*</span> exp_returns)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">exp_returns =</span> exp_returns, </span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>                <span class="at">volatilities =</span> volatilities,</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">cov_matrix =</span> cov_matrix, </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">corr_matrix =</span> corr_matrix,</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_variance =</span> port_variance,</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>                <span class="at">port_exp_return =</span> port_exp_return))</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co"># runs a port_simulation for each column in the weights_df</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>run_sims <span class="ot">&lt;-</span> <span class="cf">function</span>(exp_returns, volatilities, corr_matrix, weights_df) {</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    simulations <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(weights_df), <span class="sc">~</span> {</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>        weights_vector <span class="ot">&lt;-</span> weights_df[, .x]</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">port_sim</span>(exp_returns, volatilities, corr_matrix, weights_vector)</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(simulations)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulation-4.-run-the-simulation-on-a-single-set" class="level3">
 <h3 class="anchored" data-anchor-id="simulation-4.-run-the-simulation-on-a-single-set">Simulation: 4. Run the simulation (on a single set)</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>num_sims <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Set the number of simulations</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sector_desirability<span class="sc">$</span>desirability_score <span class="ot">&lt;-</span> <span class="fu">pmax</span>(sector_desirability<span class="sc">$</span>desirability_score, <span class="dv">0</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>total_score <span class="ot">&lt;-</span> <span class="fu">sum</span>(sector_desirability<span class="sc">$</span>desirability_score)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> sector_desirability<span class="sc">$</span>desirability_score <span class="sc">/</span> total_score</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(probabilities) <span class="ot">&lt;-</span> sector_desirability<span class="sc">$</span>sector</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>ordered_probabilities <span class="ot">&lt;-</span> probabilities[<span class="fu">names</span>(exp_returns_period)]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>row_symbols <span class="ot">&lt;-</span> <span class="fu">names</span>(exp_returns_period)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>random_weights_df_period <span class="ot">&lt;-</span> <span class="fu">get_random_weights</span>(num_stocks_period, num_sims,</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                                               ordered_probabilities, <span class="at">row_names =</span> row_symbols)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View first 5 columns (= simulations/trials)</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>random_weights_df_period <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>num_sims <span class="ot">&lt;-</span> <span class="dv">10000</span>  <span class="co"># Set the number of simulations</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sector_desirability<span class="sc">$</span>desirability_score <span class="ot">&lt;-</span> <span class="fu">pmax</span>(sector_desirability<span class="sc">$</span>desirability_score, <span class="dv">0</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>total_score <span class="ot">&lt;-</span> <span class="fu">sum</span>(sector_desirability<span class="sc">$</span>desirability_score)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> sector_desirability<span class="sc">$</span>desirability_score <span class="sc">/</span> total_score</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(probabilities) <span class="ot">&lt;-</span> sector_desirability<span class="sc">$</span>sector</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>ordered_probabilities <span class="ot">&lt;-</span> probabilities[<span class="fu">names</span>(exp_returns_period)]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>row_symbols <span class="ot">&lt;-</span> <span class="fu">names</span>(exp_returns_period)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>random_weights_df_period <span class="ot">&lt;-</span> <span class="fu">get_random_weights</span>(num_stocks_period, num_sims,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                                               ordered_probabilities, <span class="at">row_names =</span> row_symbols)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View first 5 columns (= simulations/trials)</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>random_weights_df_period <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             V1         V2         V3         V4          V5
-XLB  0.02904022 0.05416131 0.02778488 0.02113181 0.068640573
+XLB  0.02904037 0.05416160 0.02778504 0.02113193 0.068640906
 XLC  0.00000000 0.00000000 0.00000000 0.00000000 0.000000000
 XLE  0.00000000 0.00000000 0.00000000 0.00000000 0.000000000
-XLF  0.07715565 0.05391844 0.11792034 0.04413684 0.032498294
-XLI  0.07038149 0.14379012 0.10358725 0.15823510 0.106281983
-XLK  0.39217472 0.08140450 0.17201646 0.24347181 0.290417871
-XLP  0.10247953 0.30004553 0.16088139 0.19679710 0.079391472
+XLF  0.07715561 0.05391842 0.11792035 0.04413683 0.032498273
+XLI  0.07038136 0.14378987 0.10358710 0.15823483 0.106281755
+XLK  0.39217482 0.08140453 0.17201659 0.24347193 0.290417879
+XLP  0.10247956 0.30004566 0.16088151 0.19679720 0.079391475
 XLRE 0.00000000 0.00000000 0.00000000 0.00000000 0.000000000
-XLU  0.01658250 0.08766293 0.13995519 0.01986231 0.006779225
-XLV  0.23783277 0.04282417 0.04622472 0.22763644 0.189368694
-XLY  0.07435313 0.23619300 0.23162976 0.08872859 0.226621888</code></pre>
+XLU  0.01658244 0.08766262 0.13995473 0.01986224 0.006779199
+XLV  0.23783268 0.04282416 0.04622473 0.22763640 0.189368578
+XLY  0.07435316 0.23619314 0.23162997 0.08872864 0.226621935</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sim_results_period <span class="ot">&lt;-</span> <span class="fu">run_sims</span>(exp_returns_period, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                              volatilities_period, </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                              corr_matrix_period, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                              random_weights_df_period)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print(sim_results_period[[1]])</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>results_df_period <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sim_results_period, <span class="sc">~</span> <span class="fu">data.frame</span>(<span class="at">Exp_Return =</span> .x<span class="sc">$</span>port_exp_return, </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                                                            <span class="at">Std_Dev =</span> <span class="fu">sqrt</span>(.x<span class="sc">$</span>port_variance)))</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the risk-free rate</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>risk_free_cml_1 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>risk_free_cml_2 <span class="ot">&lt;-</span> <span class="fl">0.005</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the Sharpe Ratio for each simulation</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>results_df_period <span class="ot">&lt;-</span> results_df_period <span class="sc">|&gt;</span> </span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">Sharpe_Ratio_1 =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_1) <span class="sc">/</span> Std_Dev,</span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">Sharpe_Ratio_2 =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_2) <span class="sc">/</span> Std_Dev</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the row with the highest Sharpe Ratio</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>best_sim_1 <span class="ot">&lt;-</span> results_df_period[<span class="fu">which.max</span>(results_df_period<span class="sc">$</span>Sharpe_Ratio_1), ]</span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>best_sim_2 <span class="ot">&lt;-</span> results_df_period[<span class="fu">which.max</span>(results_df_period<span class="sc">$</span>Sharpe_Ratio_2), ]</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the best simulation result</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(best_sim_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sim_results_period <span class="ot">&lt;-</span> <span class="fu">run_sims</span>(exp_returns_period, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                              volatilities_period, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                              corr_matrix_period, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                              random_weights_df_period)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print(sim_results_period[[1]])</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>results_df_period <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(sim_results_period, <span class="sc">~</span> <span class="fu">data.frame</span>(<span class="at">Exp_Return =</span> .x<span class="sc">$</span>port_exp_return, </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                                                            <span class="at">Std_Dev =</span> <span class="fu">sqrt</span>(.x<span class="sc">$</span>port_variance)))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the risk-free rate</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>risk_free_cml_1 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>risk_free_cml_2 <span class="ot">&lt;-</span> <span class="fl">0.005</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the Sharpe Ratio for each simulation</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>results_df_period <span class="ot">&lt;-</span> results_df_period <span class="sc">|&gt;</span> </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">Sharpe_Ratio_1 =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_1) <span class="sc">/</span> Std_Dev,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">Sharpe_Ratio_2 =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_2) <span class="sc">/</span> Std_Dev</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the row with the highest Sharpe Ratio</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>best_sim_1 <span class="ot">&lt;-</span> results_df_period[<span class="fu">which.max</span>(results_df_period<span class="sc">$</span>Sharpe_Ratio_1), ]</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>best_sim_2 <span class="ot">&lt;-</span> results_df_period[<span class="fu">which.max</span>(results_df_period<span class="sc">$</span>Sharpe_Ratio_2), ]</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the best simulation result</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(best_sim_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Exp_Return    Std_Dev Sharpe_Ratio_1 Sharpe_Ratio_2
-5333 0.01181061 0.03765076      0.3136885      0.1808891</code></pre>
+5333 0.01181061 0.03765077      0.3136884       0.180889</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(best_sim_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(best_sim_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Exp_Return    Std_Dev Sharpe_Ratio_1 Sharpe_Ratio_2
-6340  0.0129082 0.04164321      0.3099713      0.1899037</code></pre>
+6340  0.0129082 0.04164322      0.3099713      0.1899037</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View summarized results for daily returns</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(results_df_period))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View summarized results for daily returns</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(results_df_period))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Exp_Return    Std_Dev Sharpe_Ratio_1 Sharpe_Ratio_2
-1 0.011451645 0.03877509      0.2953351      0.1663863
-2 0.009070019 0.03843241      0.2359992      0.1059007
-3 0.009775920 0.03997071      0.2445771      0.1194855
-4 0.010426928 0.03721517      0.2801795      0.1458257
-5 0.011009261 0.03991819      0.2757956      0.1505394
-6 0.011803122 0.04004291      0.2947618      0.1698958</code></pre>
+1 0.011451643 0.03877509      0.2953350      0.1663863
+2 0.009070018 0.03843242      0.2359992      0.1059007
+3 0.009775921 0.03997072      0.2445771      0.1194855
+4 0.010426927 0.03721517      0.2801795      0.1458257
+5 0.011009259 0.03991820      0.2757955      0.1505393
+6 0.011803121 0.04004292      0.2947617      0.1698957</code></pre>
 </div>
 </div>
 </section>
@@ -2318,88 +2848,88 @@ XLY  0.07435313 0.23619300 0.23162976 0.08872859 0.226621888</code></pre>
 <section id="visualize-the-results" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-the-results">Visualize the results</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df_period <span class="co"># continuity from prior</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev) <span class="sc">|&gt;</span> </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">is_efficient =</span> Exp_Return <span class="sc">&gt;=</span> <span class="fu">cummax</span>(Exp_Return))</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>efficient_portfolios <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev)  <span class="sc">|&gt;</span> </span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cummax_return =</span> <span class="fu">cummax</span>(Exp_Return)) <span class="sc">|&gt;</span> </span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Exp_Return <span class="sc">&gt;=</span> cummax_return)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>efficient_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Exp_Return <span class="sc">~</span> <span class="fu">poly</span>(Std_Dev, <span class="dv">2</span>), <span class="at">data =</span> efficient_portfolios)</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> is_efficient)) <span class="sc">+</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span> </span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># Default size for all points</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">filter</span>(results_df, is_efficient), </span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  <span class="co"># Larger size for efficient points</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> efficient_portfolios, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return), <span class="at">colour =</span> <span class="st">"springgreen2"</span>) <span class="sc">+</span></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"azure2"</span>) <span class="sc">+</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">data =</span> efficient_portfolios, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), </span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">"springgreen4"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>) <span class="sc">+</span></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate a metric, Sharpe, that can inform COLOR fill</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ... but it will only be based on the first risk-free rate!</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">%&gt;%</span></span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">efficiency =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_1)<span class="sc">/</span> Std_Dev)</span>
-<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>slope_cml_1 <span class="ot">&lt;-</span> (best_sim_1<span class="sc">$</span>Exp_Return <span class="sc">-</span> risk_free_cml_1) <span class="sc">/</span> best_sim_1<span class="sc">$</span>Std_Dev</span>
-<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>slope_cml_2 <span class="ot">&lt;-</span> (best_sim_2<span class="sc">$</span>Exp_Return <span class="sc">-</span> risk_free_cml_2) <span class="sc">/</span> best_sim_2<span class="sc">$</span>Std_Dev</span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>extended_std_dev <span class="ot">&lt;-</span> <span class="fu">max</span>(results_df_period<span class="sc">$</span>Std_Dev) <span class="sc">*</span> <span class="fl">1.2</span>  <span class="co"># For example, 20% beyond the max std dev in the data</span></span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>extended_exp_return_1 <span class="ot">&lt;-</span> risk_free_cml_1 <span class="sc">+</span> slope_cml_1 <span class="sc">*</span> extended_std_dev</span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>extended_exp_return_2 <span class="ot">&lt;-</span> risk_free_cml_2 <span class="sc">+</span> slope_cml_2 <span class="sc">*</span> extended_std_dev</span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> efficiency)) <span class="sc">+</span></span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_gradientn</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"firebrick1"</span>, <span class="st">"lightgoldenrod1"</span>, <span class="st">"springgreen2"</span>),</span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="fu">c</span>(<span class="fu">min</span>(results_df<span class="sc">$</span>efficiency), </span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>                                                     <span class="fu">max</span>(results_df<span class="sc">$</span>efficiency)))) <span class="sc">+</span></span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> risk_free_cml_1, <span class="at">xend =</span> extended_std_dev, <span class="at">yend =</span> extended_exp_return_1), </span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"dodgerblue2"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.0060</span>, extended_exp_return_1)) <span class="sc">+</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
-<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>, </span>
-<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"efficiency"</span>)</span>
-<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">+</span> p2) <span class="sc">/</span> (p3 <span class="sc">+</span> p4 )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df_period <span class="co"># continuity from prior</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev) <span class="sc">|&gt;</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">is_efficient =</span> Exp_Return <span class="sc">&gt;=</span> <span class="fu">cummax</span>(Exp_Return))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>efficient_portfolios <span class="ot">&lt;-</span> results_df <span class="sc">|&gt;</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(Std_Dev)  <span class="sc">|&gt;</span> </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">cummax_return =</span> <span class="fu">cummax</span>(Exp_Return)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Exp_Return <span class="sc">&gt;=</span> cummax_return)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>efficient_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Exp_Return <span class="sc">~</span> <span class="fu">poly</span>(Std_Dev, <span class="dv">2</span>), <span class="at">data =</span> efficient_portfolios)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> is_efficient)) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span> </span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span>  <span class="co"># Default size for all points</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">filter</span>(results_df, is_efficient), </span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>               <span class="fu">aes</span>(<span class="at">color =</span> is_efficient), <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  <span class="co"># Larger size for efficient points</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"azure2"</span>, <span class="st">"springgreen4"</span>)) <span class="sc">+</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">data =</span> efficient_portfolios, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return), <span class="at">colour =</span> <span class="st">"springgreen2"</span>) <span class="sc">+</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return)) <span class="sc">+</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"azure2"</span>) <span class="sc">+</span></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">data =</span> efficient_portfolios, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), </span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>                <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">colour =</span> <span class="st">"springgreen4"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>) <span class="sc">+</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate a metric, Sharpe, that can inform COLOR fill</span></span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a><span class="co"># ... but it will only be based on the first risk-free rate!</span></span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>results_df <span class="ot">&lt;-</span> results_df <span class="sc">%&gt;%</span></span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">efficiency =</span> (Exp_Return <span class="sc">-</span> risk_free_cml_1)<span class="sc">/</span> Std_Dev)</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>slope_cml_1 <span class="ot">&lt;-</span> (best_sim_1<span class="sc">$</span>Exp_Return <span class="sc">-</span> risk_free_cml_1) <span class="sc">/</span> best_sim_1<span class="sc">$</span>Std_Dev</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>slope_cml_2 <span class="ot">&lt;-</span> (best_sim_2<span class="sc">$</span>Exp_Return <span class="sc">-</span> risk_free_cml_2) <span class="sc">/</span> best_sim_2<span class="sc">$</span>Std_Dev</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a>extended_std_dev <span class="ot">&lt;-</span> <span class="fu">max</span>(results_df_period<span class="sc">$</span>Std_Dev) <span class="sc">*</span> <span class="fl">1.2</span>  <span class="co"># For example, 20% beyond the max std dev in the data</span></span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>extended_exp_return_1 <span class="ot">&lt;-</span> risk_free_cml_1 <span class="sc">+</span> slope_cml_1 <span class="sc">*</span> extended_std_dev</span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>extended_exp_return_2 <span class="ot">&lt;-</span> risk_free_cml_2 <span class="sc">+</span> slope_cml_2 <span class="sc">*</span> extended_std_dev</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(results_df, <span class="fu">aes</span>(<span class="at">x =</span> Std_Dev, <span class="at">y =</span> Exp_Return, <span class="at">color =</span> efficiency)) <span class="sc">+</span></span>
+<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_gradientn</span>(<span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"firebrick1"</span>, <span class="st">"lightgoldenrod1"</span>, <span class="st">"springgreen2"</span>),</span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a>                          <span class="at">values =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="fu">c</span>(<span class="fu">min</span>(results_df<span class="sc">$</span>efficiency), </span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>                                                     <span class="fu">max</span>(results_df<span class="sc">$</span>efficiency)))) <span class="sc">+</span></span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> risk_free_cml_1, <span class="at">xend =</span> extended_std_dev, <span class="at">yend =</span> extended_exp_return_1), </span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"dodgerblue2"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.05</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.00750</span>, extended_exp_return_1)) <span class="sc">+</span></span>
+<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Std Dev (Risk)"</span>,</span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">"Return"</span>, </span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"efficiency"</span>)</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">+</span> p2) <span class="sc">/</span> (p3 <span class="sc">+</span> p4 )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <section id="add-the-second-cml" class="level3">
 <h3 class="anchored" data-anchor-id="add-the-second-cml">Add the second CML</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> p4 <span class="sc">+</span> <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> risk_free_cml_2, <span class="at">xend =</span> extended_std_dev, <span class="at">yend =</span> extended_exp_return_2), </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"purple2"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> p4 <span class="sc">+</span> <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> risk_free_cml_2, <span class="at">xend =</span> extended_std_dev, <span class="at">yend =</span> extended_exp_return_2), </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"purple2"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 

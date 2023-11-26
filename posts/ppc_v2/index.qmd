@@ -11,19 +11,19 @@ execute:
 
 Contents
 
-* Define the potential portfolios (= sets of assets)
-* Retrieve returns for each periodicity; aka, frequency
-* Add analysis list-column: volatility, avg return, correlation matrix
-* Correlation
-    + Single stocks are better diversifiers
-    + Visualize correlation
-* Simulation
-    + Select the portfolio (set)
-    + Bias the random weights
-    + Setup the simulation; i.e., functions
-    + Run the simulation
-* Visualize
-    + Add a second CML
+-   Define the potential portfolios (= sets of assets)
+-   Retrieve returns for each periodicity; aka, frequency
+-   Add analysis list-column: volatility, avg return, correlation matrix
+-   Correlation
+    -   Single stocks are better diversifiers
+    -   Visualize correlation
+-   Simulation
+    -   Select the portfolio (set)
+    -   Bias the random weights
+    -   Setup the simulation; i.e., functions
+    -   Run the simulation
+-   Visualize
+    -   Add a second CML
 
 ```{r}
 
@@ -220,6 +220,60 @@ glimpse(stock_sets)
 
 ## Correlation
 
+### Average average correlation
+
+```{r}
+
+# GPT4 basically wrote this entire chunk: I added it while writing substack
+# Prepare a dataframe for the average correlations
+avg_corr_data <- tibble(
+    Portfolio = character(),
+    Frequency = character(),
+    Average_Correlation = numeric()
+)
+
+# Loop through each portfolio and each frequency
+for (i in seq_along(stock_sets$analysis)) {
+    portfolio_id <- stock_sets$set_id[i]
+    for (freq in c("daily", "weekly", "monthly")) {
+        avg_corr <- stock_sets$analysis[[i]][[freq]]$avg_corr
+        avg_corr_data <- avg_corr_data |> 
+            add_row(
+                Portfolio = portfolio_id,
+                Frequency = freq,
+                Average_Correlation = avg_corr
+            )
+    }
+}
+
+# Create a wider table format
+avg_corr_wide <- avg_corr_data |> 
+    pivot_wider(
+        names_from = Frequency,
+        values_from = Average_Correlation,
+        names_prefix = "Avg_Corr_"
+    )
+
+# Add a column for the overall average correlation
+avg_corr_wide <- avg_corr_wide |> 
+    rowwise() |> 
+    mutate(Avg_Corr_Total = mean(c_across(starts_with("Avg_Corr_")), na.rm = TRUE)) |> 
+    ungroup()
+
+avg_corr_wide |> 
+    gt() |> 
+    tab_header(title = "Average Correlation per Frequency") |> 
+    cols_label(
+        Portfolio = "Portfolio",
+        Avg_Corr_daily = "Daily",
+        Avg_Corr_weekly = "Weekly",
+        Avg_Corr_monthly = "Monthly",
+        Avg_Corr_Total = "Avg Avg Corr"
+    ) |> 
+    fmt_number(columns = 2:5, decimals = 3)
+
+```
+
 ### Single stocks are better diversifiers
 
 ```{r}
@@ -262,7 +316,6 @@ monthly_data <- stock_sets$analysis[[3]]$monthly
 create_avg_corr_table(monthly_data, "Largest Stock in Sector, Monthly Returns")
 
 ```
-
 
 ### Visualize Correlation
 
@@ -321,7 +374,7 @@ cp9 <- three_matrices$corr_monthly_matrix |> plot_corr("13_top_in_sector, monthl
 
 cp1 + cp4 + plot_annotation("Daily frequency: Styles vs Sectors")
 cp3 + cp6 + plot_annotation("Monthly frequency: Styles vs Sectors")
-cp7 + cp9 + plot_annotation("Top Stock in Each Sector: Daily vs Monthly")
+cp7 + cp9 + plot_annotation("Largest Stock in Each Sector: Daily vs Monthly")
 
 ```
 
@@ -596,7 +649,7 @@ p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = efficiency)) +
     geom_segment(aes(x = 0, y = risk_free_cml_1, xend = extended_std_dev, yend = extended_exp_return_1), 
                  color = "dodgerblue2", linetype = "dashed", linewidth = 1) +
     theme_minimal() +
-    coord_cartesian(xlim = c(0.03, 0.05), ylim = c(0.0060, extended_exp_return_1)) +
+    coord_cartesian(xlim = c(0.03, 0.05), ylim = c(0.00750, extended_exp_return_1)) +
     labs(x = "Std Dev (Risk)",
          y = "Return", 
          color = "efficiency")
