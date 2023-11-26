@@ -1,6 +1,6 @@
 ---
 title: Volatility is a model
-description: Description here
+description: Being unobservable, it cleaves to a subjective model
 author: David Harper, CFA, FRM
 date: 2023-11-12
 categories: [code, analysis]
@@ -11,11 +11,11 @@ execute:
 
 Contents
 
-* Volatility as annualized standard deviation
-* Varies by frequency (periodicity) and window
-* Exponentially weighted moving average (EWMA)
-* GARCH(1,1)
-* The actual returns are non-normal (heavy-tailed)
+-   Volatility as annualized standard deviation
+-   Varies by frequency (periodicity) and window
+-   Exponentially weighted moving average (EWMA)
+-   GARCH(1,1)
+-   The actual returns are non-normal (heavy-tailed)
 
 Load packages
 
@@ -684,9 +684,9 @@ stats_tibble |> gt() |>
 ```
 
 For fun (the social thumb)
+
 ```{r}
 
 nvda_roll_plot / garch_p1
 
 ```
-

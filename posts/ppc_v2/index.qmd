@@ -1,8 +1,8 @@
 ---
-title: PPC v2
-description: Description here
+title: Applying my PPC data model
+description: Visualizing correlation and mapping CMLs
 author: David Harper, CFA, FRM
-date: 2023-11-22
+date: 2023-11-26
 categories: [code, analysis]
 execute: 
   echo: true
@@ -11,73 +11,92 @@ execute:
 
 Contents
 
--   Define the sets of stocks/indices
--   Retrieve returns for each periodicity
--   Analyze: add the analysis list column
--   Setup the simulation
--   Run the simulation
--   Visualize
-
-load libraries
+* Define the potential portfolios (= sets of assets)
+* Retrieve returns for each periodicity; aka, frequency
+* Add analysis list-column: volatility, avg return, correlation matrix
+* Correlation
+    + Single stocks are better diversifiers
+    + Visualize correlation
+* Simulation
+    + Select the portfolio (set)
+    + Bias the random weights
+    + Setup the simulation; i.e., functions
+    + Run the simulation
+* Visualize
+    + Add a second CML
 
 ```{r}
 
-library(tidyverse)
+library(tidyverse); library(patchwork); library (ggcorrplot); library(gt)
 library(tidyquant)
+library(MASS) # write.matrix
 # library(dplyr); library(tidyr); library(purrr)
 # library(ggplot)
 
 ```
 
-## Define the SETS of stocks/indices
+## Define the potential portfolios (= sets of assets)
 
-The container in this approach is **stock_sets**, a dataframe the we initialize (our TOC) with three columns:
+The container in this approach is **stock_sets**, a dataframe we initialize (as our TOC) with three columns:
 
 -   set_id
 -   description
 -   symbols: a list of tickers
 
+Each row of the **stock_sets** dataframe hold an entire portfolio including these identifiers plus the returns (via **nested_data**), and the **analysis**. The latter two are added as *list-columns* which are versatile objects: list-items can include dataframes, vectors, and even other lists.
+
 ```{r}
-sector_3eft_list <- c( "XLK", "XLV", "XLP") # Tech, Health, Staples
-# sector_4etf_list <- c( "XLK", "XLV", "XLP",  "XLE",) # Tech, Health, Staples, Energy
-sector_5etf_list <- c( "XLK", "XLV", "XLP", "XLE", "XLF") # Tech, Health, Staples, Energy, Financials
-# sector_7etf_list <- c(sector_5etf_list, "XLI", "XLU")
+
+# First row of stock_sets is (portfolio of) sector ETFs:
 sector_11etf_list <- c("XLK",  # Technology
-                      "XLV",  # Health Care
-                      "XLF",  # Financials
-                      "XLY",  # Consumer Discretionary
-                      "XLP",  # Consumer Staples
-                      "XLE",  # Energy
-                      "XLU",  # Utilities
-                      "XLI",  # Industrials
-                      "XLB",  # Materials
-                      "XLRE", # Real Estate
-                      "XLC") # Communication Services
+                       "XLV",  # Health Care
+                       "XLF",  # Financials
+                       "XLY",  # Consumer Discretionary
+                       "XLP",  # Consumer Staples
+                       "XLE",  # Energy
+                       "XLU",  # Utilities
+                       "XLI",  # Industrials
+                       "XLB",  # Materials
+                       "XLRE", # Real Estate
+                       "XLC") # Communication Services
 
-size_etfs <- c("SPY", "MDY", "IWM") # Large, Mid, Small
-# size_style_etfs <- c("IWF",  # Large-Cap Growth
-#                      "IWD",  # Large-Cap Value
-#                      "SPY",  # Large-Cap Blend
-#                      "IWP",  # Mid-Cap Growth
-#                      "IWS",  # Mid-Cap Value
-#                      "MDY",  # Mid-Cap Blend
-#                      "IWO",  # Small-Cap Growth
-#                      "IWN",  # Small-Cap Value
-#                      "IWM")  # Small-Cap Blend
+# Second row of stock_sets is (portfolio of) style ETFs:
+size_style_etfs <- c("IWF",  # Large-Cap Growth
+                     "IWD",  # Large-Cap Value
+                     "SPY",  # Large-Cap Blend
+                     "IWP",  # Mid-Cap Growth
+                     "IWS",  # Mid-Cap Value
+                     "MDY",  # Mid-Cap Blend
+                     "IWO",  # Small-Cap Growth
+                     "IWN",  # Small-Cap Value
+                     "IWM")  # Small-Cap Blend
 
+# Third row is largest (by market cap) company in each sector:
+large_mid_caps <- read_csv("large_mid_caps.csv")
+large_mid_caps <- large_mid_caps |> rename_at('Market Cap', ~ 'Capitalization')
+large_mid_caps$Industry <- as_factor(large_mid_caps$Industry)
+large_mid_caps$Sector <- as_factor(large_mid_caps$Sector)
+
+# select the largest (by Market Cap) in each Industry
+top_in_sector <- large_mid_caps |> 
+    group_by(Sector) |> 
+    arrange(desc(Capitalization)) |> 
+    slice(1)
+remove_rows <- c(7, 8, 15, 17)
+top_in_sector <- top_in_sector[-remove_rows,]
+
+# This is the essential stock_sets dataframe
 stock_sets <- tibble(
-    set_id = c("3_sectors",
-               "5_sectors", 
-               "11_sectors",
-               "3_sizes"),
+    set_id = c("11_sectors",
+               "9_styles",
+               "13_top_in_sector"),
     
-    description = c("3 Sectors picked by GPT-4: Tech, Health, Staples",
-                    "5 Sectors picked by GPT-4: above + Energy + Financials",
-                    "All  11 Sectors",
-                    "Size: Large, Mid, Small--Blend"),
+    description = c("All 11 Sectors",
+                    "All 9 Styles",
+                    "Top Market Cap in each of 13 Sectors"), 
     
     # this is a list column, see https://adv-r.hadley.nz/vectors-chap.html#list-columns 
-    symbols = list(sector_3eft_list, sector_5etf_list, sector_11etf_list, size_etfs)
+    symbols = list(sector_11etf_list, size_style_etfs, top_in_sector$Ticker)
     )
 
 date_start <- "2013-01-01"
@@ -85,22 +104,25 @@ date_end   <- "2023-11-17"
 
 ```
 
-## Retrieve returns for each periodicity; aka, frequency
+## Retrieve returns for each frequency; aka, periodicity
 
-For each SET of tickers, **get_returns** will retrieve log returns for each of three periods:
+Each portfolio is a set of tickers/symbols. For *each* of the portfolio's symbols (aka, tickers), the **get_returns** function retrieves log returns into three dataframes; one for each frequency:
 
 -   daily
 -   weekly
 -   monthly
 
-Then we will call the get_returns function via map (my favorite function) to create a new list column called **nested_data**. Each row of nested_data *will contain a list* of three dataframes, one for each period. These dataframes will contain the log returns for each ticker in the set.
+We will call the **get_returns** function via map (purrr is one of my favorite packagse!) to create a new list column called **nested_data**. Each row of nested_data *will contain a list* of three dataframes, one for each period. These dataframes will contain the log returns for each ticker in the set.
 
 ```{r}
+
+# This will add the nested_data list-column. For example, we
+# can use stock_sets$nested_data[[n]]$daily$daily.returns to
+# retrieve daily.returns for the nth portfolio
 
 get_returns <- function(symbols, start_date, end_date) {
     mult_stocks <- tq_get(symbols, get = "stock.prices", 
                           from = start_date, to = end_date)
-    
     periods <- c("daily", "weekly", "monthly")
     returns_list <- lapply(periods, function(period) {
         mult_stocks |> 
@@ -124,9 +146,9 @@ print(stock_sets)
 
 ```
 
-## Analyze: add the analysis list column
+## Add analysis list-column: volatility, avg return, correlation matrix
 
-For each set and periodicity, the analysis list column generates:
+For each portfolio (set of tickers) and periodicity, the **analysis** list column generates:
 
 -   vector of volatilities
 -   vector of average returns
@@ -135,52 +157,179 @@ For each set and periodicity, the analysis list column generates:
 
 ```{r}
 
-perform_analysis <- function(data, returns_column) {
-    # Sort the data by symbol and date
-    data_sorted <- data |> arrange(symbol, date)
-    
-    volatilities <- data_sorted |>  
-        group_by(symbol) |>  
-        summarise(volatility = sd(.data[[returns_column]], na.rm = TRUE)) |>  
+# For example, we can use stock_sets$analysis[[1]]$monthly$corr_matrix
+# to retrieve the correlation matrix for the nth portfolio
+
+perform_analysis <- function(data, frequency) {
+    # Determine the column name for returns based on the frequency
+    returns_col <- switch(frequency,
+                          "daily" = "daily.returns",
+                          "weekly" = "weekly.returns",
+                          "monthly" = "monthly.returns",
+                          stop("Invalid frequency"))
+
+    # Calculate volatilities
+    volatilities <- data |> 
+        group_by(symbol) |> 
+        summarise(volatility = sd(.data[[returns_col]], na.rm = TRUE)) |> 
         ungroup()
-    
-    avg_returns <- data_sorted |>  
-        group_by(symbol) |>  
-        summarise(avg_return = mean(.data[[returns_column]], na.rm = TRUE)) |>  
+
+    # Calculate average returns
+    avg_returns <- data |> 
+        group_by(symbol) |> 
+        summarise(avg_return = mean(.data[[returns_col]], na.rm = TRUE)) |> 
         ungroup()
-    
+
     # Pivot to wide format for correlation matrix calculation
-    # Ensuring the data is sorted correctly helps in keeping the order of symbols consistent
-    data_wide <- data_sorted |>  
-        pivot_wider(names_from = symbol, values_from = .data[[returns_column]])
-    corr_matrix <- cor(select(data_wide, -date), use = "complete.obs")
+    data_wide <- data |> 
+        group_by(date) |> 
+        pivot_wider(names_from = symbol, values_from = .data[[returns_col]])
+    
+    # Write files to verify (in Excel) the correlation matrix
+    # write.csv(data_wide, paste0("data_wide_", frequency, ".csv"), row.names = FALSE)
+
+    # Calculate the correlation matrix
+    corr_matrix <- cor(data_wide[ ,-1], use = "complete.obs")
+
+    # write.csv(as.data.frame(corr_matrix), paste0("corr_matrix_", frequency, ".csv"), row.names = TRUE) 
     
     # Calculate average correlation
     avg_corr <- mean(corr_matrix[lower.tri(corr_matrix)])
-    
-    return(list(volatilities = volatilities, avg_returns = avg_returns, corr_matrix = corr_matrix, avg_corr = avg_corr))
+
+    return(list(volatilities = volatilities, 
+                avg_returns = avg_returns, 
+                corr_matrix = corr_matrix, 
+                avg_corr = avg_corr))
 }
 
 # Applying the perform_analysis function to the stock_sets
 stock_sets <- stock_sets |> 
     mutate(analysis = map(nested_data, ~ {
-        data_daily <- .x$daily
-        data_weekly <- .x$weekly
-        data_monthly <- .x$monthly
-        
-        analysis_daily <- perform_analysis(data_daily, "daily.returns")
-        analysis_weekly <- perform_analysis(data_weekly, "weekly.returns")
-        analysis_monthly <- perform_analysis(data_monthly, "monthly.returns")
-        
-        list(daily = analysis_daily, weekly = analysis_weekly, monthly = analysis_monthly)
+        list(
+            daily = perform_analysis(.x$daily, "daily"),
+            weekly = perform_analysis(.x$weekly, "weekly"),
+            monthly = perform_analysis(.x$monthly, "monthly")
+        )
     }))
 
 # Examine data structure 
-print(stock_sets) # Notice the analysis list column has been added
+print(stock_sets)
 glimpse(stock_sets)
-stock_sets$analysis[[1]] # first row is the first stock set
 
 ```
+
+## Correlation
+
+### Single stocks are better diversifiers
+
+```{r}
+
+create_avg_corr_table <- function(monthly_data, title = "Data Analysis") {
+    corr_matrix <- monthly_data$corr_matrix
+    symbols <- rownames(corr_matrix)
+    
+    # average correlation for each stock excluding the stock itself
+    avg_correlations_per_stock <- map_dbl(seq_len(nrow(corr_matrix)), function(i) {
+        row_correlations <- corr_matrix[i, ]
+        mean(row_correlations[-i], na.rm = TRUE)
+    })
+    avg_correlations_df <- data.frame(symbol = symbols, 
+                                      avg_correlation = avg_correlations_per_stock)
+    combined_data <- left_join(monthly_data$volatilities,
+                               monthly_data$avg_returns, by = "symbol") |>
+        left_join(avg_correlations_df, by = "symbol")
+
+    gt_table <- combined_data |> 
+        gt() |> 
+        tab_header(title = title) |> 
+        cols_label(
+            symbol = "Symbol",
+            volatility = "Volatility",
+            avg_return = "Avg Return",
+            avg_correlation = "Correlation(*)"
+        ) |> 
+        fmt_percent(columns = 2:3, decimals = 2) |>
+        fmt_number(columns = 4, decimals = 2) |> 
+        tab_footnote("(*) Pairwise average(ρ): matrix row/column average excluding diagonal")
+
+    return(gt_table)
+}
+
+monthly_data <- stock_sets$analysis[[1]]$monthly
+create_avg_corr_table(monthly_data, "Sectors, Monthly Returns")
+
+monthly_data <- stock_sets$analysis[[3]]$monthly
+create_avg_corr_table(monthly_data, "Largest Stock in Sector, Monthly Returns")
+
+```
+
+
+### Visualize Correlation
+
+These step took me too long because I couldn't wrestle corrplot/ggcorrplot to my ends. I tried various packages but finally settled on [the corrr package](https://corrr.tidymodels.org/index.html) due to its elegant/tidy construction; e.g., if you use ggplot, you can guess its parameters. As [the authors write](https://corrr.tidymodels.org/articles/using-corrr.html),
+
+> At first, a correlation data frame might seem like an unnecessary complexity compared to the traditional matrix. However, the purpose of corrr is to help use explore these correlations, not to do mathematical or statistical operations. Thus, by having the correlations in a data frame, we can make use of packages that help us work with data frames like dplyr, tidyr, ggplot2, and focus on using data pipelines
+
+```{r}
+
+library(corrr)
+
+colors_corr_plot <- colorRampPalette(c("firebrick3", "firebrick1", "yellow", "seagreen1", "seagreen4"))
+
+plot_corr <- function(matrix, title) {
+    matrix_df <- as_cordf(matrix) |> shave()
+    matrix_df |> rplot(shape = 15, print_cor = TRUE,
+                       colors = colors_corr_plot(5),
+                       legend = FALSE) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1))
+}
+    
+get_corr_matrices <- function(row_df){
+    analyze_this <- row_df |> 
+        pull(analysis)
+
+    corr_daily_matrix   <- analyze_this[[1]][["daily"]]$corr_matrix
+    corr_weekly_matrix  <- analyze_this[[1]][["weekly"]]$corr_matrix
+    corr_monthly_matrix <- analyze_this[[1]][["monthly"]]$corr_matrix
+    
+    return(list(
+        corr_daily_matrix = corr_daily_matrix,
+        corr_weekly_matrix = corr_weekly_matrix,
+        corr_monthly_matrix = corr_monthly_matrix
+    ))
+}
+
+select_row_1 <- stock_sets |> filter(set_id == "9_styles")
+three_matrices <- get_corr_matrices(select_row_1)
+cp1 <- three_matrices$corr_daily_matrix |> plot_corr("9_styles, daily")
+# cp2 <- three_matrices$corr_weekly_matrix |> plot_corr("9_styles, weekly")
+cp3 <- three_matrices$corr_monthly_matrix |> plot_corr("9_styles, monthly")
+
+select_row_2 <- stock_sets |> filter(set_id == "11_sectors")
+three_matrices <- get_corr_matrices(select_row_2)
+cp4 <- three_matrices$corr_daily_matrix |> plot_corr("11_sectors, daily") + 
+    theme(legend.position = "right")
+# cp5 <- three_matrices$corr_weekly_matrix |> plot_corr("11_sectors, weekly")
+cp6 <- three_matrices$corr_monthly_matrix |> plot_corr("11_sectors, monthly") + 
+    theme(legend.position = "right")
+    
+select_row_3 <- stock_sets |> filter(set_id == "13_top_in_sector")
+three_matrices <- get_corr_matrices(select_row_3)
+cp7 <- three_matrices$corr_daily_matrix |> plot_corr("13_top_in_sector, daily")
+# cp8 <- three_matrices$corr_weekly_matrix |> plot_corr("13_top_in_sector, weekly")
+cp9 <- three_matrices$corr_monthly_matrix |> plot_corr("13_top_in_sector, monthly")
+
+cp1 + cp4 + plot_annotation("Daily frequency: Styles vs Sectors")
+cp3 + cp6 + plot_annotation("Monthly frequency: Styles vs Sectors")
+cp7 + cp9 + plot_annotation("Top Stock in Each Sector: Daily vs Monthly")
+
+```
+
+## Simulation
+
+There are four steps here: select the portfolio, bias the random weights (if desired), setup the simulation, and run the simulation.
+
+### Simulation: 1. Select the portfolio (set of tickers/symbols)
 
 ```{r}
 # Selecting the desired set (e.g., "Set 1")
@@ -204,43 +353,15 @@ num_stocks_period <- length(volatilities_period)
 
 ```
 
-Correlation
+### Simulation: 2. Bias the random weights
+
+This is an experiment to see if we can bias the random weights to get a better result. Rather than deduce a formula, I decided to ask, what is a more (or less) desirable feature of a diversifying asset? (in the mean-variance framework, it's an asset with low marginal volatility). I decided to include the Sharpe ratio, expected utility (i.e., the expected rate of return minus half the risk aversion coeffient multiplied by the variance), and average correlation.
 
 ```{r}
 
-library(ggcorrplot)
-library(MASS)
-library(patchwork)
+calculate_desirability <- function(exp_returns, volatilities, corr_matrix, A, risk_free_rate, 
+                                   utility_weight, sharpe_weight, correlation_weight) {
 
-cp1 <- corr_matrix_period |> ggcorrplot(
-    method = "square", 
-    type = "lower", 
-    lab = TRUE, 
-    colors = c("red", "white", "springgreen"),
-    title = "Correlation Matrix of Daily Returns")
-
-cp1
-
-```
-
-Desirability
-
-```{r}
-
-calculate_desirability <- function(exp_returns, volatilities, corr_matrix, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight) {
-    if(is.null(names(exp_returns)) || is.null(names(volatilities))) {
-        stop("Expected returns and volatilities must have names.")
-    }
-    
-    # Ensure the lengths match
-    if(length(exp_returns) != length(volatilities) || length(exp_returns) != nrow(corr_matrix)) {
-        stop("Lengths of returns, volatilities, and correlation matrix do not match.")
-    }
-    # Ensure the lengths match
-    if(length(exp_returns) != length(volatilities) || length(exp_returns) != nrow(corr_matrix)) {
-        stop("Lengths of returns, volatilities, and correlation matrix do not match.")
-    }
-    
     # Calculate the variance as the square of volatility
     variance <- volatilities^2
     
@@ -284,22 +405,33 @@ correlation_weight <- 0.3
 # Calculate desirability using the extracted components
 sector_desirability <- calculate_desirability(exp_returns_period, volatilities_period, corr_matrix_period, A, risk_free_rate, utility_weight, sharpe_weight, correlation_weight)
 
-sector_desirability
+sector_desirability |> gt() |> 
+    cols_label(sector = "Ticker",
+               exp_returns = "Return",
+               volatilities = "Vol",
+               utility = "Utility",
+               sharpe_ratio = "Sharpe",
+               avg_correlation = "Avg Corr",
+               desirability_score = "Desirability") |>
+    fmt_percent(columns = 2:3) |> 
+    fmt_number(columns = 4:7, decimals = 4)
 
 ```
 
-## Setup the simulation
+### Simulation: 3. Setup the simulation
 
-The **get_random_weights** function returns a dataframe of random weights. Each column is a set of weights for a single simulation. Each row is the weight for a single stock. The weights are normalized so that they sum to 1.
+The **get_random_weights** function returns a dataframe of random weights (that sum to 1). Each column is a set of weights for a single simulation.
 
-So I'm starting with an incredibly naive approach to the simulation. I'm going to assume that the expected return for each stock is the average return for that stock over the entire period. I'm also going to assume that the volatility for each stock is the average volatility for that stock over the entire period. *Most importantly*, the only randomness in the simulation is the weights and they are totally naive because they are independent of the analysis. We can't expect anything like an efficient frontier from the raw scatterplot. However, this will illustrate the future risk/reward trade-off faced by a "totally naive" investor!
+This adds one innovation to the (my previous) naive approach. As previously, I still assume: the *expected return* for each stock is the average return for that stock over the entire period; the *volatility* for each stock is the average volatility for that stock over the entire period; and the *correlation matrix* (which obviously implies the *covariance matrix*) is computed from the pairwise (log) return vectors. In short, I'm assuming that the future will be like the past.
+
+The innovation is that I bias the random weights to slightly favor the stocks with the highest "desirability" scores, as defined in the previous chunk. Desirability is just a weighted average of Utility, Sharpe ratio and (the inverse of) average correlation. Once random weights are selected, the portfolio return and volatility are calculated; and those don't depend on the bias. The idea here is simply to (probably *slightly*) favor the simulation's density toward the efficient segment.
 
 ```{r}
 
 # returns a data frame of random weights
 # rows = weight per stock; columns = number of simulations
-get_random_weights <- function(num_stocks, num_simulations, probabilities) {
-    set.seed(123)
+get_random_weights <- function(num_stocks, num_simulations, probabilities, row_names = NULL) {
+    set.seed(47391)
     weights_df <- matrix(nrow = num_stocks, ncol = num_simulations)
 
     for (i in 1:num_simulations) {
@@ -307,8 +439,14 @@ get_random_weights <- function(num_stocks, num_simulations, probabilities) {
         weights <- runif(num_stocks) * probabilities
         weights_df[, i] <- weights / sum(weights)  # Normalize the weights
     }
+    
+    weights_df <- as.data.frame(weights_df)
+    
+    if (!is.null(row_names) && length(row_names) == num_stocks) {
+        rownames(weights_df) <- row_names
+    }
 
-    return(as.data.frame(weights_df))
+    return(weights_df)
 }
 
 # single simulation: given a set of weights, computes the expected return and volatility
@@ -338,7 +476,7 @@ run_sims <- function(exp_returns, volatilities, corr_matrix, weights_df) {
 
 ```
 
-## Run the simulation (on a single set)
+### Simulation: 4. Run the simulation (on a single set)
 
 ```{r}
 
@@ -347,22 +485,46 @@ num_sims <- 10000  # Set the number of simulations
 sector_desirability$desirability_score <- pmax(sector_desirability$desirability_score, 0)
 total_score <- sum(sector_desirability$desirability_score)
 probabilities <- sector_desirability$desirability_score / total_score
+names(probabilities) <- sector_desirability$sector
+ordered_probabilities <- probabilities[names(exp_returns_period)]
 
+row_symbols <- names(exp_returns_period)
+random_weights_df_period <- get_random_weights(num_stocks_period, num_sims,
+                                               ordered_probabilities, row_names = row_symbols)
+# View first 5 columns (= simulations/trials)
+random_weights_df_period |> dplyr::select(1:5)
 
-random_weights_df_period <- get_random_weights(num_stocks_period, num_sims, probabilities)
 sim_results_period <- run_sims(exp_returns_period, 
                               volatilities_period, 
                               corr_matrix_period, 
                               random_weights_df_period)
 
-# Print results of the first simulation
-print(sim_results_period[[1]])
+# Testing
+# print(sim_results_period[[1]])
 
 results_df_period <- map_dfr(sim_results_period, ~ data.frame(Exp_Return = .x$port_exp_return, 
                                                             Std_Dev = sqrt(.x$port_variance)))
+# Define the risk-free rate
+risk_free_cml_1 <- 0
+risk_free_cml_2 <- 0.005
+
+# Calculate the Sharpe Ratio for each simulation
+results_df_period <- results_df_period |> 
+    mutate(
+        Sharpe_Ratio_1 = (Exp_Return - risk_free_cml_1) / Std_Dev,
+        Sharpe_Ratio_2 = (Exp_Return - risk_free_cml_2) / Std_Dev
+        )
+
+# Find the row with the highest Sharpe Ratio
+best_sim_1 <- results_df_period[which.max(results_df_period$Sharpe_Ratio_1), ]
+best_sim_2 <- results_df_period[which.max(results_df_period$Sharpe_Ratio_2), ]
+
+# Print the best simulation result
+print(best_sim_1)
+print(best_sim_2)
+
 # View summarized results for daily returns
 print(head(results_df_period))
-results_df <- results_df_period
 
 ```
 
@@ -372,6 +534,7 @@ results_df <- results_df_period
 
 library(patchwork)
 
+results_df <- results_df_period # continuity from prior
 results_df <- results_df |> 
     arrange(Std_Dev) |> 
     mutate(is_efficient = Exp_Return >= cummax(Exp_Return))
@@ -412,32 +575,42 @@ p3 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return)) +
          y = "Return") +
     theme_minimal()
 
-# Calculate a color metric based on Exp_Return and Std_Dev
+# Calculate a metric, Sharpe, that can inform COLOR fill
+# ... but it will only be based on the first risk-free rate!
 
-RiskFree_temp <- 0.0
 results_df <- results_df %>%
-    mutate(efficiency = (Exp_Return - RiskFree_temp)/ Std_Dev)
+    mutate(efficiency = (Exp_Return - risk_free_cml_1)/ Std_Dev)
 
-# Create a scatterplot with color gradient based on the color_metric
-# p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = color_metric)) +
-#     geom_point() +
-#     scale_color_gradient2(low = "azure3", high = "springgreen1", mid = "yellow", 
-#                           midpoint = median(results_df$color_metric)) +
-#     theme_minimal() +
-#     labs(color = "Color Metric")
+slope_cml_1 <- (best_sim_1$Exp_Return - risk_free_cml_1) / best_sim_1$Std_Dev
+slope_cml_2 <- (best_sim_2$Exp_Return - risk_free_cml_2) / best_sim_2$Std_Dev
 
-# Assuming results_df and color_metric are already defined appropriately
+extended_std_dev <- max(results_df_period$Std_Dev) * 1.2  # For example, 20% beyond the max std dev in the data
+extended_exp_return_1 <- risk_free_cml_1 + slope_cml_1 * extended_std_dev
+extended_exp_return_2 <- risk_free_cml_2 + slope_cml_2 * extended_std_dev
 
 p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = efficiency)) +
     geom_point() +
-    scale_color_gradientn(colors = c("azure4", "lightgoldenrod1", "springgreen2"),
+    scale_color_gradientn(colors = c("firebrick1", "lightgoldenrod1", "springgreen2"),
                           values = scales::rescale(c(min(results_df$efficiency), 
                                                      max(results_df$efficiency)))) +
+    geom_segment(aes(x = 0, y = risk_free_cml_1, xend = extended_std_dev, yend = extended_exp_return_1), 
+                 color = "dodgerblue2", linetype = "dashed", linewidth = 1) +
     theme_minimal() +
+    coord_cartesian(xlim = c(0.03, 0.05), ylim = c(0.0060, extended_exp_return_1)) +
     labs(x = "Std Dev (Risk)",
          y = "Return", 
-         color = "efficiency") 
+         color = "efficiency")
 
 (p1 + p2) / (p3 + p4 )
+
+```
+
+### Add the second CML
+
+```{r}
+
+p5 <- p4 + geom_segment(aes(x = 0, y = risk_free_cml_2, xend = extended_std_dev, yend = extended_exp_return_2), 
+                 color = "purple2", linetype = "dashed", linewidth = 1) 
+p5
 
 ```

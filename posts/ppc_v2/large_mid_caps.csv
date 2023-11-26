@@ -1,0 +1,1891 @@
+﻿Ticker,Name,Market Cap,Sector,Industry
+AAPL,Apple Inc,2.99098E+12,Technology,Computer Hardware
+MSFT,Microsoft Corporation,2.80734E+12,Technology,Application Software
+GOOGL,Alphabet Inc - Class A,1.74622E+12,Technology,Online Media
+AMZN,Amazon.com Inc,1.51372E+12,Consumer Cyclical,Retail - Apparel & Specialty
+NVDA,NVIDIA Corp,1.20329E+12,Technology,Semiconductors
+META,Meta Platforms Inc - Class A,8.78709E+11,Technology,Online Media
+BRK-B,Berkshire Hathaway Inc - Class B,7.90218E+11,Financial Services,Insurance
+TSLA,Tesla Inc,7.43381E+11,Consumer Cyclical,Autos
+LLY,Lilly(Eli) & Company,5.64916E+11,Healthcare,Drug Manufacturers
+V,Visa Inc - Class A,5.18208E+11,Financial Services,Credit Services
+TSM,Taiwan Semiconductor Manufacturing,5.11606E+11,Technology,Semiconductors
+UNH,Unitedhealth Group Inc,5.03688E+11,Healthcare,Health Care Plans
+NVO,Novo Nordisk,4.67066E+11,Healthcare,Biotechnology
+JPM,JPMorgan Chase & Company,4.4559E+11,Financial Services,Banks
+WMT,Walmart Inc,4.16501E+11,Consumer Defensive,Retail - Defensive
+XOM,Exxon Mobil Corp,4.16372E+11,Energy,Oil & Gas - Integrated
+AVGO,Broadcom Inc,4.0113E+11,Technology,Semiconductors
+JNJ,Johnson & Johnson,3.91977E+11,Healthcare,Drug Manufacturers
+MA,Mastercard Incorporated - Class A,3.86618E+11,Financial Services,Credit Services
+PG,Procter & Gamble Company,3.56E+11,Consumer Defensive,Consumer Packaged Goods
+ORCL,Oracle Corp,3.15505E+11,Technology,Application Software
+HD,Home Depot Inc,3.0922E+11,Consumer Cyclical,Retail - Apparel & Specialty
+ADBE,Adobe Inc,2.82468E+11,Technology,Application Software
+ASML,ASML Holding NV,2.71318E+11,Technology,Semiconductors
+CVX,Chevron Corp,2.695E+11,Energy,Oil & Gas - Integrated
+COST,Costco Wholesale Corp,2.6105E+11,Consumer Defensive,Retail - Defensive
+MRK,Merck & Co Inc,2.58015E+11,Healthcare,Drug Manufacturers
+KO,Coca-Cola Company,2.52628E+11,Consumer Defensive,Beverages - Non-Alcoholic
+SHEL,Shell Plc ADR (Representing - ),2.51348E+11,Unknown Sector,Unknown Industry
+TM,Toyota Motor Corporation,2.50846E+11,Consumer Cyclical,Autos
+ABBV,Abbvie Inc,2.44406E+11,Healthcare,Drug Manufacturers
+BAC,Bank Of America Corp,2.35451E+11,Financial Services,Banks
+PEP,PepsiCo Inc,2.32945E+11,Consumer Defensive,Beverages - Non-Alcoholic
+ACN,Accenture plc - Class A,2.21414E+11,Technology,Application Software
+CRM,Salesforce Inc,2.1802E+11,Technology,Application Software
+NFLX,Netflix Inc,2.11824E+11,Consumer Cyclical,Entertainment
+NVS,Novartis AG,2.10394E+11,Healthcare,Drug Manufacturers
+BABA,Alibaba Group Holding Ltd,2.06401E+11,Consumer Cyclical,Retail - Apparel & Specialty
+MCD,McDonald`s Corp,2.0546E+11,Consumer Cyclical,Restaurants
+AHBIF,AnheuserBusch InBev SANV,2.04327E+11,Unknown,Unknown
+LIN,Linde Plc.,2.00848E+11,Basic Materials,Chemicals
+AMD,Advanced Micro Devices Inc,1.97936E+11,Technology,Semiconductors
+AZN,Astrazeneca plc,1.96937E+11,Healthcare,Drug Manufacturers
+CSCO,Cisco Systems Inc,1.94958E+11,Technology,Communication Equipment
+TMO,Thermo Fisher Scientific Inc,1.88162E+11,Healthcare,Medical Diagnostics & Research
+SAP,Sap SE,1.88158E+11,Technology,Application Software
+INTC,Intel Corp,1.8289E+11,Technology,Semiconductors
+TTE,TotalEnergies SE,1.78337E+11,Energy,Oil & Gas - Integrated
+ABT,Abbott Laboratories,1.78221E+11,Healthcare,Medical Devices
+CMCSA,Comcast Corp - Class A,1.75236E+11,Communication Services,Communication Services
+TMUS,T-Mobile US Inc,1.75186E+11,Communication Services,Communication Services
+DIS,Walt Disney Co (The),1.73957E+11,Consumer Cyclical,Entertainment
+PFE,Pfizer Inc,1.71185E+11,Healthcare,Drug Manufacturers
+NKE,Nike Inc - Class B,1.65115E+11,Consumer Cyclical,Manufacturing - Apparel & Furniture
+DHR,Danaher Corp,1.63397E+11,Healthcare,Medical Diagnostics & Research
+INTU,Intuit Inc,1.58018E+11,Technology,Application Software
+BHP,BHP Group Ltd,1.57489E+11,Basic Materials,Metals & Mining
+VZ,Verizon Communications Inc,1.57021E+11,Communication Services,Communication Services
+HSBC,HSBC Holdings plc,1.56965E+11,Financial Services,Banks
+WFC,Wells Fargo & Company,1.55978E+11,Financial Services,Banks
+PDD,PDD Holdings Inc,1.48305E+11,Consumer Cyclical,Retail - Apparel & Specialty
+PM,Philip Morris International Inc,1.45641E+11,Consumer Defensive,Tobacco Products
+QCOM,Qualcomm Inc,1.4229E+11,Technology,Semiconductors
+AMGN,AMGEN Inc,1.4153E+11,Healthcare,Biotechnology
+IBM,International Business Machines Corp,1.41324E+11,Technology,Application Software
+TXN,Texas Instruments Inc,1.39763E+11,Technology,Semiconductors
+SIEGY,Siemens AG,1.39145E+11,Unknown,Unknown
+COP,Conoco Phillips,1.37532E+11,Energy,Oil & Gas - E&P
+NOW,ServiceNow Inc,1.36611E+11,Technology,Application Software
+UNP,Union Pacific Corp,1.36207E+11,Industrials,Transportation & Logistics
+BA,Boeing Company,1.3265E+11,Industrials,Aerospace & Defense
+SPGI,S&P Global Inc,1.32085E+11,Financial Services,Brokers & Exchanges
+GE,General Electric Company,1.3017E+11,Industrials,Industrial Products
+MS,Morgan Stanley,1.30055E+11,Financial Services,Brokers & Exchanges
+UPS,United Parcel Service Inc - Class B,1.28808E+11,Industrials,Transportation & Logistics
+HON,Honeywell International Inc,1.27686E+11,Industrials,Industrial Products
+BUD,Anheuser-Busch InBev SA/NV,1.26603E+11,Consumer Defensive,Beverages - Alcoholic
+AMAT,Applied Materials Inc,1.25525E+11,Technology,Semiconductors
+CAT,Caterpillar Inc,1.255E+11,Industrials,Farm & Construction Machinery
+NTTYY,Nippon Telegraph & Telephone Corp,1.22037E+11,Unknown,Unknown
+UL,Unilever plc,1.2172E+11,Consumer Defensive,Consumer Packaged Goods
+RY,Royal Bank Of Canada,1.20832E+11,Financial Services,Banks
+AXP,American Express Company,1.20625E+11,Financial Services,Credit Services
+SONY,Sony Group Corporation,1.18844E+11,Technology,Computer Hardware
+SBUX,Starbucks Corp,1.1848E+11,Consumer Cyclical,Restaurants
+SNY,Sanofi,1.1741E+11,Healthcare,Drug Manufacturers
+LOW,Lowe`s Cos. Inc,1.16305E+11,Consumer Cyclical,Retail - Apparel & Specialty
+NEE,NextEra Energy Inc,1.16303E+11,Utilities,Utilities - Regulated
+RTX,RTX Corp,1.16179E+11,Industrials,Aerospace & Defense
+T,AT&T Inc,1.15599E+11,Communication Services,Communication Services
+RIO,Rio Tinto plc,1.13647E+11,Basic Materials,Metals & Mining
+LMT,Lockheed Martin Corp,1.13425E+11,Industrials,Aerospace & Defense
+MUFG,Mitsubishi UFJ Financial Group Inc,1.13163E+11,Financial Services,Banks
+UBER,Uber Technologies Inc,1.1315E+11,Unknown Sector,Unknown Industry
+ELV,Elevance Health Inc,1.13104E+11,Healthcare,Health Care Plans
+BKNG,Booking Holdings Inc,1.11716E+11,Consumer Cyclical,Travel & Leisure
+SYK,Stryker Corp,1.11674E+11,Healthcare,Medical Devices
+GS,Goldman Sachs Group Inc,1.1164E+11,Financial Services,Brokers & Exchanges
+ISRG,Intuitive Surgical Inc,1.10958E+11,Healthcare,Medical Instruments & Equipment
+TD,Toronto Dominion Bank,1.10454E+11,Financial Services,Banks
+BP,BP plc,1.09553E+11,Energy,Oil & Gas - Integrated
+DE,Deere & Company,1.08704E+11,Industrials,Farm & Construction Machinery
+BLK,Blackrock Inc,1.08564E+11,Financial Services,Asset Management
+HDB,HDFC Bank Ltd,1.08288E+11,Financial Services,Banks
+MDT,Medtronic Plc,1.04264E+11,Healthcare,Medical Devices
+EQNR,Equinor ASA,1.04074E+11,Energy,Oil & Gas - Integrated
+TJX,TJX Companies Inc,1.03374E+11,Consumer Cyclical,Retail - Apparel & Specialty
+BMY,Bristol-Myers Squibb Company,1.03243E+11,Healthcare,Drug Manufacturers
+PLD,Prologis Inc,1.03048E+11,Real Estate,REITs
+SCHW,Charles Schwab Corp,1.01855E+11,Financial Services,Brokers & Exchanges
+PBR,Petroleo Brasileiro S.A. Petrobras,99788139647,Energy,Oil & Gas - Integrated
+MMC,Marsh & McLennan Cos. Inc,98874717934,Financial Services,Brokers & Exchanges
+MDLZ,Mondelez International Inc - Class A,97256277029,Consumer Defensive,Consumer Packaged Goods
+UBS,UBS Group AG,96596215940,Financial Services,Banks
+ADP,Automatic Data Processing Inc,95230765001,Industrials,Business Services
+PGR,Progressive Corp,95181101574,Financial Services,Insurance - Property & Casualty
+LRCX,Lam Research Corp,95071844999,Technology,Semiconductors
+GILD,Gilead Sciences Inc,94323286522,Healthcare,Biotechnology
+CB,Chubb Ltd,93101296103,Financial Services,Insurance - Property & Casualty
+AMT,American Tower Corp,92667056020,Communication Services,Communication Services
+ETN,Eaton Corporation plc,91335090000,Industrials,Industrial Products
+VRTX,Vertex Pharmaceuticals Inc,91166831502,Healthcare,Biotechnology
+ADI,Analog Devices Inc,91027010343,Technology,Semiconductors
+SHOP,Shopify Inc - Class A,90262400544,Technology,Application Software
+RACE,Ferrari N.V.,90038344832,Consumer Cyclical,Autos
+DEO,Diageo plc,88992338293,Consumer Defensive,Beverages - Alcoholic
+CVS,CVS Health Corp,88803344648,Healthcare,Health Care Plans
+REGN,Regeneron Pharmaceuticals Inc,86817663546,Healthcare,Biotechnology
+C,Citigroup Inc,86695125830,Financial Services,Banks
+CI,Cigna Group (The),85334032722,Healthcare,Health Care Plans
+MU,Micron Technology Inc,84447753977,Technology,Semiconductors
+ABNB,Airbnb Inc - Class A,83525479873,Unknown Sector,Unknown Industry
+ZTS,Zoetis Inc - Class A,82557836912,Healthcare,Drug Manufacturers
+SNPS,Synopsys Inc,82322887288,Technology,Application Software
+PANW,Palo Alto Networks Inc,81203584097,Technology,Application Software
+BSX,Boston Scientific Corp,81161895468,Healthcare,Medical Devices
+BTI,British American Tobacco Plc,78734600105,Consumer Defensive,Tobacco Products
+CME,CME Group Inc - Class A,77831369462,Financial Services,Brokers & Exchanges
+CNI,Canadian National Railway Company,77151799000,Industrials,Transportation & Logistics
+IBN,ICICI Bank Ltd,76853411408,Financial Services,Banks
+FI,Fiserv Inc,76476189581,Industrials,Business Services
+MELI,MercadoLibre Inc,76391320225,Consumer Cyclical,Retail - Apparel & Specialty
+NTES,NetEase Inc,76197319128,Technology,Online Media
+LVMUY,Lvmh Moet Hennessy Vuitton SE,76087279773,Discretionary,"Textiles, Apparel & Luxury Goods"
+SO,Southern Company,75891136433,Utilities,Utilities - Regulated
+BX,Blackstone Inc,75787073713,Financial Services,Asset Management
+KLAC,KLA Corp,75766163409,Technology,Semiconductors
+ABBNY,ABB Ltd,75180841516,Industrials,Industrial Products
+SLB,SLB,74640689560,Energy,Oil & Gas - Services
+EQIX,Equinix Inc,74323299762,Real Estate,REITs
+INFY,Infosys Ltd,73954465309,Technology,Application Software
+VALE,Vale S.A.,73610573414,Basic Materials,Metals & Mining
+CDNS,Cadence Design Systems Inc,73478426500,Technology,Application Software
+MO,Altria Group Inc,73096185282,Consumer Defensive,Tobacco Products
+ITW,Illinois Tool Works Inc,72785350505,Industrials,Industrial Products
+RELX,RELX Plc,72550632000,Consumer Cyclical,Publishing
+CNQ,Canadian Natural Resources Ltd,72014204770,Energy,Oil & Gas - E&P
+EOG,EOG Resources Inc,71717074807,Energy,Oil & Gas - E&P
+NOC,Northrop Grumman Corp,71330241679,Industrials,Aerospace & Defense
+GSK,GSK Plc,70928000000,Healthcare,Drug Manufacturers
+SHW,Sherwin-Williams Company,70625864913,Basic Materials,Chemicals
+DUK,Duke Energy Corp,69641133766,Utilities,Utilities - Regulated
+WM,Waste Management Inc,69577062929,Industrials,Waste Management
+HCA,HCA Healthcare Inc,68815683880,Healthcare,Health Care Providers
+BDX,Becton Dickinson & Company,68697710323,Healthcare,Medical Instruments & Equipment
+ENB,Enbridge Inc,68628872563,Energy,Oil & Gas - Midstream
+SMFG,Sumitomo Mitsui Financial Group Inc,67824769734,Financial Services,Banks
+GD,General Dynamics Corp,67531619085,Industrials,Aerospace & Defense
+ANET,Arista Networks Inc,67392607345,Technology,Computer Hardware
+MCO,Moody`s Corp,66894925000,Financial Services,Brokers & Exchanges
+AON,Aon plc. - Class A,66739117561,Financial Services,Brokers & Exchanges
+MITSY,Mitsui & Co. Ltd,66230964292,Unknown,Unknown
+CP,Canadian Pacific Kansas City Ltd,66124397365,Industrials,Transportation & Logistics
+CSX,CSX Corp,65306043355,Industrials,Transportation & Logistics
+TRI,Thomson-Reuters Corp,64479529891,Financial Services,Brokers & Exchanges
+FDX,Fedex Corp,64419480083,Industrials,Transportation & Logistics
+ICE,Intercontinental Exchange Inc,64053652961,Financial Services,Brokers & Exchanges
+CL,Colgate-Palmolive Company,63886721361,Consumer Defensive,Consumer Packaged Goods
+HUM,Humana Inc,63886320300,Healthcare,Health Care Plans
+STLA,Stellantis N.V,63322435880,Consumer Cyclical,Autos
+ARM,Arm Holdings plc.,63318451840,Unknown Sector,Unknown Industry
+MAR,Marriott International Inc - Class A,62615400451,Consumer Cyclical,Travel & Leisure
+PYPL,PayPal Holdings Inc,61863431116,Financial Services,Credit Services
+ITUB,Itau Unibanco Holding S.A.,61766052692,Financial Services,Banks
+MCK,Mckesson Corporation,61711093731,Healthcare,Medical Distribution
+VMW,Vmware Inc - Class A,61317067883,Technology,Application Software
+CMG,Chipotle Mexican Grill,61214982114,Consumer Cyclical,Restaurants
+WDAY,Workday Inc - Class A,61141860000,Technology,Application Software
+APD,Air Products & Chemicals Inc,60928740679,Basic Materials,Chemicals
+CHTR,Charter Communications Inc - Class A,60658639374,Communication Services,Communication Services
+TGT,Target Corp,60239513052,Consumer Defensive,Retail - Defensive
+AMX,America Movil S.A.B.DE C.V.,59977260000,Communication Services,Communication Services
+ORLY,O`Reilly Automotive Inc,59743735759,Consumer Cyclical,Retail - Apparel & Specialty
+MPC,Marathon Petroleum Corp,59660730402,Energy,Oil & Gas - Refining & Marketing
+MBGAF,Mercedes-Benz Group AG,58846106133,Discretionary,Automobiles
+KKR,KKR & Co. Inc,58708186143,Financial Services,Asset Management
+E,Eni Spa,58176272872,Energy,Oil & Gas - Integrated
+SCCO,Southern Copper Corporation,58160920031,Basic Materials,Metals & Mining
+EPD,Enterprise Products Partners L P,57985787264,Energy,Oil & Gas - Midstream
+MNST,Monster Beverage Corp,57843961907,Consumer Defensive,Beverages - Non-Alcoholic
+USB,U.S. Bancorp.,56459117965,Financial Services,Banks
+CTAS,Cintas Corporation,56448254538,Industrials,Business Services
+ROP,Roper Technologies Inc,56394575904,Industrials,Industrial Products
+PH,Parker-Hannifin Corp,55383473053,Industrials,Industrial Products
+PXD,Pioneer Natural Resources Company,55079597396,Energy,Oil & Gas - E&P
+SNOW,Snowflake Inc - Class A,55051028000,Unknown Sector,Unknown Industry
+BMO,Bank of Montreal,54373766616,Financial Services,Banks
+DELL,Dell Technologies Inc - Class C,54310542638,Unknown Sector,Unknown Industry
+AJG,Arthur J. Gallagher & Company,54089850940,Financial Services,Brokers & Exchanges
+BN,Brookfield Corporation - Class A,53813760000,Financial Services,Asset Management
+ING,ING Groep N.V.,53740481799,Financial Services,Banks
+APH,Amphenol Corp - Class A,53734536806,Technology,Computer Hardware
+TDG,Transdigm Group Incorporated,53538701832,Industrials,Aerospace & Defense
+MSI,Motorola Solutions Inc,53366112817,Technology,Communication Equipment
+OXY,Occidental Petroleum Corp,53266696476,Energy,Oil & Gas - E&P
+ECL,Ecolab Inc,53201580421,Basic Materials,Chemicals
+FCX,Freeport-McMoRan Inc,52886818280,Basic Materials,Metals & Mining
+MMM,3M Company,52643518049,Industrials,Industrial Products
+PSX,Phillips 66,52548428383,Energy,Oil & Gas - Refining & Marketing
+HMC,Honda Motor,52520669322,Consumer Cyclical,Autos
+BNS,Bank Of Nova Scotia,52432350000,Financial Services,Banks
+LULU,Lululemon Athletica Inc,52271201755,Consumer Cyclical,Retail - Apparel & Specialty
+TT,Trane Technologies plc - Class A,51951359949,Industrials,Industrial Products
+NXPI,NXP Semiconductors NV,51452149904,Technology,Semiconductors
+APO,Apollo Global Management Inc - Class A (New),51126185601,Financial Services,Asset Management
+PNC,PNC Financial Services Group Inc,50956675302,Financial Services,Banks
+EMR,Emerson Electric Company,50772060000,Industrials,Industrial Products
+RSG,Republic Services Inc,50615318940,Industrials,Waste Management
+NGG,National Grid Plc,50362559089,Utilities,Utilities - Regulated
+CRWD,Crowdstrike Holdings Inc - Class A,49700280824,Unknown Sector,Unknown Industry
+AFL,Aflac Inc,48968570062,Financial Services,Insurance - Life
+CPRT,Copart Inc,48719828163,Consumer Cyclical,Autos
+NSC,Norfolk Southern Corp,48560837903,Industrials,Transportation & Logistics
+AZO,Autozone Inc,48508573295,Consumer Cyclical,Retail - Apparel & Specialty
+MRVL,Marvell Technology Inc,47730000000,Technology,Semiconductors
+PCAR,Paccar Inc,47700736868,Industrials,Truck Manufacturing
+CRH,CRH Plc,47400612896,Basic Materials,Building Materials
+MET,Metlife Inc,47354853362,Financial Services,Insurance - Life
+BSBR,Banco Santander (Brasil) S.A.,46818219419,Financial Services,Banks
+TEAM,Atlassian Corporation - Class A,46470079246,Technology,Application Software
+AIG,American International Group Inc,46252118571,Financial Services,Insurance
+PCG,PG&E Corp,46164659156,Utilities,Utilities - Regulated
+SRE,Sempra,46014937346,Utilities,Utilities - Regulated
+WELL,Welltower Inc,46011269219,Real Estate,REITs
+FOX,Fox Corporation - Class B,45680464544,Unknown Sector,Unknown Industry
+KDP,Keurig Dr Pepper Inc,45285176635,Consumer Defensive,Beverages - Non-Alcoholic
+MCHP,Microchip Technology Inc,44885805224,Technology,Semiconductors
+PSA,Public Storage.,44787281580,Real Estate,REITs
+HLT,Hilton Worldwide Holdings Inc,44731895464,Consumer Cyclical,Travel & Leisure
+CCI,Crown Castle Inc,44712257886,Real Estate,REITs
+ROST,Ross Stores Inc,44619101530,Consumer Cyclical,Retail - Apparel & Specialty
+FMX,Fomento Economico Mexicano S.A.B. de C.V.,44541760609,Consumer Defensive,Beverages - Alcoholic
+SU,Suncor Energy Inc,44520477400,Energy,Oil & Gas - Integrated
+HES,Hess Corporation,44339612876,Energy,Oil & Gas - E&P
+JD,JD.com Inc,44319305000,Consumer Cyclical,Retail - Apparel & Specialty
+VLO,Valero Energy Corp,44268737837,Energy,Oil & Gas - Refining & Marketing
+CARR,Carrier Global Corp,44184873097,Unknown Sector,Unknown Industry
+ODFL,Old Dominion Freight Line Inc,44116987704,Industrials,Transportation & Logistics
+WMB,Williams Cos Inc,44070949604,Energy,Oil & Gas - Midstream
+EL,Estee Lauder Cos. Inc - Class A,43863624643,Consumer Defensive,Consumer Packaged Goods
+STZ,Constellation Brands Inc - Class A,43821802665,Consumer Defensive,Beverages - Alcoholic
+MFG,Mizuho Financial Group Inc,43802060672,Financial Services,Banks
+ABEV,Ambev S.A.,43438728251,Consumer Defensive,Beverages - Alcoholic
+TAK,Takeda Pharmaceutical Company,43410101812,Healthcare,Drug Manufacturers
+ADSK,Autodesk Inc,43313796075,Technology,Application Software
+ET,Energy Transfer LP,43187664894,Energy,Oil & Gas - Midstream
+DXCM,Dexcom Inc,42976194997,Healthcare,Medical Diagnostics & Research
+DHI,D.R. Horton Inc,42970429559,Consumer Cyclical,Homebuilding & Construction
+PAYX,Paychex Inc,42886920531,Industrials,Business Services
+LNG,Cheniere Energy Inc,42777994629,Energy,Oil & Gas - Midstream
+KHC,Kraft Heinz Company,42597253329,Consumer Defensive,Consumer Packaged Goods
+PLTR,Palantir Technologies Inc - Class A,42369441693,Unknown Sector,Unknown Industry
+TFC,Truist Financial Corporation,41943924838,Financial Services,Banks
+BIDU,Baidu Inc,41891850000,Technology,Online Media
+FTNT,Fortinet Inc,41599297553,Technology,Application Software
+MSCI,MSCI Inc,41440074701,Financial Services,Brokers & Exchanges
+DLR,Digital Realty Trust Inc,41419712835,Real Estate,REITs
+KMB,Kimberly-Clark Corp,41366808894,Consumer Defensive,Consumer Packaged Goods
+TEL,TE Connectivity Ltd,41229559227,Technology,Computer Hardware
+F,Ford Motor Company,41062834677,Consumer Cyclical,Autos
+STM,ST Microelectronics,41036884191,Technology,Semiconductors
+EW,Edwards Lifesciences Corp,40766867078,Healthcare,Medical Devices
+COF,Capital One Financial Corp,40726503510,Financial Services,Credit Services
+GWW,W.W. Grainger Inc,40449714329,Industrials,Industrial Distribution
+COR,Cencora Inc,40370275246,Healthcare,Medical Distribution
+AEP,American Electric Power Company Inc,40312525443,Utilities,Utilities - Regulated
+TRV,Travelers Companies Inc,40312165114,Financial Services,Insurance - Property & Casualty
+CNC,Centene Corp,40183168686,Healthcare,Health Care Plans
+SGEN,Seagen Inc,39992799010,Healthcare,Biotechnology
+ADM,Archer Daniels Midland Company,39848435124,Consumer Defensive,Consumer Packaged Goods
+IDXX,Idexx Laboratories Inc,39707325119,Healthcare,Medical Diagnostics & Research
+LI,Li Auto Inc,39673828956,Unknown,Unknown
+CEG,Constellation Energy Corporation,39636173574,Unknown Sector,Unknown Industry
+SPG,Simon Property Group Inc,39623803744,Real Estate,REITs
+WDS,Woodside Energy Group Ltd,39411295496,Unknown,Unknown
+HSY,Hershey Company,39178093361,Consumer Defensive,Consumer Packaged Goods
+NUE,Nucor Corp,39148920556,Basic Materials,Steel
+D,Dominion Energy Inc,39035456391,Utilities,Utilities - Regulated
+EXC,Exelon Corp,38674217918,Utilities,Utilities - Regulated
+GM,General Motors Company,38662938733,Consumer Cyclical,Autos
+KMI,Kinder Morgan Inc - Class P,38524979195,Energy,Oil & Gas - Midstream
+HLN,Haleon plc,38508172875,Unknown Sector,Unknown Industry
+KVUE,Kenvue Inc,38374484658,Unknown Sector,Unknown Industry
+IQV,IQVIA Holdings Inc,38367774868,Healthcare,Medical Diagnostics & Research
+GIS,General Mills Inc,37960804668,Consumer Defensive,Consumer Packaged Goods
+NU,Nu Holdings Ltd Class A,37953067930,Unknown Sector,Unknown Industry
+O,Realty Income Corp,37785465250,Real Estate,REITs
+LVS,Las Vegas Sands Corp,37671954221,Consumer Cyclical,Travel & Leisure
+TRP,TC Energy Corporation,37575560000,Energy,Oil & Gas - Midstream
+DASH,DoorDash Inc - Class A,37500944944,Unknown Sector,Unknown Industry
+LYG,Lloyds Banking Group plc,37109304913,Financial Services,Banks
+EA,Electronic Arts Inc,36876494751,Technology,Application Software
+BK,Bank Of New York Mellon Corp,36774108139,Financial Services,Asset Management
+LEN,Lennar Corp - Class A,36626280523,Consumer Cyclical,Homebuilding & Construction
+A,Agilent Technologies Inc,36623647674,Healthcare,Medical Diagnostics & Research
+DDOG,Datadog Inc - Class A,36442189338,Unknown Sector,Unknown Industry
+PCOA,Pendrell Corp - Class A,36415350000,Unknown,Unknown
+SYY,Sysco Corp,36369808759,Consumer Defensive,Retail - Defensive
+JCI,Johnson Controls International plc,36171130265,Industrials,Engineering & Construction
+DOW,Dow Inc,36138032230,Unknown Sector,Unknown Industry
+YUM,Yum Brands Inc,36130442572,Consumer Cyclical,Restaurants
+SQ,Block Inc - Class A,36006696852,Technology,Application Software
+AMP,Ameriprise Financial Inc,35972501624,Financial Services,Asset Management
+AME,Ametek Inc,35910341011,Industrials,Industrial Products
+MFC,Manulife Financial Corp,35883277344,Financial Services,Insurance - Life
+MPLX,MPLX LP,35823539501,Energy,Oil & Gas - Midstream
+BCE,BCE Inc,35819432000,Communication Services,Communication Services
+ALC,Alcon Inc,35815428000,Unknown Sector,Unknown Industry
+CTSH,Cognizant Technology Solutions Corp - Class A,35797333865,Technology,Application Software
+ALL,Allstate Corp (The),35597572182,Financial Services,Insurance - Property & Casualty
+LHX,L3Harris Technologies Inc,35524793726,Technology,Communication Equipment
+CM,Canadian Imperial Bank Of Commerce,35463887200,Financial Services,Banks
+SPOT,Spotify Technology S.A.,34985612921,Technology,Online Media
+OTIS,Otis Worldwide Corp,34973620215,Unknown Sector,Unknown Industry
+MBLY,Mobileye Global Inc - Class A,34965734706,Unknown Sector,Unknown Industry
+VRSK,Verisk Analytics Inc,34810849532,Industrials,Business Services
+FAST,Fastenal Company,34777039953,Industrials,Industrial Distribution
+PRU,Prudential Financial Inc,34528560000,Financial Services,Insurance - Life
+WCN,Waste Connections Inc,34342169511,Industrials,Waste Management
+FERG,Ferguson Plc.,34242253182,Unknown,Unknown
+CSGP,Costar Group Inc,34239023910,Real Estate,Real Estate Services
+HAL,Halliburton Company,34045918587,Energy,Oil & Gas - Services
+BKR,Baker Hughes Co - Class A,33904179440,Energy,Oil & Gas - Services
+IT,Gartner Inc,33763995591,Technology,Application Software
+CVE,Cenovus Energy Inc,33686071920,Energy,Oil & Gas - Integrated
+BIIB,Biogen Inc,33490396219,Healthcare,Biotechnology
+GEHC,GE HealthCare Technologies Inc,33476092477,Unknown Sector,Unknown Industry
+XEL,Xcel Energy Inc,33329123599,Utilities,Utilities - Regulated
+IMO,Imperial Oil Ltd,33244131181,Energy,Oil & Gas - Integrated
+ARES,Ares Management Corp - Class A,33137921463,Financial Services,Asset Management
+CTVA,Corteva Inc,32904659040,Unknown Sector,Unknown Industry
+TTD,Trade Desk Inc - Class A,32759959406,Technology,Application Software
+DD,DuPont de Nemours Inc,32735641122,Unknown Sector,Unknown Industry
+PEG,Public Service Enterprise Group Inc,32267529770,Utilities,Utilities - Regulated
+FIS,Fidelity National Information Services Inc,32247895804,Industrials,Business Services
+PPG,PPG Industries Inc,32180496457,Basic Materials,Chemicals
+ACGL,Arch Capital Group Ltd,32055418905,Financial Services,Insurance
+ORAN,Orange.,31985261745,Communication Services,Communication Services
+CMI,Cummins Inc,31801196932,Industrials,Industrial Products
+ASMIY,ASM International NV,31757043620,Technology,Semiconductors
+URI,United Rentals Inc,31643567444,Industrials,Consulting & Outsourcing
+PUK,Prudential plc,31542544864,Financial Services,Insurance - Life
+KR,Kroger Company,31451608686,Consumer Defensive,Retail - Defensive
+ROK,Rockwell Automation Inc,31333832825,Industrials,Industrial Products
+ED,Consolidated Edison Inc,31222482914,Utilities,Utilities - Regulated
+BBD,Banco Bradesco S.A.,31200301322,Financial Services,Banks
+GFS,GlobalFoundries Inc,30998301510,Unknown Sector,Unknown Industry
+LYB,LyondellBasell Industries NV - Class A,30785766777,Basic Materials,Chemicals
+Z,Zillow Group Inc - Class C,30570476904,Real Estate,Real Estate Services
+NEM,Newmont Corp,29953465777,Basic Materials,Metals & Mining
+SLF,Sun Life Financial Inc,29893479057,Financial Services,Insurance
+OKE,Oneok Inc,29842003835,Energy,Oil & Gas - Midstream
+MRNA,Moderna Inc,29750922604,Unknown Sector,Unknown Industry
+ON,ON Semiconductor Corp,29585625086,Technology,Semiconductors
+BCS,Barclays plc,29488970000,Financial Services,Banks
+GPN,Global Payments Inc,29218113695,Industrials,Business Services
+CDW,CDW Corp,29091065058,Technology,Application Software
+VICI,VICI Properties Inc,28994179372,Real Estate,REITs
+CPNG,Coupang Inc - Class A,28985835889,Unknown Sector,Unknown Industry
+DVN,Devon Energy Corp,28902400000,Energy,Oil & Gas - E&P
+CHT,Chunghwa Telecom,28896488380,Communication Services,Communication Services
+NTR,Nutrien Ltd,28875405569,Basic Materials,Agriculture
+GOLD,Barrick Gold Corp,28615456244,Basic Materials,Metals & Mining
+MLM,Martin Marietta Materials Inc,28602988851,Basic Materials,Building Materials
+IR,Ingersoll-Rand Inc,28595086029,Technology,Computer Hardware
+MDB,MongoDB Inc - Class A,28590397976,Technology,Application Software
+BF-B,Brown-Forman Corp - Class B,28546156392,Consumer Defensive,Beverages - Alcoholic
+HPQ,HP Inc,28257502227,Technology,Computer Hardware
+CQP,Cheniere Energy Partners LP,28219305971,Energy,Oil & Gas - Midstream
+VMC,Vulcan Materials Company,28154341423,Basic Materials,Building Materials
+VEEV,Veeva Systems Inc - Class A,28152936198,Technology,Application Software
+CCEP,Coca-Cola Europacific Partners Plc,27868711532,Consumer Defensive,Beverages - Non-Alcoholic
+ZS,Zscaler Inc,27812692268,Technology,Application Software
+PKX,POSCO Holdings Inc,27666723917,Basic Materials,Steel
+FANG,Diamondback Energy Inc,27566647936,Energy,Oil & Gas - E&P
+DG,Dollar General Corp,27411062891,Consumer Defensive,Retail - Defensive
+CCUR,CCUR Holdings Inc,27366198200,Tech,"Technology Hardware, Storage & Peripherals"
+NWG,NatWest Group Plc,27314277211,Financial Services,Banks
+ARGX,Argen X SE,27090809599,Healthcare,Biotechnology
+NDAQ,Nasdaq Inc - 144A,27086259901,Financial Services,Brokers & Exchanges
+CTLR,Continental Resources Inc (OKLA),26961475199,Energy,Oil & Gas - E&P
+RCL,Royal Caribbean Group,26887955761,Consumer Cyclical,Travel & Leisure
+EXR,Extra Space Storage Inc,26794085984,Real Estate,REITs
+PWR,Quanta Services Inc,26689023595,Industrials,Engineering & Construction
+RYAAY,Ryanair Holdings Plc,26668227579,Industrials,Airlines
+CAH,Cardinal Health Inc,26542169926,Healthcare,Medical Distribution
+FICO,Fair Isaac Corp,26477158636,Technology,Application Software
+TTWO,Take-Two Interactive Software Inc,26473220272,Technology,Application Software
+CAJPY,Canon Inc,26175667128,Industrials,Industrial Products
+MPWR,Monolithic Power System Inc,26090132460,Technology,Semiconductors
+BAYRY,Bayer AG,26058599706,Unknown,Unknown
+WIT,Wipro Ltd,26030656303,Technology,Application Software
+WBD,Warner Bros. Discovery Inc - Class A,25982517704,Consumer Cyclical,Entertainment
+WST,West Pharmaceutical Services Inc,25937841818,Healthcare,Medical Instruments & Equipment
+COIN,Coinbase Global Inc - Class A,25911504657,Unknown Sector,Unknown Industry
+ANSS,Ansys Inc,25908871112,Technology,Application Software
+EFX,Equifax Inc,25837488591,Industrials,Business Services
+WEC,WEC Energy Group Inc,25701605586,Utilities,Utilities - Regulated
+VOD,Vodafone Group plc,25676506430,Communication Services,Communication Services
+WTW,Willis Towers Watson Public Ltd Company,25626053874,Financial Services,Brokers & Exchanges
+EC,Ecopetrol SA,25492350708,Energy,Oil & Gas - Integrated
+DLTR,Dollar Tree Inc,25469937558,Consumer Defensive,Retail - Defensive
+AWK,American Water Works Co. Inc,25398417591,Utilities,Utilities - Regulated
+SBAC,SBA Communications Corp - Class A,25275935064,Communication Services,Communication Services
+EIX,Edison International,25258729877,Utilities,Utilities - Regulated
+SPLK,Splunk Inc,25095024000,Technology,Application Software
+DB,Deutsche Bank AG,24979078672,Financial Services,Banks
+EONGY,E. On SE,24975328085,Unknown,Unknown
+NET,Cloudflare Inc - Class A,24625218048,Unknown Sector,Unknown Industry
+XYL,Xylem Inc,24617492132,Industrials,Industrial Products
+TEF,Telefonica S.A,24577730430,Communication Services,Communication Services
+TU,Telus Corp,24548880000,Communication Services,Communication Services
+AVB,Avalonbay Communities Inc,24500524066,Real Estate,REITs
+CBRE,CBRE Group Inc - Class A,24309896620,Real Estate,Real Estate Services
+KEYS,Keysight Technologies Inc,24208071980,Technology,Computer Hardware
+RSTRF,Restaurant Brands International Ltd Partnership,24121464627,Unknown,Unknown
+GLW,Corning Inc,24019970895,Technology,Computer Hardware
+FTV,Fortive Corp,23877813356,Technology,Computer Hardware
+GIB,CGI Inc - Class A,23876735346,Technology,Application Software
+BNTX,BioNTech SE,23806162399,Unknown Sector,Unknown Industry
+ZBH,Zimmer Biomet Holdings Inc,23786387373,Healthcare,Medical Devices
+HEI,Heico Corp,23779807538,Industrials,Aerospace & Defense
+HIG,Hartford Financial Services Group Inc,23777237540,Financial Services,Insurance
+MTD,Mettler-Toledo International Inc,23582955398,Healthcare,Medical Diagnostics & Research
+HUBS,HubSpot Inc,23391667817,Technology,Application Software
+WY,Weyerhaeuser Company,23376628520,Basic Materials,Forest Products
+RBLX,Roblox Corporation - Class A,23326246468,Unknown Sector,Unknown Industry
+PCRFY,Panasonic Holdings Corporation,23251133241,Unknown,Unknown
+CHD,Church & Dwight Co. Inc,23153021759,Consumer Defensive,Consumer Packaged Goods
+DAL,Delta Air Lines Inc,23130890581,Industrials,Airlines
+APTV,Aptiv PLC,23086946385,Consumer Cyclical,Autos
+GRMN,Garmin Ltd,23045024036,Technology,Computer Hardware
+TLK,Telkom Indonesia (Persero) Tbk PT,22982434251,Communication Services,Communication Services
+IX,Orix Corporation,22872960887,Financial Services,Credit Services
+FNV,Franco-Nevada Corporation,22731429388,Basic Materials,Metals & Mining
+TCOM,Trip.com Group Ltd,22631484598,Consumer Cyclical,Travel & Leisure
+AEM,Agnico Eagle Mines Ltd,22562813647,Basic Materials,Metals & Mining
+RMD,Resmed Inc,22444566964,Healthcare,Medical Instruments & Equipment
+FRFHF,Fairfax Financial Holdings Ltd,22363601361,Unknown,Unknown
+TW,Tradeweb Markets Inc Cls A,22320750858,Unknown Sector,Unknown Industry
+STT,State Street Corp,22266585562,Financial Services,Asset Management
+ICLR,Icon Plc,22183879410,Healthcare,Medical Diagnostics & Research
+EBAY,EBay Inc,22159033720,Consumer Cyclical,Retail - Apparel & Specialty
+VRSN,Verisign Inc,22087127112,Technology,Online Media
+MT,ArcelorMittal,22061833352,Basic Materials,Steel
+BR,Broadridge Financial Solutions Inc,22052418135,Industrials,Business Services
+QSR,Restaurant Brands International Inc,21975384899,Consumer Cyclical,Restaurants
+TROW,T. Rowe Price Group Inc,21927088878,Financial Services,Asset Management
+RJF,Raymond James Financial Inc,21907477861,Financial Services,Brokers & Exchanges
+RCI,Rogers Communications Inc - Class B,21641099087,Communication Services,Communication Services
+DFS,Discover Financial Services,21613003214,Financial Services,Credit Services
+TSCO,Tractor Supply Company,21591833326,Consumer Cyclical,Retail - Apparel & Specialty
+DTE,DTE Energy Company,21578336935,Utilities,Utilities - Regulated
+HWM,Howmet Aerospace Inc,21550234554,Industrials,Industrial Products
+FE,Firstenergy Corp,21524023745,Utilities,Utilities - Regulated
+AKZOY,Akzo Nobel N.V.,21510654048,Unknown,Unknown
+EQR,Equity Residential Properties Trust,21411540897,Real Estate,REITs
+ETR,Entergy Corp,21397190950,Utilities,Utilities - Regulated
+NHYDY,Norsk Hydro,21373837723,Materials,Metals & Mining
+WPM,Wheaton Precious Metals Corp,21354553390,Basic Materials,Metals & Mining
+PINS,Pinterest Inc - Class A,21279402756,Unknown Sector,Unknown Industry
+MOH,Molina Healthcare Inc,21271921000,Healthcare,Health Care Plans
+BRO,Brown & Brown Inc,21140519207,Financial Services,Brokers & Exchanges
+SE,Sea Ltd,20901615563,Unknown Sector,Unknown Industry
+WAB,Westinghouse Air Brake Technologies Corp,20834649148,Industrials,Transportation & Logistics
+ES,Eversource Energy,20781078567,Utilities,Utilities - Regulated
+GMAB,Genmab,20769138471,Unknown,Unknown
+MTB,M & T Bank Corp,20755195905,Financial Services,Banks
+FCNCA,First Citizens Bancshares Inc (NC) - Class A,20609445859,Financial Services,Banks
+INVH,Invitation Homes Inc,20420979996,Real Estate,REITs
+ULTA,Ulta Beauty Inc,20393253908,Consumer Cyclical,Retail - Apparel & Specialty
+HPE,Hewlett Packard Enterprise Company,20380156233,Technology,Communication Equipment
+ALNY,Alnylam Pharmaceuticals Inc,20360106198,Healthcare,Biotechnology
+NVR,NVR Inc,20313572737,Consumer Cyclical,Homebuilding & Construction
+AEE,Ameren Corp,20231714195,Utilities,Utilities - Regulated
+LYV,Live Nation Entertainment Inc,20204977272,Consumer Cyclical,Entertainment
+TME,Tencent Music Entertainment Group,20176240274,Unknown Sector,Unknown Industry
+CTRA,Coterra Energy Inc,20137064552,Energy,Oil & Gas - E&P
+NOK,Nokia Corp,20034377891,Technology,Communication Equipment
+STE,Steris Plc,20009161599,Healthcare,Medical Instruments & Equipment
+SNAP,Snap Inc - Class A,19976762184,Technology,Online Media
+KYOCY,Kyocera Corporation,19867500053,Unknown,Unknown
+BEKE,KE Holdings Inc,19831337680,Unknown Sector,Unknown Industry
+ROL,Rollins Inc,19722686855,Industrials,Business Services
+FTS,Fortis Inc,19716315000,Utilities,Utilities - Regulated
+UMC,United Micro Electronics,19648631669,Technology,Semiconductors
+EXPE,Expedia Group Inc,19625184474,Consumer Cyclical,Travel & Leisure
+TRGP,Targa Resources Corp,19512185410,Energy,Oil & Gas - Midstream
+JXHLY,ENEOS Holdings Inc,19477268230,Unknown,Unknown
+DOV,Dover Corp,19380917192,Industrials,Industrial Products
+BGNE,BeiGene Ltd,19370767072,Healthcare,Biotechnology
+GPC,Genuine Parts Company,19348135958,Consumer Cyclical,Retail - Apparel & Specialty
+PPL,PPL Corp,19341203290,Utilities,Utilities - Regulated
+PHM,PulteGroup Inc,19298033489,Consumer Cyclical,Homebuilding & Construction
+TECK,Teck Resources Ltd - Class B - Class B (Sub Voting),19263210000,Basic Materials,Metals & Mining
+FWONA,Liberty Media Corp (New Liberty Formula One) Series A,19241850791,Consumer Cyclical,Entertainment
+ZM,Zoom Video Communications Inc - Class A,19210082374,Unknown Sector,Unknown Industry
+IFF,International Flavors & Fragrances Inc,19141392849,Unknown Sector,Unknown Industry
+OWL,Blue Owl Capital Inc - Class A,19109911773,Unknown Sector,Unknown Industry
+CBOE,Cboe Global Markets Inc,18999364911,Financial Services,Brokers & Exchanges
+MKL,Markel Group Inc,18961591314,Financial Services,Insurance - Property & Casualty
+DRI,Darden Restaurants Inc,18943918503,Consumer Cyclical,Restaurants
+CCL,Carnival Corp (Paired Stock),18898862245,Consumer Cyclical,Travel & Leisure
+YUMC,Yum China Holdings Inc,18833487711,Consumer Cyclical,Restaurants
+SIRI,Sirius XM Holdings Inc,18827774940,Consumer Cyclical,Entertainment
+LH,Laboratory Corp Of America Holdings,18747760000,Healthcare,Medical Diagnostics & Research
+JBHT,J.B. Hunt Transport Services Inc,18719841931,Industrials,Transportation & Logistics
+STLD,Steel Dynamics Inc,18668122415,Basic Materials,Steel
+KOF,Coca-Cola Femsa S.A.B. DE C.V.,18658751818,Consumer Defensive,Beverages - Non-Alcoholic
+TDY,Teledyne Technologies Inc,18615184174,Technology,Computer Hardware
+FITB,Fifth Third Bancorp,18513365303,Financial Services,Banks
+IRM,Iron Mountain Inc,18471338966,Industrials,Business Services
+PHG,Koninklijke Philips N.V.,18430464185,Healthcare,Medical Diagnostics & Research
+REPYY,Repsol S.A,18386203753,Energy,"Oil, Gas & Consumable Fuels"
+PTC,PTC Inc,18341906118,Technology,Application Software
+WRB,W.R. Berkley Corp,18302180291,Financial Services,Insurance - Property & Casualty
+BAX,Baxter International Inc,18164741144,Healthcare,Medical Instruments & Equipment
+K,Kellanova Company,18137527053,Consumer Defensive,Consumer Packaged Goods
+KUBTY,Kubota Corporation,18098724714,Industrials,Machinery
+ARE,Alexandria Real Estate Equities Inc,18097021111,Real Estate,REITs
+PBA,Pembina Pipeline Corporation,18072480000,Energy,Oil & Gas - Midstream
+ZTO,ZTO Express (Cayman) Inc,17992269838,Industrials,Transportation & Logistics
+VTR,Ventas Inc,17986293516,Real Estate,REITs
+DKNG,DraftKings Inc - Class A,17946544761,Unknown,Unknown
+CCJ,Cameco Corp,17912666925,Basic Materials,Metals & Mining
+WBA,Walgreens Boots Alliance Inc,17860878635,Consumer Defensive,Retail - Defensive
+VLTO,Veralto Corp,17833830000,Unknown Sector,Unknown Industry
+CHKP,Check Point Software Technologies Ltd,17828349000,Technology,Application Software
+HRL,Hormel Foods Corp,17802881225,Consumer Defensive,Consumer Packaged Goods
+MKC,McCormick & Co. Inc (Non Voting),17749799166,Consumer Defensive,Consumer Packaged Goods
+EG,Everest Group Ltd,17709094676,Financial Services,Insurance - Specialty
+HOLX,Hologic Inc,17679919407,Healthcare,Medical Instruments & Equipment
+RKT,Rocket Companies Inc Class A,17656853814,Unknown Sector,Unknown Industry
+CNP,Centerpoint Energy Inc,17540605833,Utilities,Utilities - Regulated
+PFG,Principal Financial Group Inc,17463901670,Financial Services,Insurance - Life
+FDS,Factset Research Systems Inc,17461818245,Financial Services,Brokers & Exchanges
+EXPD,Expeditors International Of Washington Inc,17459261627,Industrials,Transportation & Logistics
+VIV,Telefonica Brasil S.A.,17406619253,Communication Services,Communication Services
+CLX,Clorox Company,17398790276,Consumer Defensive,Consumer Packaged Goods
+TYL,Tyler Technologies Inc,17330834727,Technology,Application Software
+FLT,Fleetcor Technologies Inc,17281628929,Industrials,Business Services
+LPLA,LPL Financial Holdings Inc,17269151479,Financial Services,Brokers & Exchanges
+WMG,Warner Music Group Corp - Class A,17234181564,Unknown Sector,Unknown Industry
+AKAM,Akamai Technologies Inc,17230079140,Technology,Application Software
+CNHI,CNH Industrial NV,17224029011,Industrials,Farm & Construction Machinery
+JBL,Jabil Inc,17080024919,Technology,Computer Hardware
+TSN,Tyson Foods Inc - Class A,17070451971,Consumer Defensive,Consumer Packaged Goods
+FSLR,First Solar Inc,17063110250,Technology,Semiconductors
+AXON,Axon Enterprise Inc,16960798704,Industrials,Aerospace & Defense
+BALL,Ball Corp,16883989945,Consumer Cyclical,Packaging & Containers
+COO,Cooper Companies Inc,16785166553,Healthcare,Medical Instruments & Equipment
+ATO,Atmos Energy Corp,16783683477,Utilities,Utilities - Regulated
+BAH,Booz Allen Hamilton Holding Corp - Class A,16697547225,Industrials,Business Services
+BLDR,Builders Firstsource Inc,16689891241,Basic Materials,Building Materials
+CMS,CMS Energy Corporation,16648841171,Utilities,Utilities - Regulated
+BMRN,Biomarin Pharmaceutical Inc,16638413429,Healthcare,Biotechnology
+ALGN,Align Technology Inc,16630008542,Healthcare,Medical Devices
+NTAP,Netapp Inc,16567483161,Technology,Computer Hardware
+VRT,Vertiv Holdings Co - Class A,16560567898,Unknown Sector,Unknown Industry
+DECK,Deckers Outdoor Corp,16530044685,Consumer Cyclical,Manufacturing - Apparel & Furniture
+AER,Aercap Holdings N.V.,16518187228,Industrials,Transportation & Logistics
+BG,Bunge Global SA,16501367072,Consumer Defensive,Consumer Packaged Goods
+ERIC,Telefonaktiebolaget L M Ericsson,16470709571,Technology,Communication Equipment
+WLK,Westlake Corporation,16391218188,Basic Materials,Chemicals
+RPRX,Royalty Pharma plc - Class A,16357539627,Unknown Sector,Unknown Industry
+WAT,Waters Corp,16331910436,Healthcare,Medical Diagnostics & Research
+KB,KB Financial Group Inc,16091898036,Financial Services,Banks
+HUBB,Hubbell Inc,16074824426,Technology,Computer Hardware
+CINF,Cincinnati Financial Corp,16005602770,Financial Services,Insurance - Property & Casualty
+STX,Seagate Technology Holdings Plc,15875952675,Technology,Computer Hardware
+NTRS,Northern Trust Corp,15763368383,Financial Services,Asset Management
+HBAN,Huntington Bancshares Inc,15738482058,Financial Services,Banks
+RS,Reliance Steel & Aluminum Company,15682164096,Basic Materials,Steel
+OMC,Omnicom Group Inc,15679258130,Consumer Cyclical,Advertising & Marketing Services
+MGA,Magna International Inc,15647365000,Consumer Cyclical,Autos
+J,Jacobs Solutions Inc,15608739498,Industrials,Engineering & Construction
+ENTG,Entegris Inc,15489673929,Technology,Semiconductors
+ILMN,Illumina Inc,15475408000,Healthcare,Medical Diagnostics & Research
+TXT,Textron Inc,15451486570,Industrials,Aerospace & Defense
+L,Loews Corp,15447342525,Financial Services,Insurance - Property & Casualty
+SUI,Sun Communities Inc,15426695567,Real Estate,REITs
+BSY,Bentley Systems Inc - Class B,15361843654,Unknown Sector,Unknown Industry
+WSO,Watsco Inc - Class A,15329787599,Technology,Computer Hardware
+AVY,Avery Dennison Corp,15294622273,Industrials,Industrial Products
+MRO,Marathon Oil Corporation,15287544347,Energy,Oil & Gas - E&P
+DGX,Quest Diagnostics Inc,15235901114,Healthcare,Medical Diagnostics & Research
+DT,Dynatrace Inc,15227619396,Unknown Sector,Unknown Industry
+SMCI,Super Micro Computer Inc,15166018767,Tech,"Technology Hardware, Storage & Peripherals"
+RIVN,Rivian Automotive Inc - Class A,15151219528,Unknown Sector,Unknown Industry
+WDC,Western Digital Corp,15100139531,Technology,Computer Hardware
+RF,Regions Financial Corp,15051574410,Financial Services,Banks
+SWKS,Skyworks Solutions Inc,15025937951,Technology,Semiconductors
+XPEV,XPeng Inc,14965198545,Unknown Sector,Unknown Industry
+IEX,Idex Corporation,14912427632,Industrials,Industrial Products
+ALB,Albemarle Corp,14854928247,Basic Materials,Chemicals
+FOXA,Fox Corporation - Class A,14854085218,Unknown Sector,Unknown Industry
+BBY,Best Buy Co. Inc,14844862696,Consumer Cyclical,Retail - Apparel & Specialty
+IHG,Intercontinental Hotels Group,14810928108,Consumer Cyclical,Travel & Leisure
+SUZ,Suzano S.A.,14783322522,Unknown,Unknown
+EPAM,EPAM Systems Inc,14779997625,Technology,Application Software
+CF,CF Industries Holdings Inc,14743127644,Basic Materials,Agriculture
+LUV,Southwest Airlines Company,14718109295,Industrials,Airlines
+LDOS,Leidos Holdings Inc,14603171823,Technology,Application Software
+LII,Lennox International Inc,14602080968,Industrials,Industrial Products
+SHG,Shinhan Financial Group Co. Ltd,14588771405,Financial Services,Banks
+EQT,EQT Corp,14582037698,Energy,Oil & Gas - E&P
+SNA,Snap-on Inc,14534588239,Industrials,Industrial Products
+SQM,Sociedad Quimica Y Minera de Chile S.A.,14490438873,Basic Materials,Chemicals
+LW,Lamb Weston Holdings Inc,14404980260,Consumer Defensive,Consumer Packaged Goods
+CE,Celanese Corp - Series A,14336926686,Basic Materials,Chemicals
+MAA,Mid-America Apartment Communities Inc,14268426172,Real Estate,REITs
+TER,Teradyne Inc,14237029756,Technology,Semiconductors
+RTO,Rentokil Initial,14202179399,Unknown,Unknown
+MGM,MGM Resorts International,14158379018,Consumer Cyclical,Travel & Leisure
+JHX,James Hardie Industries plc,14122593120,Basic Materials,Building Materials
+IOT,Samsara Inc - Class A,14010863796,Unknown Sector,Unknown Industry
+GDDY,Godaddy Inc - Class A,13996962930,Technology,Online Media
+POOL,Pool Corporation,13912655188,Consumer Cyclical,Travel & Leisure
+PKG,Packaging Corp Of America,13865804641,Consumer Cyclical,Packaging & Containers
+SSNC,SS&C Technologies Holdings Inc,13798676029,Technology,Application Software
+SWK,Stanley Black & Decker Inc,13750864418,Industrials,Industrial Products
+MANH,Manhattan Associates Inc,13690474044,Technology,Application Software
+CSL,Carlisle Companies Inc,13680307431,Industrials,Conglomerates
+ENPH,Enphase Energy Inc,13662808375,Technology,Semiconductors
+ESS,Essex Property Trust Inc,13661416256,Real Estate,REITs
+APP,Applovin Corp - Class A,13647500639,Unknown Sector,Unknown Industry
+GGG,Graco Inc,13644476896,Industrials,Industrial Products
+LOGI,Logitech International S.A.,13583244112,Technology,Computer Hardware
+AVTR,Avantor Inc,13579201259,Unknown Sector,Unknown Industry
+GEN,Gen Digital Inc,13549714593,Technology,Application Software
+TKO,TKO Group Holdings Inc - Class A,13538672911,Unknown Sector,Unknown Industry
+CAG,Conagra Brands Inc,13515121019,Consumer Defensive,Consumer Packaged Goods
+AMCR,Amcor Plc,13442023114,Unknown Sector,Unknown Industry
+ROKU,Roku Inc - Class A,13412108431,Communication Services,Communication Services
+ERIE,Erie Indemnity Co. - Class A,13347065710,Financial Services,Brokers & Exchanges
+MAS,Masco Corp,13333616125,Basic Materials,Building Materials
+NDSN,Nordson Corp,13268660917,Industrials,Industrial Products
+RPM,RPM International Inc,13136154323,Basic Materials,Chemicals
+CRBG,Corebridge Financial Inc,13107078634,Unknown Sector,Unknown Industry
+BAM,Brookfield Asset Management Ltd - Class A,13100803823,Unknown Sector,Unknown Industry
+UAL,United Airlines Holdings Inc,13053592259,Industrials,Airlines
+AMH,American Homes 4 Rent - Class A,13017567899,Real Estate,REITs
+PODD,Insulet Corporation,13008372495,Healthcare,Medical Devices
+ELS,Equity Lifestyle Properties Inc,12989034266,Real Estate,REITs
+XP,XP Inc - Class A,12975934910,Unknown Sector,Unknown Industry
+DPZ,Dominos Pizza Inc,12966994385,Consumer Cyclical,Restaurants
+VST,Vistra Corp,12795120333,Utilities,Utilities - Independent Power Producers
+NIO,NIO Inc,12640192343,Unknown,Unknown
+CFG,Citizens Financial Group Inc,12638598412,Financial Services,Banks
+TPL,Texas Pacific Land Corporation,12606875352,Real Estate,Real Estate Services
+NWSA,News Corp - Class A,12542717510,Consumer Cyclical,Entertainment
+NMR,Nomura Holdings Inc,12523886650,Financial Services,Brokers & Exchanges
+LNT,Alliant Energy Corp,12519703818,Utilities,Utilities - Regulated
+WPC,W. P. Carey Inc,12491128455,Real Estate,REITs
+CELH,Celsius Holdings Inc,12437924880,Consumer Defensive,Beverages - Non-Alcoholic
+SYF,Synchrony Financial,12411673221,Financial Services,Credit Services
+NICE,NICE Ltd,12394048550,Technology,Application Software
+HST,Host Hotels & Resorts Inc,12374808724,Real Estate,REITs
+BIP,Brookfield Infrastructure Partners L.P,12326620809,Utilities,Utilities - Regulated
+ACI,Albertsons Companies Inc - Class A,12319539160,Unknown Sector,Unknown Industry
+H,Hyatt Hotels Corporation - Class A,12292932987,Consumer Cyclical,Travel & Leisure
+LKQ,LKQ Corp,12238028684,Consumer Cyclical,Autos
+OVV,Ovintiv Inc,12230597604,Energy,Oil & Gas - E&P
+TAP,Molson Coors Beverage Company - Class B,12211374720,Consumer Defensive,Beverages - Alcoholic
+AGR,Avangrid Inc,12210357787,Utilities,Utilities - Regulated
+CPB,Campbell Soup Company,12209844019,Consumer Defensive,Consumer Packaged Goods
+LBRDA,Liberty Broadband Corp - Series A,12189786314,Communication Services,Communication Services
+FNF,Fidelity National Financial Inc,12149862627,Financial Services,Insurance - Specialty
+ACM,AECOM,12134432496,Industrials,Engineering & Construction
+GFI,Gold Fields Ltd,12126218974,Basic Materials,Metals & Mining
+BAP,Credicorp Ltd,12053565704,Financial Services,Banks
+GRAB,Grab Holdings Ltd - Class A,12017962939,Unknown Sector,Unknown Industry
+INCY,Incyte Corp,11966282913,Healthcare,Biotechnology
+MOS,Mosaic Company,11965403124,Basic Materials,Agriculture
+BEN,Franklin Resources Inc,11915590342,Financial Services,Asset Management
+RYAN,Ryan Specialty Holdings Inc Class A,11884130211,Unknown Sector,Unknown Industry
+AZPN,Aspen Technology Inc,11882461330,Technology,Application Software
+OC,Owens Corning,11879635729,Basic Materials,Building Materials
+EDU,New Oriental Education & Technology Group Inc,11877235769,Consumer Defensive,Education
+EXAS,Exact Sciences Corp,11811899079,Healthcare,Medical Diagnostics & Research
+MORN,Morningstar Inc,11791615365,Industrials,Business Services
+GLPI,Gaming and Leisure Properties Inc,11766279974,Real Estate,REITs
+FLEX,Flex Ltd,11755221587,Technology,Computer Hardware
+IPG,Interpublic Group Of Cos. Inc,11728960248,Consumer Cyclical,Advertising & Marketing Services
+OKTA,Okta Inc - Class A,11678559547,Technology,Application Software
+EVRG,Evergy Inc,11675760488,Utilities,Utilities - Regulated
+CG,Carlyle Group Inc (The),11658848908,Financial Services,Asset Management
+WSM,Williams-Sonoma Inc,11654433484,Consumer Cyclical,Retail - Apparel & Specialty
+KIM,Kimco Realty Corporation,11622807638,Real Estate,REITs
+ZBRA,Zebra Technologies Corp - Class A,11595282893,Industrials,Industrial Products
+FMS,Fresenius Medical Care AG & Co. KGaA,11583962967,Healthcare,Health Care Providers
+SJM,J.M. Smucker Company,11562901719,Consumer Defensive,Consumer Packaged Goods
+PSTG,Pure Storage Inc - Class A,11498653336,Technology,Computer Hardware
+HTHT,H World Group Ltd,11461562281,Consumer Cyclical,Travel & Leisure
+TRU,TransUnion,11441427000,Industrials,Business Services
+AOS,A.O. Smith Corp,11419224452,Industrials,Industrial Products
+GL,Globe Life Inc,11413444882,Financial Services,Insurance - Life
+IP,International Paper Company,11390291327,Consumer Cyclical,Packaging & Containers
+SNN,Smith & Nephew plc,11365847586,Healthcare,Medical Devices
+NJDCY,Nidec Corporation,11364349194,Unknown,Unknown
+TWLO,Twilio Inc Class A,11348760579,Technology,Application Software
+AEG,Aegon Ltd,11328254851,Financial Services,Insurance
+AES,AES Corp,11323426982,Utilities,Utilities - Regulated
+RBA,RB Global Inc,11320057121,Industrials,Business Services
+RDY,Dr. Reddy`s Laboratories Ltd,11260372943,Healthcare,Drug Manufacturers
+KEY,Keycorp,11259104632,Financial Services,Banks
+CNA,CNA Financial Corp,11243470703,Financial Services,Insurance - Property & Casualty
+VTRS,Viatris Inc,11239619478,Unknown Sector,Unknown Industry
+APA,APA Corporation,11233623170,Energy,Oil & Gas - E&P
+SAIA,Saia Inc,11230304370,Industrials,Transportation & Logistics
+JKHY,Jack Henry & Associates Inc,11165639205,Industrials,Business Services
+LECO,Lincoln Electric Holdings Inc,11158707688,Industrials,Industrial Products
+BURL,Burlington Stores Inc,11137992309,Consumer Defensive,Retail - Defensive
+RVTY,Revvity Inc,11107578325,Healthcare,Medical Diagnostics & Research
+RNR,RenaissanceRe Holdings Ltd,11071589435,Financial Services,Insurance - Specialty
+BCH,Banco de Chile,11061370382,Financial Services,Banks
+ARCC,Ares Capital Corp,11058396305,Financial Services,Asset Management
+XM,Qualtrics International Inc - Class A,10999948939,Unknown Sector,Unknown Industry
+U,Unity Software Inc,10963044950,Unknown Sector,Unknown Industry
+WES,Western Midstream Partners LP,10938439537,Energy,Oil & Gas - Midstream
+UDR,UDR Inc,10915679159,Real Estate,REITs
+PAA,Plains All American Pipeline LP,10873932393,Energy,Oil & Gas - Midstream
+TRMB,Trimble Inc,10846690415,Technology,Computer Hardware
+NBIX,Neurocrine Biosciences Inc,10837468901,Healthcare,Biotechnology
+CHK,Chesapeake Energy Corp - New,10828078966,Unknown Sector,Unknown Industry
+NI,NiSource Inc,10823143160,Utilities,Utilities - Regulated
+UTHR,United Therapeutics Corp,10817034867,Healthcare,Biotechnology
+UHAL,U-Haul Holding Company,10811734303,Industrials,Consulting & Outsourcing
+TPG,TPG Inc - Class A,10784755294,Unknown Sector,Unknown Industry
+BSAC,Banco Santander Chile SA,10735775843,Financial Services,Banks
+PAYC,Paycom Software Inc,10732901908,Technology,Application Software
+VIVHY,Vivendi SE,10711050384,Discretionary,Media
+RGA,Reinsurance Group Of America Inc,10693205539,Financial Services,Insurance - Specialty
+FIVE,Five Below Inc,10631829539,Consumer Cyclical,Retail - Apparel & Specialty
+CASY,Casey`s General Stores Inc,10614987463,Consumer Defensive,Retail - Defensive
+TEVA,Teva- Pharmaceutical Industries Ltd,10601350381,Healthcare,Drug Manufacturers
+USFD,US Foods Holding Corp,10572368690,Consumer Defensive,Retail - Defensive
+EBR,Centrais Eletricas Brasileiras S.A.,10555620861,Utilities,Utilities - Regulated
+CDAY,Ceridian HCM Holding Inc,10552087151,Technology,Application Software
+NRG,NRG Energy Inc,10500451817,Utilities,Utilities - Independent Power Producers
+OTEX,Open Text Corp,10500345926,Technology,Application Software
+REG,Regency Centers Corporation,10467106913,Real Estate,REITs
+PNR,Pentair plc,10355907681,Industrials,Industrial Products
+DKS,Dicks Sporting Goods Inc,10354967733,Consumer Cyclical,Retail - Apparel & Specialty
+XPO,XPO Inc,10308321741,Industrials,Transportation & Logistics
+PATH,UiPath Inc - Class A,10274880486,Unknown Sector,Unknown Industry
+WPP,WPP Plc.,10258456071,Consumer Cyclical,Advertising & Marketing Services
+TFX,Teleflex Incorporated,10254628937,Healthcare,Medical Instruments & Equipment
+PAG,Penske Automotive Group Inc,10242825764,Consumer Cyclical,Autos
+EME,Emcor Group Inc,10193420723,Industrials,Engineering & Construction
+EQH,Equitable Holdings Inc,10128762450,Financial Services,Insurance
+KMX,Carmax Inc,10103266525,Consumer Cyclical,Autos
+TFII,TFI International Inc,10083102321,Unknown,Unknown
+DOX,Amdocs Ltd,10076989230,Technology,Application Software
+GFL,GFL Environmental Inc (Sub Voting),10058305298,Unknown Sector,Unknown Industry
+TECH,Bio-Techne Corp,10056722757,Healthcare,Biotechnology
+LKNCY,Luckin Coffee Inc,10052164707,Unknown Sector,Unknown Industry
+DINO,HF Sinclair Corp,10039705720,Energy,Oil & Gas - Refining & Marketing
+LAMR,Lamar Advertising Co - Class A,10016583310,Real Estate,REITs
+CRL,Charles River Laboratories International Inc,9995351047,Healthcare,Medical Diagnostics & Research
+WYNN,Wynn Resorts Ltd,9972847315,Consumer Cyclical,Travel & Leisure
+CX,Cemex S.A.B. De C.V.,9944982599,Basic Materials,Building Materials
+CZR,Caesars Entertainment Inc,9944239234,Consumer Cyclical,Travel & Leisure
+CCK,Crown Holdings Inc,9933062550,Consumer Cyclical,Packaging & Containers
+FFIV,F5 Inc,9908324091,Technology,Application Software
+PFGC,Performance Food Group Company,9879256901,Consumer Defensive,Retail - Defensive
+VIPS,Vipshop Holdings Ltd,9855099593,Consumer Cyclical,Retail - Apparel & Specialty
+REXR,Rexford Industrial Realty Inc,9818369202,Real Estate,REITs
+DBX,Dropbox Inc - Class A,9790511983,Technology,Application Software
+FND,Floor & Decor Holdings Inc - Class A,9768235383,Consumer Cyclical,Retail - Apparel & Specialty
+C-P-N,Citigroup Capital VIII 7875 Fixed rate Floating Rate trust Preferred Securities TruPS,9741880587,Unknown,Unknown
+EMN,Eastman Chemical Company,9653993420,Basic Materials,Chemicals
+CHRW,C.H. Robinson Worldwide Inc,9633531057,Industrials,Transportation & Logistics
+UHS,Universal Health Services Inc - Class B,9602622990,Healthcare,Health Care Providers
+LCID,Lucid Group Inc,9587131096,Unknown Sector,Unknown Industry
+NTNX,Nutanix Inc - Class A,9585975822,Technology,Application Software
+RXDX,Prometheus Biosciences Inc,9558070442,Unknown Sector,Unknown Industry
+BRKR,Bruker Corp,9552794285,Healthcare,Medical Diagnostics & Research
+HII,Huntington Ingalls Industries Inc,9491679636,Industrials,Aerospace & Defense
+BEPC,Brookfield Renewable Corporation - Class A - Class A (Sub Voting),9475629527,Unknown Sector,Unknown Industry
+AFG,American Financial Group Inc,9473329250,Financial Services,Insurance - Property & Casualty
+WRK,WestRock Company,9459271768,Consumer Cyclical,Packaging & Containers
+CPT,Camden Property Trust,9440650882,Real Estate,REITs
+COTY,Coty Inc - Class A,9414970766,Consumer Defensive,Consumer Packaged Goods
+WMS,Advanced Drainage Systems Inc,9402148357,Consumer Cyclical,Autos
+TOL,Toll Brothers Inc,9327966020,Consumer Cyclical,Homebuilding & Construction
+BLD,TopBuild Corp,9324259385,Basic Materials,Building Materials
+LEGN,Legend Biotech Corp,9277949467,Unknown Sector,Unknown Industry
+QGEN,Qiagen NV,9256005000,Healthcare,Medical Diagnostics & Research
+WTRG,Essential Utilities Inc,9247121964,Utilities,Utilities - Regulated
+SNX,TD Synnex Corp,9242278587,Industrials,Business Services
+BKGM,BankGuam Holding Company,9241355850,Financials,Banks
+ESLT,Elbit Systems Ltd,9220114560,Industrials,Aerospace & Defense
+PARA,Paramount Global - Class B,9219609262,Unknown,Unknown
+SCI,Service Corp International,9203809364,Consumer Cyclical,Personal Services
+ALLE,Allegion plc,9187934275,Industrials,Consulting & Outsourcing
+FTI,TechnipFMC plc,9164394275,Energy,Oil & Gas - Services
+SBS,Companhia de Saneamento Basico do Estado de Sao Paulo.,9145362047,Utilities,Utilities - Regulated
+QRVO,Qorvo Inc,9139940041,Technology,Semiconductors
+PEAK,Healthpeak OP LLC,9097512809,Real Estate,REITs
+HSIC,Henry Schein Inc,9091622219,Healthcare,Medical Distribution
+NXG,NXG NextGen Infrastructure Income Fund,9084012063,Unknown Sector,Unknown Industry
+DVA,DaVita Inc,9082524000,Healthcare,Health Care Providers
+DUOL,Duolingo Inc - Class A,9078837824,Unknown Sector,Unknown Industry
+PSO,Pearson plc,9063624000,Consumer Cyclical,Publishing
+CHDN,Churchill Downs Inc,9010500518,Consumer Cyclical,Travel & Leisure
+BIO,Bio-Rad Laboratories Inc - Class A,9010141223,Healthcare,Medical Diagnostics & Research
+NVT,nVent Electric plc,9003213692,Technology,Computer Hardware
+KEP,Korea Electric Power,8961818515,Utilities,Utilities - Regulated
+GLOB,Globant S.A.,8937967800,Technology,Application Software
+CLH,Clean Harbors Inc,8936511475,Industrials,Waste Management
+RGEN,Repligen Corp,8932720348,Healthcare,Biotechnology
+ITT,ITT Inc,8932480000,Industrials,Industrial Products
+MTCH,Match Group Inc - New,8918242233,Technology,Online Media
+ZG,Zillow Group Inc - Class A,8907925285,Real Estate,Real Estate Services
+PEN,Penumbra Inc,8905006084,Healthcare,Medical Devices
+UWMC,UWM Holdings Corporation Class A,8901130431,Unknown Sector,Unknown Industry
+MKTX,MarketAxess Holdings Inc,8824806718,Financial Services,Brokers & Exchanges
+BJ,BJ`s Wholesale Club Holdings Inc,8796861293,Consumer Cyclical,Retail - Apparel & Specialty
+ETSY,Etsy Inc,8793026424,Consumer Cyclical,Retail - Apparel & Specialty
+SKM,SK Telecom Co Ltd,8780023404,Communication Services,Communication Services
+TTEK,Tetra Tech Inc,8762096430,Industrials,Engineering & Construction
+CHE,Chemed Corp,8755294186,Healthcare,Health Care Providers
+NLY,Annaly Capital Management Inc,8747110379,Real Estate,REITs
+CHWY,Chewy Inc - Class A,8740893111,Unknown Sector,Unknown Industry
+RHI,Robert Half Inc,8730418207,Industrials,Employment Services
+MTN,Vail Resorts Inc,8719682639,Consumer Cyclical,Travel & Leisure
+ONON,On Holding AG Class A,8714462272,Unknown Sector,Unknown Industry
+AIZ,Assurant Inc,8692539307,Financial Services,Insurance
+JNPR,Juniper Networks Inc,8689577645,Technology,Communication Equipment
+ALV,Autoliv Inc,8680256714,Consumer Cyclical,Autos
+TTC,Toro Company,8667807071,Industrials,Industrial Products
+CUBE,CubeSmart,8664122519,Real Estate,REITs
+EWBC,East West Bancorp Inc,8627674075,Financial Services,Banks
+IBKR,Interactive Brokers Group Inc - Class A,8627254298,Financial Services,Brokers & Exchanges
+GGB,Gerdau S.A.,8576797904,Basic Materials,Steel
+CLF,Cleveland-Cliffs Inc,8571293739,Basic Materials,Metals & Mining
+EMRAF,Emera Inc,8554630473,Unknown,Unknown
+DOCU,DocuSign Inc,8552199939,Technology,Application Software
+AGCO,AGCO Corp,8537788411,Industrials,Farm & Construction Machinery
+SKX,Skechers U S A Inc - Class A,8528494648,Consumer Cyclical,Manufacturing - Apparel & Furniture
+BXP,Boston Properties Inc,8467548355,Real Estate,REITs
+MEDP,Medpace Holdings Inc,8461914961,Healthcare,Medical Diagnostics & Research
+PCTY,Paylocity Holding Corp,8449125496,Technology,Application Software
+ATR,Aptargroup Inc,8438962718,Consumer Cyclical,Packaging & Containers
+KNSL,Kinsale Capital Group Inc,8401152494,Financial Services,Insurance - Property & Casualty
+FBIN,Fortune Brands Innovations Inc,8379849941,Consumer Cyclical,Manufacturing - Apparel & Furniture
+KNX,Knight-Swift Transportation Holdings Inc - Class A,8366319780,Industrials,Transportation & Logistics
+UNM,Unum Group,8359042833,Financial Services,Insurance - Life
+FUTU,Futu Holdings Ltd,8349448447,Unknown Sector,Unknown Industry
+PNW,Pinnacle West Capital Corp,8345443751,Utilities,Utilities - Regulated
+TIMB,TIM SA,8293675868,Unknown Sector,Unknown Industry
+DLB,Dolby Laboratories Inc - Class A,8289226617,Consumer Cyclical,Entertainment
+STVN,Stevanato Group Spa,8204191399,Unknown Sector,Unknown Industry
+CW,Curtiss-Wright Corp,8198896806,Industrials,Industrial Products
+ORI,Old Republic International Corp,8183478631,Financial Services,Insurance
+ALLY,Ally Financial Inc,8173868613,Financial Services,Banks
+BWA,BorgWarner Inc,8135531122,Consumer Cyclical,Autos
+RRC,Range Resources Corp,8070813555,Energy,Oil & Gas - E&P
+PCOR,Procore Technologies Inc,8067489282,Unknown Sector,Unknown Industry
+AAL,American Airlines Group Inc,8042891587,Industrials,Airlines
+RL,Ralph Lauren Corp - Class A,8006576076,Consumer Cyclical,Manufacturing - Apparel & Furniture
+LSCC,Lattice Semiconductor Corp,8005567326,Technology,Semiconductors
+WWD,Woodward Inc,7984790016,Industrials,Aerospace & Defense
+LNW,Light & Wonder Inc,7983676607,Consumer Cyclical,Travel & Leisure
+YMM,Full Truck Alliance Co Ltd,7980693380,Unknown Sector,Unknown Industry
+CNM,Core & Main Inc Class A,7973226173,Unknown Sector,Unknown Industry
+MNDY,Monday.Com Ltd,7958615700,Unknown Sector,Unknown Industry
+CURLF,Curaleaf Holdings Inc,7953876549,Unknown,Unknown
+MUSA,Murphy USA Inc,7931608336,Consumer Cyclical,Retail - Apparel & Specialty
+GWRE,Guidewire Software Inc,7909928202,Technology,Application Software
+MHGVY,Mowi ASA,7853994627,Unknown,Unknown
+WCC,Wesco International Inc,7845326157,Industrials,Industrial Distribution
+OLED,Universal Display Corp,7833464196,Technology,Semiconductors
+LEA,Lear Corp,7833326313,Consumer Cyclical,Autos
+CYBR,CyberArk Software Ltd,7821058599,Technology,Application Software
+EGP,Eastgroup Properties Inc,7816320349,Real Estate,REITs
+SRPT,Sarepta Therapeutics Inc,7813973621,Healthcare,Biotechnology
+OHI,Omega Healthcare Investors Inc,7777149806,Real Estate,REITs
+X,United States Steel Corp,7736843652,Basic Materials,Steel
+JEF,Jefferies Financial Group Inc,7712217218,Financial Services,Asset Management
+BZ,Kanzhun Ltd,7708729345,Unknown Sector,Unknown Industry
+STN,Stantec Inc,7704602003,Industrials,Engineering & Construction
+JAZZ,Jazz Pharmaceuticals plc,7684769317,Healthcare,Biotechnology
+AFRM,Affirm Holdings Inc - Class A,7653017054,Unknown Sector,Unknown Industry
+SEIC,SEI Investments Company,7638383354,Financial Services,Asset Management
+RGLD,Royal Gold Inc,7634344665,Basic Materials,Metals & Mining
+RRX,Regal Rexnord Corp,7626470779,Industrials,Industrial Products
+NFE,New Fortress Energy Inc - Class A,7575910452,Unknown Sector,Unknown Industry
+BERY,Berry Global Group Inc,7569029000,Consumer Cyclical,Packaging & Containers
+AIIXY,Aixtron SE,7555042967,Unknown Sector,Unknown Industry
+FCN,FTI Consulting Inc,7536481695,Industrials,Business Services
+AR,Antero Resources Corp,7530621716,Energy,Oil & Gas - E&P
+PRI,Primerica Inc,7528203431,Financial Services,Insurance - Life
+COLD,Americold Realty Trust Inc,7523897836,Real Estate,REITs
+ESTC,Elastic N.V,7523445944,Technology,Application Software
+MNSO,MINISO Group Holding Ltd,7514131381,Unknown Sector,Unknown Industry
+TOST,Toast Inc - Class A,7509573749,Unknown Sector,Unknown Industry
+FRT,Federal Realty Investment Trust.,7507477013,Real Estate,REITs
+WSC,WillScot Mobile Mini Holdings Corp,7493632658,Industrials,Consulting & Outsourcing
+VOYA,Voya Financial Inc,7492404341,Financial Services,Asset Management
+HOOD,Robinhood Markets Inc - Class A,7491273211,Unknown Sector,Unknown Industry
+ASX,ASE Technology Holding Co.Ltd,7488999001,Technology,Semiconductors
+NYT,New York Times Co. - Class A,7487292767,Consumer Cyclical,Publishing
+TXRH,Texas Roadhouse Inc,7471151546,Consumer Cyclical,Restaurants
+WBS,Webster Financial Corp,7469020032,Financial Services,Banks
+NOV,NOV Inc,7462070474,Energy,Oil & Gas - Services
+EDR,Endeavor Group Holdings Inc - Class A,7457197402,Unknown Sector,Unknown Industry
+WEX,WEX Inc,7455955841,Industrials,Business Services
+HESM,Hess Midstream LP - Class A,7443447764,Energy,Oil & Gas - Midstream
+BIRK,Birkenstock Holding Plc,7410501032,Unknown Sector,Unknown Industry
+PR,Permian Resources Corp - Class A,7402696763,Energy,Oil & Gas - E&P
+JLL,Jones Lang Lasalle Inc,7402179760,Real Estate,Real Estate Services
+SWN,Southwestern Energy Company,7401831709,Energy,Oil & Gas - E&P
+LAD,Lithia Motors Inc - Class A,7389516982,Consumer Cyclical,Autos
+CACI,Caci International Inc,7373608271,Technology,Application Software
+RMBS,Rambus Inc,7367465945,Technology,Semiconductors
+PAC,Grupo Aeroportuario Del Pacifico SAB de CV,7366896677,Industrials,Transportation & Logistics
+ARMK,Aramark,7343343673,Consumer Cyclical,Restaurants
+TREX,TREX Co. Inc,7336690446,Basic Materials,Building Materials
+HLI,Houlihan Lokey Inc - Class A,7319459415,Financial Services,Brokers & Exchanges
+CCCS,CCC Intelligent Solutions Holdings Inc,7301081403,Unknown Sector,Unknown Industry
+DCI,Donaldson Co. Inc,7293929970,Industrials,Industrial Products
+AU,AngloGold Ashanti Plc.,7289575352,Unknown Sector,Unknown Industry
+GNTX,Gentex Corp,7250516228,Consumer Cyclical,Autos
+CAR,Avis Budget Group Inc,7213191373,Industrials,Consulting & Outsourcing
+NNN,NNN REIT Inc,7201478263,Real Estate,REITs
+BWXT,BWX Technologies Inc,7167294880,Industrials,Aerospace & Defense
+SSL,Sasol Ltd,7164077728,Energy,Oil & Gas - Integrated
+GTLB,Gitlab Inc - Class A,7157152000,Unknown Sector,Unknown Industry
+MSTR,Microstrategy Inc - Class A,7153689905,Technology,Application Software
+WF,Woori Financial Group Inc,7152079973,Financial Services,Banks
+KGC,Kinross Gold Corp,7134008850,Basic Materials,Metals & Mining
+CTLT,Catalent Inc,7131583127,Healthcare,Drug Manufacturers
+MKTAY,Makita Corporation,7111052422,Industrials,Machinery
+IONS,Ionis Pharmaceuticals Inc,7106113393,Healthcare,Biotechnology
+KRTX,Karuna Therapeutics Inc,7085321645,Unknown Sector,Unknown Industry
+FIX,Comfort Systems USA Inc,7074538979,Industrials,Engineering & Construction
+ASR,Grupo Aeroportuario Del Sureste S.A.,7070100000,Industrials,Transportation & Logistics
+INFA,Informatica Inc - Class A,7064623688,Unknown Sector,Unknown Industry
+KBR,KBR Inc,7060168775,Industrials,Engineering & Construction
+WING,Wingstop Inc,7040242648,Consumer Cyclical,Restaurants
+APG,APi Group Corporation,7028780481,Unknown Sector,Unknown Industry
+APPF,Appfolio Inc - Class A,7023036820,Technology,Application Software
+RBC,RBC Bearings Inc,7018793932,Industrials,Industrial Products
+GNRC,Generac Holdings Inc,6990463823,Industrials,Industrial Products
+OGE,Oge Energy Corp,6990029004,Utilities,Utilities - Regulated
+KVYO,Klaviyo Inc - Series A,6981443691,Unknown Sector,Unknown Industry
+GPK,Graphic Packaging Holding Company,6973690041,Consumer Cyclical,Packaging & Containers
+UI,Ubiquiti Inc,6955015021,Technology,Communication Equipment
+GPS,Gap Inc,6953756126,Consumer Cyclical,Retail - Apparel & Specialty
+MTDR,Matador Resources Company,6949917423,Energy,Oil & Gas - E&P
+ROIV,Roivant Sciences Ltd,6945679773,Unknown Sector,Unknown Industry
+SSD,Simpson Manufacturing Co. Inc,6933484343,Industrials,Industrial Products
+CART,Maplebear Inc,6928066324,Unknown Sector,Unknown Industry
+TPR,Tapestry Inc,6911878048,Consumer Cyclical,Retail - Apparel & Specialty
+INGR,Ingredion Inc,6895140245,Consumer Defensive,Consumer Packaged Goods
+DAR,Darling Ingredients Inc,6894800253,Industrials,Waste Management
+FSV,FirstService Corp,6881653690,Real Estate,Real Estate Services
+CSAN,Cosan S.A,6881230564,Unknown Sector,Unknown Industry
+THC,Tenet Healthcare Corp,6876975032,Healthcare,Health Care Providers
+HRB,H&R Block Inc,6876492247,Consumer Cyclical,Personal Services
+DSGX,Descartes Systems Group Inc,6873650234,Technology,Application Software
+AXTA,Axalta Coating Systems Ltd,6863883579,Basic Materials,Chemicals
+EXEL,Exelixis Inc,6845186878,Healthcare,Biotechnology
+UFPI,UFP Industries Inc,6844125614,Basic Materials,Forest Products
+CIEN,CIENA Corp,6838066284,Technology,Communication Equipment
+SPAQ,Horizon Kinetics SPAC Active ETF,6832366200,Unknown Sector,Unknown Industry
+COKE,Coca-Cola Consolidated Inc,6824139329,Consumer Defensive,Beverages - Non-Alcoholic
+TPX,Tempur Sealy International Inc,6820856299,Consumer Cyclical,Manufacturing - Apparel & Furniture
+AMKR,AMKOR Technology Inc,6814083638,Technology,Semiconductors
+YNDX,Yandex NV - Class A,6791107384,Technology,Online Media
+FHN,First Horizon Corporation,6788227878,Financial Services,Banks
+BILL,BILL Holdings Inc,6782248590,Unknown Sector,Unknown Industry
+BBWI,Bath & Body Works Inc,6778071973,Consumer Cyclical,Retail - Apparel & Specialty
+BEP,Brookfield Renewable Partners LP,6772574604,Utilities,Utilities - Independent Power Producers
+TNET,TriNet Group Inc,6740998995,Industrials,Business Services
+GXO,GXO Logistics Inc,6738904184,Unknown Sector,Unknown Industry
+ACHC,Acadia Healthcare Company Inc,6726694899,Healthcare,Health Care Providers
+LBTYA,Liberty Global plc - Class A,6717156627,Communication Services,Communication Services
+KKPNY,Koninklijke KPN NV,6711358614,Communication Services,Communication Services
+CIB,Bancolombia S.A.,6708743325,Financial Services,Banks
+ONTO,Onto Innovation Inc,6699935127,Technology,Semiconductors
+ICL,ICL Group Ltd,6695779890,Basic Materials,Agriculture
+CHRD,Chord Energy Corp - New,6686448818,Unknown Sector,Unknown Industry
+ARW,Arrow Electronics Inc,6680626932,Technology,Computer Hardware
+WFRD,Weatherford International plc - New,6669068197,Unknown Sector,Unknown Industry
+BRBR,Bellring Brands Inc,6665645930,Unknown Sector,Unknown Industry
+CAE,Cae Inc,6649621054,Industrials,Aerospace & Defense
+GRFS,Grifols SA,6641780411,Healthcare,Biotechnology
+XRAY,DENTSPLY Sirona Inc,6639413948,Healthcare,Medical Instruments & Equipment
+MIDD,Middleby Corp,6637126679,Industrials,Industrial Products
+PSN,Parsons Corp,6632948522,Unknown Sector,Unknown Industry
+MUR,Murphy Oil Corp,6631917332,Energy,Oil & Gas - E&P
+FMC,FMC Corp,6625845379,Basic Materials,Agriculture
+IEP,Icahn Enterprises L P,6621905108,Industrials,Conglomerates
+EHC,Encompass Health Corp,6621245723,Healthcare,Health Care Providers
+CEAYY,China Eastern Airlines Corporation Ltd,6610769914,Industrials,Airlines
+NYCB,New York Community Bancorp Inc,6596199416,Financial Services,Banks
+SN,SharkNinja Inc,6587788133,Unknown Sector,Unknown Industry
+WH,Wyndham Hotels & Resorts Inc,6581310208,Consumer Cyclical,Travel & Leisure
+QLYS,Qualys Inc,6580272323,Technology,Application Software
+MAT,Mattel Inc,6569287558,Consumer Cyclical,Travel & Leisure
+SOFI,SoFi Technologies Inc,6555789146,Unknown Sector,Unknown Industry
+MSA,MSA Safety Inc,6531422388,Industrials,Consulting & Outsourcing
+CIG,Cia Energetica DE Minas Gerais - Cemig,6524862718,Utilities,Utilities - Regulated
+WTS,Watts Water Technologies Inc - Class A,6498269384,Industrials,Industrial Products
+VFC,VF Corp,6486325146,Consumer Cyclical,Manufacturing - Apparel & Furniture
+SF,Stifel Financial Corp,6453878994,Financial Services,Brokers & Exchanges
+STAG,STAG Industrial Inc,6435575907,Real Estate,REITs
+BRX,Brixmor Property Group Inc,6432686797,Real Estate,REITs
+CIVI,Civitas Resources Inc New,6424480834,Energy,Oil & Gas - E&P
+WFG,West Fraser Timber Co. Ltd,6418614367,Unknown,Unknown
+GIL,Gildan Activewear Inc,6418535360,Consumer Cyclical,Manufacturing - Apparel & Furniture
+SWAV,ShockWave Medical Inc,6396039094,Unknown Sector,Unknown Industry
+SPSC,SPS Commerce Inc,6382798817,Technology,Application Software
+CGNX,Cognex Corp,6343832494,Technology,Computer Hardware
+HAS,Hasbro Inc,6329358672,Consumer Cyclical,Travel & Leisure
+CFR,Cullen Frost Bankers Inc,6325744900,Financial Services,Banks
+EXP,Eagle Materials Inc,6321065410,Basic Materials,Building Materials
+SITE,SiteOne Landscape Supply Inc,6299166557,Industrials,Industrial Distribution
+OSK,Oshkosh Corp,6287841475,Industrials,Truck Manufacturing
+AM,Antero Midstream Corp,6283785376,Energy,Oil & Gas - Midstream
+LSTR,Landstar System Inc,6275175617,Industrials,Transportation & Logistics
+RLI,RLI Corp,6270844836,Financial Services,Insurance - Property & Casualty
+NTRA,Natera Inc,6262982249,Healthcare,Medical Diagnostics & Research
+AIT,Applied Industrial Technologies Inc,6257758575,Industrials,Industrial Distribution
+TAL,TAL Education Group,6253283887,Consumer Defensive,Education
+SAIC,Science Applications International Corp,6243332202,Technology,Application Software
+STWD,Starwood Property Trust Inc,6233649755,Real Estate,REITs
+SIGI,Selective Insurance Group Inc,6223244454,Financial Services,Insurance - Property & Casualty
+IVZ,Invesco Ltd,6213394534,Financial Services,Asset Management
+CBSH,Commerce Bancshares Inc,6211307398,Financial Services,Banks
+ELF,e.l.f. Beauty Inc,6195064609,Consumer Defensive,Consumer Packaged Goods
+PPC,Pilgrim`s Pride Corp,6158906053,Consumer Defensive,Consumer Packaged Goods
+LEVI,Levi Strauss & Co. Cls A,6152300858,Unknown Sector,Unknown Industry
+NCLH,Norwegian Cruise Line Holdings Ltd,6121845590,Consumer Cyclical,Travel & Leisure
+NE,Noble Corp Plc - Class A,6120792206,Unknown Sector,Unknown Industry
+CR,Crane Company,6108243328,Unknown Sector,Unknown Industry
+ENSG,Ensign Group Inc,6099478576,Healthcare,Health Care Providers
+ENLC,Enlink Midstream LLC,6068695150,Energy,Oil & Gas - Midstream
+G,Genpact Ltd,6066903760,Industrials,Business Services
+KT,KT Corporation,6031972375,Communication Services,Communication Services
+FR,First Industrial Realty Trust Inc,6026815327,Real Estate,REITs
+FN,Fabrinet,5994289989,Technology,Computer Hardware
+MTSI,MACOM Technology Solutions Holdings Inc,5977169055,Technology,Semiconductors
+FAF,First American Financial Corp,5970766605,Financial Services,Insurance - Specialty
+WHR,Whirlpool Corp,5970203549,Consumer Cyclical,Manufacturing - Apparel & Furniture
+RH,RH - Class A,5954096970,Consumer Cyclical,Retail - Apparel & Specialty
+CVNA,Carvana Co. - Class A,5939073507,Consumer Cyclical,Retail - Apparel & Specialty
+OLN,Olin Corp,5935223363,Basic Materials,Chemicals
+BYD,Boyd Gaming Corp,5924713368,Consumer Cyclical,Travel & Leisure
+YPF,YPF,5899691895,Energy,Oil & Gas - Integrated
+ELAN,Elanco Animal Health Inc,5877619669,Healthcare,Drug Manufacturers
+AN,Autonation Inc,5875953575,Consumer Cyclical,Autos
+LFUS,Littelfuse Inc,5873400464,Technology,Computer Hardware
+RHP,Ryman Hospitality Properties Inc,5835115072,Real Estate,REITs
+TTDKY,TDK Corporation,5828429362,Tech,"Electronic Equipment, Instruments & Components"
+ALTR,Altair Engineering Inc - Class A,5827968565,Unknown Sector,Unknown Industry
+PLNT,Planet Fitness Inc - Class A,5810303303,Consumer Cyclical,Travel & Leisure
+CFLT,Confluent Inc Class A,5803470792,Unknown Sector,Unknown Industry
+CHH,Choice Hotels International Inc,5781836578,Consumer Cyclical,Travel & Leisure
+CHX,ChampionX Corp,5781473767,Energy,Oil & Gas - Services
+CROX,Crocs Inc,5776066975,Consumer Cyclical,Manufacturing - Apparel & Furniture
+CMA,Comerica Inc,5749409698,Financial Services,Banks
+OBDC,Blue Owl Capital Corp,5740765146,Unknown,Unknown
+SRC,Spirit Realty Capital Inc,5733813194,Real Estate,REITs
+ZI,ZoomInfo Technologies Inc,5732984331,Unknown Sector,Unknown Industry
+NXT,Nextracker Inc - Class A,5719991127,Unknown Sector,Unknown Industry
+ITCI,Intra-Cellular Therapies Inc,5694386083,Healthcare,Biotechnology
+DOOO,BRP Inc,5681485444,Consumer Cyclical,Autos
+HXL,Hexcel Corp,5678629078,Industrials,Aerospace & Defense
+CPRI,Capri Holdings Ltd,5676837215,Consumer Cyclical,Manufacturing - Apparel & Furniture
+GTLS,Chart Industries Inc,5673620702,Industrials,Industrial Products
+W,Wayfair Inc - Class A,5666603709,Consumer Cyclical,Retail - Apparel & Specialty
+HQY,Healthequity Inc,5661033756,Technology,Application Software
+RICOY,Ricoh Company Ltd,5641130320,Unknown,Unknown
+WIX,Wix.com Ltd,5636561802,Technology,Online Media
+AYI,Acuity Brands Inc,5624614650,Technology,Computer Hardware
+ATI,ATI Inc,5621724264,Industrials,Industrial Products
+APLS,Apellis Pharmaceuticals Inc,5607827075,Healthcare,Biotechnology
+DDS,Dillard`s Inc - Class A,5604261598,Consumer Cyclical,Retail - Apparel & Specialty
+CRSP,CRISPR Therapeutics AG,5597713111,Healthcare,Biotechnology
+SSB,SouthState Corporation,5592557534,Financial Services,Banks
+PBF,PBF Energy Inc - Class A,5572910138,Energy,Oil & Gas - Refining & Marketing
+FSK,FS KKR Capital Corp,5553717366,Financial Services,Brokers & Exchanges
+SMAR,Smartsheet Inc - Class A,5546081944,Technology,Application Software
+FRSH,Freshworks Inc Class A,5545477098,Unknown Sector,Unknown Industry
+CACC,Credit Acceptance Corp,5538421500,Financial Services,Credit Services
+BILI,Bilibili Inc,5534825583,Technology,Online Media
+MSM,MSC Industrial Direct Co. Inc - Class A,5532902297,Industrials,Industrial Distribution
+ADC,Agree Realty Corp,5532573166,Real Estate,REITs
+EVR,Evercore Inc - Class A,5519461355,Financial Services,Brokers & Exchanges
+PB,Prosperity Bancshares Inc,5505256948,Financial Services,Banks
+DTM,DT Midstream Inc,5492421060,Unknown Sector,Unknown Industry
+HR,Healthcare Realty Trust Inc,5488157036,Real Estate,REITs
+ABCM,Abcam,5479474318,Unknown,Unknown
+ADT,ADT Inc,5472076827,Unknown Sector,Unknown Industry
+REYN,Reynolds Consumer Products Inc,5462340098,Unknown Sector,Unknown Industry
+BC,Brunswick Corp,5451252188,Consumer Cyclical,Travel & Leisure
+FLR,Fluor Corporation,5437961288,Industrials,Engineering & Construction
+PNFP,Pinnacle Financial Partners Inc,5430674771,Financial Services,Banks
+IGT,International Game Technology PLC,5430024560,Consumer Cyclical,Travel & Leisure
+ALGM,Allegro Microsystems Inc,5428862572,Unknown Sector,Unknown Industry
+OPCH,Option Care Health Inc,5425081453,Healthcare,Health Care Providers
+SON,Sonoco Products Company,5420897215,Consumer Cyclical,Packaging & Containers
+COHR,Coherent Corp,5417311755,Technology,Computer Hardware
+PVH,PVH Corp,5408706491,Consumer Cyclical,Manufacturing - Apparel & Furniture
+UGP,Ultrapar Participacoes S.A.,5397337619,Energy,Oil & Gas - Refining & Marketing
+FIVN,Five9 Inc,5397148199,Technology,Application Software
+AETUF,ARC Resources Ltd,5379791972,Energy,"Oil, Gas & Consumable Fuels"
+THO,Thor Industries Inc,5373463939,Consumer Cyclical,Autos
+ATEYY,Advantest Corporation,5353102758,Unknown,Unknown
+BLCO,Bausch + Lomb Corp,5351697657,Unknown Sector,Unknown Industry
+ACHHY,Aluminum Corporation of China Limited American Depositary Shares,5350494836,Unknown Sector,Unknown Industry
+AGI,Alamos Gold Inc - Class A,5348927078,Basic Materials,Metals & Mining
+WAL,Western Alliance Bancorp,5341578632,Financial Services,Banks
+SUN,Sunoco LP,5340292969,Energy,Oil & Gas - Refining & Marketing
+DV,DoubleVerify Holdings Inc,5340162048,Unknown Sector,Unknown Industry
+NSIT,Insight Enterprises Inc,5331676294,Technology,Application Software
+AGNC,AGNC Investment Corp,5327420082,Real Estate,REITs
+MHK,Mohawk Industries Inc,5325101885,Consumer Cyclical,Manufacturing - Apparel & Furniture
+ASND,Ascendis Pharma A/S,5303533320,Healthcare,Biotechnology
+POST,Post Holdings Inc,5299691865,Consumer Defensive,Consumer Packaged Goods
+HALO,Halozyme Therapeutics Inc,5291346497,Healthcare,Biotechnology
+FG,F&G Annuities & Life Inc,5287629837,Unknown Sector,Unknown Industry
+KNTK,Kinetik Holdings Inc - Class A,5245104734,Industrials,Conglomerates
+NXST,Nexstar Media Group Inc,5242742847,Consumer Cyclical,Entertainment
+ZWS,Zurn Elkay Water Solutions Corp,5238587590,Industrials,Industrial Products
+FOUR,Shift4 Payments Inc - Class A,5237780587,Unknown,Unknown
+MTH,Meritage Homes Corp,5221770872,Consumer Cyclical,Homebuilding & Construction
+BPOP,Popular Inc,5206901045,Financial Services,Banks
+BECN,Beacon Roofing Supply Inc - Class A,5206052033,Basic Materials,Building Materials
+MKSI,MKS Instruments Inc,5199919023,Technology,Computer Hardware
+TKR,Timken Company,5195940422,Industrials,Industrial Products
+AAON,AAON Inc,5185466550,Basic Materials,Building Materials
+VNT,Vontier Corporation,5172903007,Unknown Sector,Unknown Industry
+ELP,Cia Paranaense De Energia Copel,5166613480,Utilities,Utilities - Regulated
+NOVT,Novanta Inc,5166425708,Technology,Computer Hardware
+ESNT,Essent Group Ltd,5161121815,Financial Services,Banks
+CMC,Commercial Metals Company,5146774268,Basic Materials,Steel
+FYBR,Frontier Communications Parent Inc,5141278280,Unknown Sector,Unknown Industry
+WTFC,Wintrust Financial Corp,5141197308,Financial Services,Banks
+DLO,DLocal Ltd Class A,5140916075,Unknown Sector,Unknown Industry
+BFAM,Bright Horizons Family Solutions Inc,5118027561,Consumer Cyclical,Personal Services
+S,SentinelOne Inc - Class A,5107554644,Unknown Sector,Unknown Industry
+ZION,Zions Bancorporation N.A,5097674027,Financial Services,Banks
+PII,Polaris Inc,5096864204,Consumer Cyclical,Autos
+TXG,10x Genomics Inc - Class A,5090079620,Unknown Sector,Unknown Industry
+BRZE,Braze Inc - Class A,5081840525,Unknown Sector,Unknown Industry
+HLNE,Hamilton Lane Inc - Class A,5075278035,Financial Services,Brokers & Exchanges
+MMS,Maximus Inc,5062059957,Industrials,Business Services
+WK,Workiva Inc - Class A,5054669710,Technology,Application Software
+CWAN,Clearwater Analytics Holdings Inc Class A,5044034502,Unknown Sector,Unknown Industry
+OZK,Bank OZK,5032389627,Financial Services,Banks
+FCFS,FirstCash Holdings Inc,5025923555,Financial Services,Credit Services
+GLBE,Global E Online Ltd,5003539670,Unknown Sector,Unknown Industry
+FRHC,Freedom Holding Corp,4978559489,Unknown,Unknown
+FLS,Flowserve Corp,4978003748,Industrials,Industrial Products
+VAL,Valaris Ltd,4974191189,Materials,Chemicals
+MTG,MGIC Investment Corp,4957547998,Financial Services,Insurance - Specialty
+ESI,Element Solutions Inc,4952975118,Basic Materials,Chemicals
+NEU,NewMarket Corp,4951403558,Basic Materials,Chemicals
+ATKR,Atkore Inc,4944945371,Industrials,Industrial Products
+PHI,PLDT Inc,4936874459,Communication Services,Communication Services
+RITM,Rithm Capital Corporation,4925036975,Real Estate,REITs
+TMHC,Taylor Morrison Home Corp,4920786081,Consumer Cyclical,Homebuilding & Construction
+IDA,Idacorp Inc,4910140681,Utilities,Utilities - Regulated
+AUOTY,AUO Corp,4908365009,Technology,Computer Hardware
+VNOM,Viper Energy Inc - Class A,4903368851,Unknown Sector,Unknown Industry
+CLVT,Clarivate Plc,4894610659,Unknown Sector,Unknown Industry
+MASI,Masimo Corp,4893066561,Healthcare,Medical Instruments & Equipment
+VNOM,Viper Energy Partners LP,4872662190,Energy,Oil & Gas - E&P
+ST,Sensata Technologies Holding Plc,4847033592,Technology,Computer Hardware
+R,Ryder System Inc,4841824314,Industrials,Consulting & Outsourcing
+VVV,Valvoline Inc,4839329312,Energy,Oil & Gas - Refining & Marketing
+OLLI,Ollies Bargain Outlet Holdings Inc,4833259355,Consumer Defensive,Retail - Defensive
+DRS,Leonardo DRS Inc,4831280000,Unknown Sector,Unknown Industry
+CNXC,Concentrix Corp,4829530317,Unknown Sector,Unknown Industry
+RIG,Transocean Ltd,4822261082,Energy,Oil & Gas - Drilling
+ALSN,Allison Transmission Holdings Inc,4809811229,Consumer Cyclical,Autos
+AGL,Agilon Health Inc,4796853610,Unknown Sector,Unknown Industry
+BBIO,BridgeBio Pharma Inc,4792935771,Unknown Sector,Unknown Industry
+DOCS,Doximity Inc - Class A,4774344909,Unknown Sector,Unknown Industry
+SEE,Sealed Air Corp,4771311323,Consumer Cyclical,Packaging & Containers
+ESAB,ESAB Corp,4756271995,Unknown Sector,Unknown Industry
+BOKF,BOK Financial Corp,4745398372,Financial Services,Banks
+RRR,Red Rock Resorts Inc - Class A,4738699774,Consumer Cyclical,Travel & Leisure
+BROS,Dutch Bros Inc - Class A,4733352796,Unknown Sector,Unknown Industry
+DXC,DXC Technology Company,4731320672,Technology,Application Software
+AZEK,AZEK Company Inc - Class A,4730220977,Unknown Sector,Unknown Industry
+AXS,Axis Capital Holdings Ltd,4717847237,Financial Services,Insurance - Property & Casualty
+TDC,Teradata Corp,4711284000,Technology,Computer Hardware
+AA,Alcoa Corp,4707500580,Basic Materials,Metals & Mining
+ALK,Alaska Air Group Inc,4698398458,Industrials,Airlines
+NFG,National Fuel Gas Company,4692884730,Energy,Oil & Gas - E&P
+TRNO,Terreno Realty Corp,4682217953,Real Estate,REITs
+LANC,Lancaster Colony Corp,4678108320,Consumer Defensive,Consumer Packaged Goods
+BXSL,Blackstone Secured Lending Fund.,4675560354,Unknown Sector,Unknown Industry
+LNTH,Lantheus Holdings Inc,4673816605,Healthcare,Medical Diagnostics & Research
+AMG,Affiliated Managers Group Inc,4668251076,Financial Services,Asset Management
+SIM,Grupo Simec S.A.B. de C.V.,4667393318,Basic Materials,Steel
+IRDM,Iridium Communications Inc,4666890706,Communication Services,Communication Services
+EXLS,ExlService Holdings Inc,4666732787,Industrials,Business Services
+CIGI,Colliers International Group Inc,4664687040,Real Estate,Real Estate Services
+CWEN,Clearway Energy Inc - Class C,4647730451,Utilities,Utilities - Regulated
+OMF,OneMain Holdings Inc,4642131633,Financial Services,Credit Services
+MLI,Mueller Industries Inc,4635420416,Industrials,Industrial Products
+GMED,Globus Medical Inc - Class A,4619182848,Healthcare,Medical Devices
+UGI,UGI Corp,4617782717,Utilities,Utilities - Regulated
+MMYT,MakeMyTrip Ltd,4613315643,Consumer Cyclical,Travel & Leisure
+CWST,Casella Waste Systems Inc - Class A,4610317285,Industrials,Waste Management
+QDEL,QuidelOrtho Corporation,4609888523,Healthcare,Medical Diagnostics & Research
+RYN,Rayonier Inc,4609669468,Basic Materials,Forest Products
+PCVX,Vaxcyte Inc,4598499031,Unknown Sector,Unknown Industry
+KEX,Kirby Corp,4595780000,Industrials,Transportation & Logistics
+COLM,Columbia Sportswear Company,4593022722,Consumer Cyclical,Manufacturing - Apparel & Furniture
+SLGN,Silgan Holdings Inc,4586965060,Consumer Cyclical,Packaging & Containers
+TENB,Tenable Holdings Inc,4566584702,Technology,Application Software
+COLB,Columbia Banking System Inc,4563529717,Financial Services,Banks
+FIZZ,National Beverage Corp,4562187793,Consumer Defensive,Beverages - Non-Alcoholic
+BCC,Boise Cascade Company,4534618556,Basic Materials,Forest Products
+IPGP,IPG Photonics Corp,4529235695,Technology,Semiconductors
+MTZ,Mastec Inc,4521856139,Industrials,Engineering & Construction
+KRG,Kite Realty Group Trust,4521279261,Real Estate,REITs
+UBSI,United Bankshares Inc,4516276090,Financial Services,Banks
+AIRC,Apartment Income REIT Corp - Class A,4499089339,Unknown Sector,Unknown Industry
+FLO,Flowers Foods Inc,4496885514,Consumer Defensive,Consumer Packaged Goods
+MGY,Magnolia Oil & Gas Corp - Class A,4490329555,Energy,Oil & Gas - E&P
+RCM,R1 RCM Inc,4487313909,Technology,Application Software
+NTCO,Natura &Co Holding S.A.,4483650395,Unknown Sector,Unknown Industry
+PWSC,PowerSchool Holdings Inc Class A,4482516230,Unknown Sector,Unknown Industry
+SID,Companhia Siderurgica Nacional,4481702672,Basic Materials,Steel
+WU,Western Union Company,4471945572,Financial Services,Credit Services
+MOG-A,Moog Inc - Class A,4471528646,Industrials,Aerospace & Defense
+DNB,Dun & Bradstreet Holdings Inc,4471320914,Unknown Sector,Unknown Industry
+SM,SM Energy Company,4470130477,Energy,Oil & Gas - E&P
+FRO,Frontline Plc,4463434369,Industrials,Transportation & Logistics
+HOMB,Home Bancshares Inc,4454765096,Financial Services,Banks
+SEDG,Solaredge Technologies Inc,4449968963,Technology,Semiconductors
+ACT,Enact Holdings Inc,4447827306,Unknown Sector,Unknown Industry
+VLY,Valley National Bancorp,4441803896,Financial Services,Banks
+STNE,StoneCo Ltd - Class A,4439292119,Technology,Application Software
+HUN,Huntsman Corp,4436707286,Basic Materials,Chemicals
+ASAN,Asana Inc - Class A,4433539249,Unknown Sector,Unknown Industry
+ENIC,Enel Chile S.A.,4426659662,Utilities,Utilities - Regulated
+POWI,Power Integrations Inc,4423926128,Technology,Semiconductors
+VMI,Valmont Industries Inc,4417936575,Industrials,Industrial Products
+LPX,Louisiana-Pacific Corp,4415081362,Basic Materials,Building Materials
+PSNY,Polestar Automotive Holding UK PLC,4396819735,Unknown Sector,Unknown Industry
+ASGN,ASGN Inc,4378264000,Industrials,Employment Services
+SNV,Synovus Financial Corp,4374780974,Financial Services,Banks
+BMI,Badger Meter Inc,4364555922,Technology,Computer Hardware
+EEFT,Euronet Worldwide Inc,4345685168,Industrials,Business Services
+PEGA,Pegasystems Inc,4340548791,Technology,Application Software
+VRNS,Varonis Systems Inc,4335504023,Technology,Application Software
+TKC,Turkcell Iletisim Hizmetleri A.S.,4329600000,Communication Services,Communication Services
+NSP,Insperity Inc,4328740687,Industrials,Employment Services
+AVT,Avnet Inc,4326618281,Technology,Computer Hardware
+CBT,Cabot Corp,4325047603,Basic Materials,Chemicals
+THG,Hanover Insurance Group Inc,4323001147,Financial Services,Insurance - Property & Casualty
+AEL,American Equity Investment Life Holding Company,4295444573,Financial Services,Insurance - Life
+SWX,Southwest Gas Holdings Inc,4287166888,Utilities,Utilities - Regulated
+ONB,Old National Bancorp,4286428850,Financial Services,Banks
+ESGR,Enstar Group Ltd,4278301052,Financial Services,Insurance
+HOG,Harley-Davidson Inc,4276106749,Consumer Cyclical,Autos
+KBH,KB Home,4273937481,Consumer Cyclical,Homebuilding & Construction
+IMVT,Immunovant Inc,4269696719,Unknown Sector,Unknown Industry
+STTSY,Straits Trading Company Ltd,4267216364,Unknown,Unknown
+JHG,Janus Henderson Group plc,4264034475,Financial Services,Asset Management
+ABG,Asbury Automotive Group Inc,4260502937,Consumer Cyclical,Autos
+AL,Air Lease Corp - Class A,4252343752,Industrials,Consulting & Outsourcing
+SFM,Sprouts Farmers Market Inc,4247536711,Consumer Defensive,Retail - Defensive
+FSS,Federal Signal Corp,4242651099,Industrials,Industrial Products
+INSP,Inspire Medical Systems Inc,4227278837,Healthcare,Medical Devices
+TLSNY,Telia Company AB,4226409790,Unknown,Unknown
+ALIT,Alight Inc - Class A,4224128855,Unknown Sector,Unknown Industry
+ACLS,Axcelis Technologies Inc,4204901662,Technology,Semiconductors
+WOLF,Wolfspeed Inc,4200886174,Technology,Semiconductors
+SRCL,Stericycle Inc,4193081133,Industrials,Waste Management
+FNB,F.N.B. Corp,4191024234,Financial Services,Banks
+SAM,Boston Beer Co. Inc - Class A,4176049871,Consumer Defensive,Beverages - Alcoholic
+FTAI,FTAI Aviation Ltd - Class A,4175990116,Industrials,Consulting & Outsourcing
+VNO,Vornado Realty Trust,4169099788,Real Estate,REITs
+POR,Portland General Electric Company,4165093977,Utilities,Utilities - Regulated
+NJR,New Jersey Resources Corporation,4164918621,Utilities,Utilities - Regulated
+PECO,Phillips Edison & Company Inc - New,4161830000,Unknown Sector,Unknown Industry
+IAC,IAC Inc - New,4158378787,Technology,Online Media
+HAE,Haemonetics Corp,4157370580,Healthcare,Medical Instruments & Equipment
+KD,Kyndryl Holdings Inc,4154390998,Unknown Sector,Unknown Industry
+SGRY,Surgery Partners Inc,4154224533,Healthcare,Health Care Providers
+LOPE,Grand Canyon Education Inc,4151595117,Consumer Defensive,Education
+SYM,Symbotic Inc - Class A,4151533647,Unknown Sector,Unknown Industry
+CRUS,Cirrus Logic Inc,4149731807,Technology,Semiconductors
+FELE,Franklin Electric Co. Inc,4137567472,Industrials,Industrial Products
+TIIAY,Telecom Italia S.p.A. ADR (Representing 10 ),4135249343,Unknown Sector,Unknown Industry
+IQ,iQIYI Inc,4131180950,Technology,Online Media
+MMSI,Merit Medical Systems Inc,4130727756,Healthcare,Medical Instruments & Equipment
+PRGO,Perrigo Company plc,4122831129,Healthcare,Drug Manufacturers
+VERX,Vertex Inc Class A,4121500898,Unknown Sector,Unknown Industry
+AQN,Algonquin Power & Utilities Corp,4119268104,Utilities,Utilities - Independent Power Producers
+IBP,Installed Building Products Inc,4115270775,Basic Materials,Building Materials
+SUM,Summit Materials Inc - Class A,4105443302,Basic Materials,Building Materials
+SEB,Seaboard Corp,4104526152,Industrials,Conglomerates
+MSGS,Madison Square Garden Sports Corp - Class A,4091737900,Consumer Cyclical,Travel & Leisure
+FUL,H.B. Fuller Company,4082242607,Basic Materials,Chemicals
+LNC,Lincoln National Corp,4073011285,Financial Services,Insurance - Life
+EMGC,Emerge EMPWR Sustainable Select Growth Equity ETF,4072217344,Unknown Sector,Unknown Industry
+BLKB,Blackbaud Inc,4067653195,Technology,Application Software
+BPMC,Blueprint Medicines Corp,4065144830,Healthcare,Biotechnology
+ALKS,Alkermes plc,4060701959,Healthcare,Biotechnology
+CXM,Sprinklr Inc Class A,4060000074,Unknown Sector,Unknown Industry
+SNDR,Schneider National Inc - Class B,4053651527,Industrials,Transportation & Logistics
+M,Macy`s Inc,4044342039,Consumer Cyclical,Retail - Apparel & Specialty
+WEN,Wendy`s Co - Class A,4041354003,Consumer Cyclical,Restaurants
+ORA,Ormat Technologies Inc,4037442378,Utilities,Utilities - Independent Power Producers
+SYNA,Synaptics Inc,4019702269,Technology,Application Software
+IMGN,Immunogen Inc,4017946896,Healthcare,Biotechnology
+HCP,HashiCorp Inc - Class A,4008454943,Unknown Sector,Unknown Industry
+RDN,Radian Group Inc,4004913955,Financial Services,Insurance - Specialty
+ASH,Ashland Inc,4000386119,Basic Materials,Chemicals
+GT,Goodyear Tire & Rubber Company,3994195397,Consumer Cyclical,Autos
+COOP,Mr. Cooper Group Inc,3988852740,Financial Services,Banks
+EXPO,Exponent Inc,3984522938,Industrials,Business Services
+JOBY,Joby Aviation Inc,3982408275,Unknown Sector,Unknown Industry
+LUNMF,Lundin Mining Corp,3979993515,Materials,Metals & Mining
+LYFT,Lyft Inc Cls A,3974388660,Unknown Sector,Unknown Industry
+IPAR,Inter Parfums Inc,3953791596,Consumer Defensive,Consumer Packaged Goods
+CPA,Copa Holdings S.A. - Class A,3947595684,Industrials,Airlines
+SMPL,Simply Good Foods Company,3945126434,Consumer Defensive,Consumer Packaged Goods
+HGV,Hilton Grand Vacations Inc,3935272781,Consumer Cyclical,Travel & Leisure
+GPI,Group 1 Automotive Inc,3934245000,Consumer Cyclical,Autos
+AGO,Assured Guaranty Ltd,3933912865,Financial Services,Insurance - Specialty
+BSM,Black Stone Minerals L.P.,3932082263,Energy,Oil & Gas - E&P
+ETRN,Equitrans Midstream Corporation,3929677270,Unknown,Unknown
+NVST,Envista Holdings Corp,3928495971,Unknown,Unknown
+RELY,Remitly Global Inc,3924762672,Unknown Sector,Unknown Industry
+SPXC,SPX Technologies Inc,3921235551,Industrials,Industrial Products
+BCPC,Balchem Corp,3920355910,Basic Materials,Chemicals
+CPG,Crescent Point Energy Corp,3905436989,Energy,Oil & Gas - E&P
+WTM,White Mountains Insurance Group Ltd,3904356441,Financial Services,Insurance - Property & Casualty
+PENN,PENN Entertainment Inc,3902805021,Consumer Cyclical,Travel & Leisure
+PFSI,PennyMac Financial Services Inc,3901117998,Financial Services,Banks
+CC,Chemours Company,3882580382,Basic Materials,Chemicals
+SHC,Sotera Health Company,3880313877,Unknown Sector,Unknown Industry
+MDU,MDU Resources Group Inc,3873201854,Basic Materials,Building Materials
+GATX,GATX Corp,3871698000,Industrials,Consulting & Outsourcing
+SQSP,Squarespace Inc - Class A,3846076132,Unknown Sector,Unknown Industry
+GOLF,Acushnet Holdings Corp,3836843491,Consumer Cyclical,Travel & Leisure
+CERE,Cerevel Therapeutics Holdings Inc,3833249060,Unknown Sector,Unknown Industry
+ESMT,Engagesmart Inc,3832554603,Unknown Sector,Unknown Industry
+BXMT,Blackstone Mortgage Trust Inc - Class A,3823592806,Real Estate,REITs
+PCH,PotlatchDeltic Corp,3807772397,Real Estate,REITs
+FFIN,First Financial Bankshares Inc,3798343226,Financial Services,Banks
+CAVA,Cava Group Inc,3791417664,Unknown Sector,Unknown Industry
+DAVA,Endava plc,3781108837,Technology,Application Software
+JXN,Jackson Financial Inc - Class A,3775270201,Unknown Sector,Unknown Industry
+TFSL,TFS Financial Corporation,3773229659,Financial Services,Banks
+MAN,ManpowerGroup,3772630236,Industrials,Employment Services
+BOX,Box Inc - Class A,3753943160,Technology,Application Software
+APLE,Apple Hospitality REIT Inc,3750017118,Real Estate,REITs
+USM,United States Cellular Corporation,3746869256,Communication Services,Communication Services
+GME,Gamestop Corporation - Class A,3745392776,Consumer Cyclical,Retail - Apparel & Specialty
+HP,Helmerich & Payne Inc,3731477521,Energy,Oil & Gas - Drilling
+AWI,Armstrong World Industries Inc,3728822138,Basic Materials,Building Materials
+AMR,Alpha Metallurgical Resources Inc,3726277922,Unknown,Unknown
+SIG,Signet Jewelers Ltd,3713527657,Consumer Cyclical,Retail - Apparel & Specialty
+ASO,Academy Sports and Outdoors Inc,3701199475,Unknown Sector,Unknown Industry
+EPRT,Essential Properties Realty Trust Inc,3698962744,Real Estate,REITs
+LPL,LG Display Co Ltd,3685501710,Technology,Computer Hardware
+YETI,YETI Holdings Inc,3672421970,Unknown,Unknown
+MEDX,HORIZON KINETICS MEDICAL ETF ,3668657119,Unknown,Unknown
+UA,Under Armour Inc - Class C,3663929530,Consumer Cyclical,Manufacturing - Apparel & Furniture
+EVO,Evotec SE,3655841811,Unknown,Unknown
+HHH,Howard Hughes Corporation,3652499588,Real Estate,Real Estate Services
+ANF,Abercrombie & Fitch Co. - Class A,3645231631,Consumer Cyclical,Retail - Apparel & Specialty
+EURN,Euronav NV,3644321117,Industrials,Transportation & Logistics
+ERF,Enerplus Corporation,3636540000,Energy,Oil & Gas - E&P
+AEIS,Advanced Energy Industries Inc,3633325746,Technology,Computer Hardware
+CRVL,Corvel Corp,3625202909,Financial Services,Brokers & Exchanges
+ACA,Arcosa Inc,3622998248,Unknown,Unknown
+ENS,Enersys,3617668507,Technology,Computer Hardware
+PNM,PNM Resources Inc,3614506544,Utilities,Utilities - Regulated
+BCO,Brink`s Company,3611038003,Industrials,Consulting & Outsourcing
+NEOG,Neogen Corp,3610195741,Healthcare,Medical Diagnostics & Research
+GBCI,Glacier Bancorp Inc,3606772566,Financial Services,Banks
+ACAD,Acadia Pharmaceuticals Inc,3600397609,Healthcare,Biotechnology
+PYCR,Paycor HCM Inc,3590320321,Unknown Sector,Unknown Industry
+INST,Instructure Holdings Inc,3588249017,Unknown Sector,Unknown Industry
+NVMI,Nova Ltd,3573003600,Technology,Semiconductors
+ATS,ATS Corporation.,3571569466,Unknown,Unknown
+ASAI,Sendas Distribuidora S.A.,3564992452,Unknown Sector,Unknown Industry
+NUVL,Nuvalent Inc - Class A,3564049625,Unknown Sector,Unknown Industry
+BIPC,Brookfield Infrastructure Corp - Class A (Subordinate Share),3560885487,Unknown Sector,Unknown Industry
+KRC,Kilroy Realty Corp,3551662391,Real Estate,REITs
+CRC,California Resources Corporation - New,3528107175,Unknown Sector,Unknown Industry
+HRI,Herc Holdings Inc,3522551012,Industrials,Consulting & Outsourcing
+MDGL,Madrigal Pharmaceuticals Inc,3518400462,Healthcare,Biotechnology
+HWC,Hancock Whitney Corp,3487221495,Financial Services,Banks
+NOG,Northern Oil and Gas Inc,3483702287,Energy,Oil & Gas - E&P
+BL,BlackLine Inc,3474091615,Technology,Application Software
+UMBF,UMB Financial Corp,3470596831,Financial Services,Banks
+STR,Sitio Royalties Corp - Class A,3462626758,Energy,Oil & Gas - E&P
+TRAK,DealerTrack Technologies Inc,3460711858,Tech,Internet Software & Services
+MLCO,Melco Resorts & Entertainment Ltd,3450578973,Consumer Cyclical,Travel & Leisure
+AZTA,Azenta Inc,3449825706,Technology,Semiconductors
+RLX,RLX Technology Inc,3444607841,Unknown Sector,Unknown Industry
+BKH,Black Hills Corporation,3435409633,Utilities,Utilities - Regulated
+CNX,CNX Resources Corp,3427900634,Energy,Oil & Gas - E&P
+AVAV,AeroVironment Inc,3426258284,Industrials,Aerospace & Defense
+FWPAY,Forward Pharma A/S,3425309694,Healthcare,Biotechnology
+SKY,Skyline Champion Corp,3419433511,Consumer Cyclical,Homebuilding & Construction
+INSM,Insmed Inc,3412374000,Healthcare,Biotechnology
+UAA,Under Armour Inc - Class A,3411299735,Consumer Cyclical,Manufacturing - Apparel & Furniture
+EPR,EPR Properties,3399388683,Real Estate,REITs
+JBT,John Bean Technologies Corp,3396467492,Industrials,Industrial Products
+MAIN,Main Street Capital Corporation,3393561583,Financial Services,Asset Management
+NARI,Inari Medical Inc,3387804555,Unknown Sector,Unknown Industry
+ATHM,Autohome Inc,3385474623,Technology,Online Media
+MATX,Matson Inc,3378930272,Industrials,Transportation & Logistics
+FRPT,Freshpet Inc,3366470623,Consumer Defensive,Consumer Packaged Goods
+VRRM,Verra Mobility Corp - Class A,3356088325,Industrials,Consulting & Outsourcing
+EVH,Evolent Health Inc - Class A,3346374443,Technology,Application Software
+TEX,Terex Corp,3339670000,Industrials,Farm & Construction Machinery
+LBRT,Liberty Energy Inc - Class A,3334595433,Energy,Oil & Gas - Services
+SBRA,Sabra Healthcare REIT Inc,3334173048,Real Estate,REITs
+MRTX,Mirati Therapeutics Inc,3333122236,Healthcare,Biotechnology
+FLNC,Fluence Energy Inc - Class A,3331312641,Unknown Sector,Unknown Industry
+WHD,Cactus Inc - Class A,3329688748,Energy,Oil & Gas - Services
+AI,C3.ai Inc - Class A,3329660678,Unknown Sector,Unknown Industry
+VC,Visteon Corp,3326961673,Consumer Cyclical,Autos
+CEIX,Consol Energy Inc,3322610214,Basic Materials,Coal
+CRS,Carpenter Technology Corp,3320196249,Industrials,Industrial Products
+KNF,Knife River Corp,3317042789,Unknown Sector,Unknown Industry
+CNMD,Conmed Corp,3316511735,Healthcare,Medical Devices
+AEO,American Eagle Outfitters Inc,3315748502,Consumer Cyclical,Retail - Apparel & Specialty
+BHF,Brighthouse Financial Inc,3315078893,Financial Services,Insurance - Life
+BGC,BGC Group Inc - Class A,3312113313,Unknown Sector,Unknown Industry
+OMAB,Grupo Aeroportuario del Centro Norte S.A.B de C.V.,3301748584,Industrials,Transportation & Logistics
+MQ,Marqeta Inc - Class A,3300327758,Unknown Sector,Unknown Industry
+GRP-U,Granite Real Estate Investment Trust - Units,3294606000,Unknown,Unknown
+NCNO,Ncino Inc,3292395243,Unknown Sector,Unknown Industry
+WOR,Worthington Industries Inc,3291709384,Basic Materials,Steel
+OGS,ONE Gas Inc,3288697983,Utilities,Utilities - Regulated
+MDC,M.D.C. Holdings Inc,3288243248,Consumer Cyclical,Homebuilding & Construction
+CLS,Celestica Inc,3275691000,Technology,Computer Hardware
+WIRE,Encore Wire Corp,3267490060,Technology,Computer Hardware
+SLM,SLM Corp,3246521121,Financial Services,Credit Services
+SLAB,Silicon Laboratories Inc,3244110899,Technology,Semiconductors
+WDFC,WD-40 Company,3242605222,Basic Materials,Chemicals
+BAK,Braskem S.A.,3236982540,Basic Materials,Chemicals
+BTG,B2gold Corp,3235475040,Basic Materials,Metals & Mining
+JJSF,J&J Snack Foods Corp,3233998162,Consumer Defensive,Consumer Packaged Goods
+IIJIY,Internet Initiative Japan Inc,3231027538,Technology,Communication Equipment
+CCOI,Cogent Communications Holdings Inc,3223429357,Communication Services,Communication Services
+PGNY,Progyny Inc,3221873486,Unknown Sector,Unknown Industry
+NNI,Nelnet Inc - Class A,3216936676,Financial Services,Credit Services
+CVI,CVR Energy Inc,3208936720,Energy,Oil & Gas - Refining & Marketing
+AUR,Aurora Innovation Inc - Class A,3207753954,Unknown Sector,Unknown Industry
+GTES,Gates Industrial Corporation plc,3206006820,Industrials,Industrial Products
+UNF,Unifirst Corp,3203086502,Consumer Cyclical,Manufacturing - Apparel & Furniture
+TGNA,TEGNA Inc,3190093339,Consumer Cyclical,Entertainment
+IART,Integra Lifesciences Holdings Corp,3186145945,Healthcare,Medical Devices
+SR,Spire Inc,3184067943,Utilities,Utilities - Regulated
+AB,AllianceBernstein Holding Lp,3180688995,Financial Services,Asset Management
+MC,Moelis & Co - Class A,3180081019,Financial Services,Asset Management
+PAGS,PagSeguro Digital Ltd - Class A,3177423299,Technology,Application Software
+SBSW,Sibanye Stillwater Ltd,3173499084,Basic Materials,Metals & Mining
+GET,GetnetAdquirencia e Servicos para Meios de Pagamento S.A. - Instituica,3173427743,Unknown Sector,Unknown Industry
+RPD,Rapid7 Inc,3166598036,Technology,Application Software
+ALE,Allete Inc,3162638506,Utilities,Utilities - Regulated
+SEAS,SeaWorld Entertainment Inc,3161465600,Consumer Cyclical,Travel & Leisure
+OTTR,Otter Tail Corporation,3159154861,Utilities,Utilities - Regulated
+SMG,Scotts Miracle-Gro Company - Class A,3151253425,Basic Materials,Agriculture
+DIOD,Diodes Inc,3154157047,Technology,Semiconductors
+HCM,HUTCHMED (China) Ltd,3153970840,Healthcare,Drug Manufacturers
+BUR,Burford Capital Ltd,3151950666,Unknown,Unknown
+YELP,Yelp Inc,3142958966,Technology,Online Media
+KWR,Quaker Houghton,3140483480,Basic Materials,Chemicals
+NXE,NexGen Energy Ltd,3140226001,Basic Materials,Metals & Mining
+CD,Chindata Group Holdings Ltd,3134728827,Unknown Sector,Unknown Industry
+BTU,Peabody Energy Corp New,3132752000,Basic Materials,Coal
+GEF,Greif Inc - Class A,3131680731,Consumer Cyclical,Packaging & Containers
+AAP,Advance Auto Parts Inc,3127541026,Consumer Cyclical,Retail - Apparel & Specialty
+RUSHA,Rush Enterprises Inc - Class A,3121984743,Consumer Cyclical,Autos
+KOS,Kosmos Energy Ltd,3119541712,Energy,Oil & Gas - E&P
+STNG,Scorpio Tankers Inc,3118128517,Industrials,Transportation & Logistics
+AVNT,Avient Corp,3116780048,Basic Materials,Chemicals
+JOE,St. Joe Company,3116483216,Real Estate,Real Estate Services
+MANU,Manchester United Plc. - Class A,3112853580,Consumer Cyclical,Travel & Leisure
+NWL,Newell Brands Inc,3110642000,Consumer Defensive,Consumer Packaged Goods
+PK,Park Hotels & Resorts Inc,3108718063,Real Estate,REITs
+PAGP,Plains GP Holdings LP - Class A,3105992026,Energy,Oil & Gas - Midstream
+PLTK,Playtika Holding Corp,3096887482,Unknown Sector,Unknown Industry
+ARWR,Arrowhead Pharmaceuticals Inc,3095836192,Healthcare,Biotechnology
+VSH,Vishay Intertechnology Inc,3095112606,Technology,Semiconductors
+CVLT,Commvault Systems Inc,3090096037,Technology,Application Software
+LEG,Leggett & Platt Inc,3086116102,Consumer Cyclical,Manufacturing - Apparel & Furniture
+LAZ,Lazard Ltd - Class A,3080769606,Financial Services,Brokers & Exchanges
+PDCO,Patterson Companies Inc,3078949140,Healthcare,Medical Distribution
+OLK,Olink Holding AB (publ),3077572941,Unknown Sector,Unknown Industry
+KAI,Kadant Inc,3073851756,Industrials,Industrial Products
+GKOS,Glaukos Corporation,3067354884,Healthcare,Medical Instruments & Equipment
+TSEM,Tower Semiconductor Ltd,3063648000,Technology,Semiconductors
+CYTK,Cytokinetics Inc,3063296116,Healthcare,Biotechnology
+AMED,Amedisys Inc,3061555168,Healthcare,Health Care Providers
+NWE,NorthWestern Energy Group Inc,3056128078,Utilities,Utilities - Regulated
+FOLD,Amicus Therapeutics Inc,3054966770,Healthcare,Biotechnology
+MEOH,Methanex Corp,3051687287,Basic Materials,Chemicals
+ZD,Ziff Davis Inc,3039976232,Technology,Application Software
+CABO,Cable One Inc,3035934540,Communication Services,Communication Services
+EMPW,Emerge EMPWR Unified Sustainable Equity ETF,3032455403,Unknown Sector,Unknown Industry
+PAAS,Pan American Silver Corp,3027539445,Basic Materials,Metals & Mining
+ITRI,Itron Inc,3020832151,Technology,Computer Hardware
+YOU,Clear Secure Inc Class A,3015829794,Unknown Sector,Unknown Industry
+CUZ,Cousins Properties Inc,3012723190,Real Estate,REITs
+IRT,Independence Realty Trust Inc,3011089692,Real Estate,REITs
+ADNT,Adient plc,3008252690,Consumer Cyclical,Autos
+FTRE,FORTE SOFTWARE INC,3004716000,Unknown,Unknown
+LTH,Life Time Group Holdings Inc,3004304992,Unknown Sector,Unknown Industry
+SEM,Select Medical Holdings Corporation,3000584641,Healthcare,Health Care Providers
+ERJ,Embraer S.A.,2997119876,Industrials,Aerospace & Defense
+DY,Dycom Industries Inc,2995527931,Industrials,Engineering & Construction
+TDW,Tidewater Inc - New,2995169390,Energy,Oil & Gas - Services
+KTB,Kontoor Brands Inc,2993110306,Unknown Sector,Unknown Industry
+SPT,Sprout Social Inc Class A,2990148414,Unknown Sector,Unknown Industry
+AWR,American States Water Company,2989572986,Utilities,Utilities - Regulated
+CXT,Crane NXT Company,2989222531,Industrials,Industrial Products
+ITGR,Integer Holdings Corp,2973079221,Healthcare,Medical Devices
+APAM,Artisan Partners Asset Management Inc - Class A,2968215461,Financial Services,Asset Management
+SRAD,Sportradar Group AG - Class A,2964346722,Unknown Sector,Unknown Industry
+BNL,Broadstone Net Lease Inc,2960767411,Unknown Sector,Unknown Industry
+ITCL,Banco Itau Chile.,2959494328,Financial Services,Banks
+FORM,FormFactor Inc,2950165420,Technology,Semiconductors
+URBN,Urban Outfitters Inc,2949645110,Consumer Cyclical,Retail - Apparel & Specialty
+COUR,Coursera Inc,2948916482,Unknown Sector,Unknown Industry
+ABCB,Ameris Bancorp,2944642276,Financial Services,Banks
+CRK,Comstock Resources Inc,2943538959,Energy,Oil & Gas - E&P
+CNO,CNO Financial Group Inc,2939044479,Financial Services,Insurance - Life
+ARCB,ArcBest Corp,2936810499,Industrials,Transportation & Logistics
+NSA,National Storage Affiliates Trust,2935926713,Real Estate,REITs
+VAC,Marriott Vacations Worldwide Corp,2933606017,Consumer Cyclical,Travel & Leisure
+CWT,California Water Service Group,2929530540,Utilities,Utilities - Regulated
+GHC,Graham Holdings Co. - Class B,2925085615,Consumer Defensive,Education
+AXNX,Axonics Inc,2918148122,Unknown,Unknown
+FTRE,Fortrea Holdings Inc,2917080000,Unknown Sector,Unknown Industry
+ARCH,Arch Resources Inc - Class A,2911244701,Basic Materials,Coal
+UCBI,United Community Banks Inc,2910718811,Financial Services,Banks
+MHO,MI Homes Inc,2910556975,Consumer Cyclical,Homebuilding & Construction
+YY,JOYY Inc,2908895700,Technology,Online Media
+LITE,Lumentum Holdings Inc,2905452000,Technology,Communication Equipment
+BDC,Belden Inc,2904549891,Technology,Computer Hardware
+TPH,Tri Pointe Homes Inc,2903507453,Consumer Cyclical,Homebuilding & Construction
+KDNY,Chinook Therapeutics Inc,2900203021,Healthcare,Biotechnology
+DNA,Ginkgo Bioworks Holdings Inc - Class A,2896417115,Unknown Sector,Unknown Industry
+NOMD,Nomad Foods Ltd,2895750000,Consumer Defensive,Consumer Packaged Goods
+CBZ,Cbiz Inc,2895172342,Industrials,Business Services
+TCLIF,Theraclion,2889658036,Unknown,Unknown
+PBH,Prestige Consumer Healthcare Inc,2887651917,Healthcare,Medical Distribution
+VIRT,Virtu Financial Inc - Class A,2882738890,Financial Services,Brokers & Exchanges
+HL,Hecla Mining Company,2876802289,Basic Materials,Metals & Mining
+OGN,Organon & Company,2872587928,Unknown Sector,Unknown Industry
+PLXS,Plexus Corp,2867932292,Technology,Computer Hardware
+SGML,Sigma Lithium Corporation,2865266201,Unknown,Unknown
+HCC,Warrior Met Coal Inc,2860476089,Basic Materials,Coal
+KRYS,Krystal Biotech Inc,2855965938,Healthcare,Biotechnology
+MP,MP Materials Corporation,2849482726,Unknown Sector,Unknown Industry
+ALRM,Alarm.com Holdings Inc,2849141647,Technology,Application Software
+HGTY,Hagerty Inc - Class A,2848505124,Unknown Sector,Unknown Industry
+SANM,Sanmina Corp,2847040713,Technology,Computer Hardware
+GO,Grocery Outlet Holding Corp,2846765994,Unknown Sector,Unknown Industry
+AXSM,Axsome Therapeutics Inc,2836177297,Healthcare,Biotechnology
+BANF,Bancfirst Corp,2833320434,Financial Services,Banks
+WB,Weibo Corp,2833086940,Technology,Online Media
+KLIC,Kulicke & Soffa Industries Inc,2832700578,Technology,Semiconductors
+MLTX,MoonLake Immunotherapeutics - Class A,2829428487,Unknown Sector,Unknown Industry
+TIGO,Millicom International Cellular S.A.,2829258240,Communication Services,Communication Services
+CAMT,Camtek Ltd,2827738470,Technology,Semiconductors
+GBTG,Global Business Travel Group Inc - Class A,2822751548,Unknown Sector,Unknown Industry
+TDOC,Teladoc Health Inc,2812433544,Technology,Application Software
+STEP,StepStone Group Inc - Class A,2812224009,Unknown Sector,Unknown Industry
+IBOC,International Bancshares Corp,2807092869,Financial Services,Banks
+ZGN,Ermenegildo Zegna N.V.,2803916135,Unknown Sector,Unknown Industry
+LGIH,LGI Homes Inc,2803156181,Consumer Cyclical,Homebuilding & Construction
+LCII,LCI Industries,2802655000,Consumer Cyclical,Autos
+WNS,WNS Holdings Ltd,2802167439,Industrials,Business Services
+ACIW,ACI Worldwide Inc,2801762378,Technology,Application Software
+CRDO,Credo Technology Group Holding Ltd,2801200987,Unknown Sector,Unknown Industry
+SHOO,Steven Madden Ltd,2798688641,Consumer Cyclical,Manufacturing - Apparel & Furniture
+FROG,JFrog Ltd,2789837676,Unknown Sector,Unknown Industry
+FHI,Federated Hermes Inc - Class B,2789242714,Financial Services,Asset Management
+CNS,Cohen & Steers Inc,2783205606,Financial Services,Asset Management
+ARLP,Alliance Resource Partners LP,2782775816,Basic Materials,Coal
+TNL,Travel+Leisure Company,2782511141,Consumer Cyclical,Travel & Leisure
+ENOV,Enovis Corp,2768979351,Industrials,Industrial Products
+NVEI,Nuvei Corporation (Sub Voting),2759612807,Unknown Sector,Unknown Industry
+SFBS,ServisFirst Bancshares Inc,2758174922,Financial Services,Banks
+WD,Walker & Dunlop Inc,2752603499,Financial Services,Banks
+SITC,SITE Centers Corp,2751950812,Real Estate,REITs
+RNG,RingCentral Inc - Class A,2750586671,Technology,Application Software
+BE,Bloom Energy Corp - Class A,2747613163,Utilities,Utilities - Independent Power Producers
+AY,Atlantica Sustainable Infrastructure Plc,2747040050,Utilities,Utilities - Regulated
+FTDR,Frontdoor Inc,2742737237,Unknown,Unknown
+AMPH,Amphastar Pharmaceuticals Inc,2738356492,Healthcare,Drug Manufacturers
+GH,Guardant Health Inc,2733987878,Unknown,Unknown
+GNW,Genworth Financial Inc - Class A,2732215159,Financial Services,Insurance
+RARE,Ultragenyx Pharmaceutical Inc,2731579330,Healthcare,Biotechnology
+GMS,GMS Inc,2731426546,Basic Materials,Building Materials
+CSWI,CSW Industrials Inc,2728757978,Industrials,Industrial Products
+KMPR,Kemper Corporation,2726237362,Financial Services,Insurance
+GSHD,Goosehead Insurance Inc - Class A,2723385937,Financial Services,Insurance
+MPW,Medical Properties Trust Inc,2722720000,Real Estate,REITs
+SPR,Spirit Aerosystems Holdings Inc - Class A,2711200840,Industrials,Aerospace & Defense
+PIPR,Piper Sandler Co`s,2709095043,Financial Services,Asset Management
+ZLAB,Zai Lab Ltd,2704706545,Healthcare,Biotechnology
+ABM,ABM Industries Inc,2704049911,Industrials,Business Services
+ESE,Esco Technologies Inc,2700476793,Technology,Computer Hardware
+MOD,Modine Manufacturing Company,2697816010,Consumer Cyclical,Autos
+CDP,COPT Defense Properties,2695207167,Real Estate,REITs
+AYX,Alteryx Inc - Class A,2692864319,Technology,Application Software
+HI,Hillenbrand Inc,2691738627,Industrials,Industrial Products
+MGEE,MGE Energy Inc,2690193094,Utilities,Utilities - Regulated
+DOC,Physicians Realty Trust,2687381043,Real Estate,REITs
+AVMC,AVANTIS U.S. MID CAP EQUITY ETF ,2687333744,Unknown,Unknown
+NPO,EnPro Industries Inc,2687206886,Industrials,Industrial Products
+FBP,First Bancorp PR,2678042614,Financial Services,Banks
+NTLA,Intellia Therapeutics Inc,2677736147,Healthcare,Biotechnology
+DBRG,DigitalBridge Group Inc - Class A,2677057478,Real Estate,REITs
+HEP,Holly Energy Partners L.P.,2674210251,Energy,Oil & Gas - Midstream
+ASB,Associated Banc-Corp,2668284871,Financial Services,Banks
+GSAT,Globalstar Inc,2664000000,Communication Services,Communication Services
+BMBL,Bumble Inc - Class A,2663816004,Unknown Sector,Unknown Industry
+CATY,Cathay General Bancorp,2661617699,Financial Services,Banks
+AVA,Avista Corp,2661544578,Utilities,Utilities - Regulated
+SUBCY,Subsea 7 S.A.,2657222638,Unknown,Unknown
+IRTC,iRhythm Technologies Inc,2654740200,Healthcare,Medical Instruments & Equipment
+KFY,Korn Ferry,2652880311,Industrials,Employment Services
+FIBK,First Interstate BancSystem Inc,2652762485,Financial Services,Banks
+SKT,Tanger Factory Outlet Centers Inc,2648439350,Real Estate,REITs
+INTA,Intapp Inc,2644993174,Unknown Sector,Unknown Industry
+APPN,Appian Corp - Class A,2636596929,Technology,Application Software
+SHAK,Shake Shack Inc - Class A,2635525821,Consumer Cyclical,Restaurants
+IOSP,Innospec Inc,2634302557,Basic Materials,Chemicals
+AIN,Albany International Corp - Class A,2632344000,Consumer Cyclical,Homebuilding & Construction
+TRIP,TripAdvisor Inc,2631429749,Consumer Cyclical,Travel & Leisure
+SPGZ,Spectrum Group International Inc,2629082300,Discretionary,Diversified Consumer Services
+IDCC,Interdigital Inc,2628826407,Communication Services,Communication Services
+HTZ,Hertz Global Holdings Inc (New),2620787653,Unknown Sector,Unknown Industry
+FOXF,Fox Factory Holding Corp,2612385969,Consumer Cyclical,Autos
+TCBI,Texas Capital Bancshares Inc,2605963866,Financial Services,Banks
+PRVA,Privia Health Group Inc,2601942321,Unknown Sector,Unknown Industry
+FLYW,Flywire Corp,2600043763,Unknown Sector,Unknown Industry
+CORT,Corcept Therapeutics Inc,2598530996,Healthcare,Biotechnology
+VTMX,Corporacion Inmobiliaria Vesta Sab,2585157741,Unknown Sector,Unknown Industry
+ACLX,Arcellx Inc,2581402406,Unknown Sector,Unknown Industry
+TRMD,Torm Plc - Class A,2576112000,Industrials,Transportation & Logistics
+AMN,AMN Healthcare Services Inc,2575974960,Healthcare,Health Care Providers
+BRC,Brady Corp - Class A,2575372936,Industrials,Consulting & Outsourcing
+GBDC,Golub Capital BDC Inc,2569360341,Financial Services,Asset Management
+DOCN,DigitalOcean Holdings Inc,2566811758,Unknown Sector,Unknown Industry
+SITM,SiTime Corp,2564612487,Unknown Sector,Unknown Industry
+KSS,Kohl`s Corp,2562385569,Consumer Cyclical,Retail - Apparel & Specialty
+OR,Osisko Gold Royalties Ltd,2560184030,Basic Materials,Metals & Mining
+CRI,Carters Inc,2538781039,Consumer Cyclical,Manufacturing - Apparel & Furniture
+GFF,Griffon Corp,2529799660,Basic Materials,Building Materials
+LRN,Stride Inc,2527978698,Consumer Defensive,Education
+QS,QuantumScape Corp - Class A,2524796004,Unknown Sector,Unknown Industry
+HASI,Hannon Armstrong Sustainable Infrastructure capital Inc,2523967239,Real Estate,REITs
+CSTM,Constellium SE - Class A,2518069900,Basic Materials,Metals & Mining
+VIST,Vista Energy S.A.B. de C.V,2517388445,Unknown,Unknown
+IONQ,IonQ Inc,2516234346,Unknown Sector,Unknown Industry
+CALX,Calix Inc,2514854893,Technology,Communication Equipment
+QFIN,360 DigiTech Inc,2510785920,Unknown Sector,Unknown Industry
+OZON,Ozon Holdings PLC,2510399326,Unknown Sector,Unknown Industry
+PINC,Premier Inc - Class A,2504969186,Technology,Application Software
+BHC,Bausch Health Companies Inc,2502976394,Healthcare,Drug Manufacturers
+INDV,Indivior Plc,2495429368,Unknown,Unknown
+CVBF,CVB Financial Corp,2494260160,Financial Services,Banks
+HAYW,Hayward Holdings Inc,2493479407,Unknown Sector,Unknown Industry
+HELE,Helen of Troy Ltd,2493321441,Consumer Defensive,Consumer Packaged Goods
+VSAT,Viasat Inc,2491019480,Technology,Communication Equipment
+DNLI,Denali Therapeutics Inc,2487340571,Healthcare,Biotechnology
+WERN,Werner Enterprises Inc,2484266837,Industrials,Transportation & Logistics
+LXP,LXP Industrial Trust,2478373235,Real Estate,REITs
+RUN,Sunrun Inc,2478062103,Technology,Semiconductors
+PTEN,Patterson-UTI Energy Inc,2477203645,Energy,Oil & Gas - Drilling
+GPOR,Gulfport Energy Corp (New),2476974185,Unknown Sector,Unknown Industry
+ROG,Rogers Corp,2472583230,Technology,Computer Hardware
+LSPD,Lightspeed Commerce Inc (Sub Voting),2471786090,Unknown Sector,Unknown Industry
+BATRA,Atlanta Braves Holdings Inc - Class A,2466920021,Consumer Cyclical,Entertainment
+ANSLY,Ansell Ltd,2466733066,Unknown,Unknown
+SXT,Sensient Technologies Corp,2462746904,Basic Materials,Chemicals
+LTHM,Livent Corp,2456709368,Unknown Sector,Unknown Industry
+ACVA,ACV Auctions Inc - Class A,2454770965,Unknown Sector,Unknown Industry
+RNW,ReNew Energy Global plc - Class A,2453956063,Unknown Sector,Unknown Industry
+INDB,Independent Bank Corp,2451281282,Financial Services,Banks
+SHLS,Shoals Technologies Group Inc - Class A,2447128814,Unknown Sector,Unknown Industry
+ICFI,ICF International Inc,2445343310,Industrials,Business Services
+ATAT,Atour Lifestyle Holdings Ltd,2443985474,Unknown Sector,Unknown Industry
+ARCO,Arcos Dorados Holdings Inc - Class A,2442004372,Consumer Cyclical,Restaurants
+KTOS,Kratos Defense & Security Solutions Inc,2439527493,Industrials,Consulting & Outsourcing
+FHB,First Hawaiian Inc,2437343570,Financial Services,Banks
+MGRC,McGrath Rentcorp,2436991353,Industrials,Consulting & Outsourcing
+NEO,Neogenomics Inc,2435600513,Healthcare,Medical Diagnostics & Research
+GLPG,Galapagos NV,2429640659,Healthcare,Biotechnology
+AVAL,Grupo Aval Acciones y Valores S.A.,2428630870,Financial Services,Banks
+LFST,LifeStance Health Group Inc,2419233542,Unknown Sector,Unknown Industry
+CVCO,Cavco Industries Inc,2416073442,Consumer Cyclical,Homebuilding & Construction
+REZI,Resideo Technologies Inc,2406739401,Unknown,Unknown
+TR,Tootsie Roll Industries Inc,2406719429,Consumer Defensive,Consumer Packaged Goods
+HUBG,Hub Group Inc - Class A,2405666950,Industrials,Transportation & Logistics
+CBU,Community Bank System Inc,2403353859,Financial Services,Banks
+UEC,Uranium Energy Corp,2401091054,Basic Materials,Metals & Mining
+CARG,CarGurus Inc - Class A,2400486803,Technology,Online Media
+USAC,USA Compression Partners LP,2397994326,Energy,Oil & Gas - Services
+AIR,AAR Corp,2392695205,Industrials,Aerospace & Defense
+CERT,Certara Inc,2390251174,Unknown Sector,Unknown Industry
+LIVN,LivaNova PLC,2373545093,Healthcare,Medical Devices
+WSFS,WSFS Financial Corp,2372659476,Financial Services,Banks
+ATGE,Adtalem Global Education Inc,2369654359,Consumer Defensive,Education
+PSEC,Prospect Capital Corp,2367989509,Financial Services,Asset Management
+RXO,RXO Inc,2363044238,Unknown Sector,Unknown Industry
+MAC,Macerich Company,2359204938,Real Estate,REITs
+AUB,Atlantic Union Bankshares Corp,2352897627,Financial Services,Banks
+EVTC,Evertec Inc,2350615322,Technology,Application Software
+MTRN,Materion Corp,2342684768,Basic Materials,Metals & Mining
+SPB,Spectrum Brands Holdings Inc,2342338819,Consumer Cyclical,Manufacturing - Apparel & Furniture
+RVMD,Revolution Medicines Inc,2340602592,Unknown Sector,Unknown Industry
+AX,Axos Financial Inc,2337611904,Financial Services,Banks
+NHI,National Health Investors Inc,2334581249,Real Estate,REITs
+BEAM,Beam Therapeutics Inc,2334009294,Unknown Sector,Unknown Industry
+THS,Treehouse Foods Inc,2331815753,Consumer Defensive,Consumer Packaged Goods
+BRFS,BRF S.A.,2331798216,Consumer Defensive,Consumer Packaged Goods
+MCW,Mister Car Wash Inc,2328148847,Unknown Sector,Unknown Industry
+BVN,Compania de Minas Buenaventura S.A.,2324031140,Basic Materials,Metals & Mining
+GDRX,GoodRx Holdings Inc - Class A,2323416698,Unknown Sector,Unknown Industry
+PRGS,Progress Software Corp,2320513215,Technology,Application Software
+CALM,Cal-Maine Foods Inc,2317925199,Consumer Defensive,Consumer Packaged Goods
+ARRY,Array Technologies Inc,2317407664,Unknown Sector,Unknown Industry
+GLNG,Golar Lng,2315963726,Industrials,Transportation & Logistics
+FULT,Fulton Financial Corp,2309531249,Financial Services,Banks
+PRMW,Primo Water Corporation,2309483579,Consumer Defensive,Beverages - Non-Alcoholic
+CCS,Century Communities Inc,2304506605,Consumer Cyclical,Homebuilding & Construction
+VRTV,Veritiv Corp,2302464173,Industrials,Industrial Products
+FSLY,Fastly Inc - Class A,2297175982,Unknown Sector,Unknown Industry
+OI,O-I Glass Inc,2296437637,Consumer Cyclical,Packaging & Containers
+SSRM,SSR Mining Inc,2295583755,Basic Materials,Metals & Mining
+JWN,Nordstrom Inc,2294826784,Consumer Cyclical,Retail - Apparel & Specialty
+DFH,Dream Finders Homes Inc - Class A,2293256863,Unknown Sector,Unknown Industry
+DORM,Dorman Products Inc,2289819286,Consumer Cyclical,Autos
+ROAD,Construction Partners Inc - Class A,2285623703,Industrials,Engineering & Construction
+CTRE,CareTrust REIT Inc,2282980718,Real Estate,REITs
+INSW,International Seaways Inc,2282655844,Industrials,Transportation & Logistics
+DICE,DICE Therapeutics Inc,2272418875,Unknown Sector,Unknown Industry
+ABR,Arbor Realty Trust Inc,2269729036,Real Estate,REITs
+ALVO,Alvotech,2268926742,Unknown Sector,Unknown Industry
+RAMP,LiveRamp Holdings Inc,2258398160,Unknown,Unknown
+AMBP,Ardagh Metal Packaging S.A.,2256331853,Unknown Sector,Unknown Industry
+NMIH,NMI Holdings Inc - Class A,2256138165,Financial Services,Insurance - Property & Casualty
+GTBIF,Green Thumb Industries Inc (Sub Voting),2254291127,Unknown,Unknown
+VYX,NCR Voyix Corp,2252600000,Technology,Application Software
+AROC,Archrock Inc,2250463903,Energy,Oil & Gas - Services
+TMDX,Transmedics Group Inc,2249865115,Unknown Sector,Unknown Industry
+HTGC,Hercules Capital Inc,2248564334,Financial Services,Banks
+IIPR,Innovative Industrial Properties Inc,2243198560,Real Estate,Real Estate Services
+AKO-B,Embotelladora Andina S.A.,2236793666,Consumer Defensive,Beverages - Non-Alcoholic
+AGYS,Agilysys Inc,2235201411,Technology,Application Software
+CADE,Cadence Bancorporation - Class A,2234762269,Financial Services,Banks
+NPWR,NET Power Inc - Class A,2232978842,Unknown Sector,Unknown Industry
+ALG,Alamo Group Inc,2228554213,Industrials,Farm & Construction Machinery
+IAS,Integral Ad Science Holding Corp,2224432300,Unknown Sector,Unknown Industry
+ENR,Energizer Holdings Inc,2223189876,Technology,Computer Hardware
+PPBI,Pacific Premier Bancorp Inc,2218196236,Financial Services,Banks
+ATMO,AmericaTowne Holdings Inc,2217962390,Unknown,Unknown
+LVWR,LiveWire Group Inc,2215827509,Unknown Sector,Unknown Industry
+TGH,Textainer Group Holdings Ltd,2212696355,Industrials,Consulting & Outsourcing
+DRVN,Driven Brands Holdings Inc,2211427442,Unknown Sector,Unknown Industry
+NEP,NextEra Energy Partners LP,2209679500,Utilities,Utilities - Independent Power Producers
+BOH,Bank of Hawaii Corp,2208857451,Financial Services,Banks
+SOVO,Sovos Brands Inc,2208737741,Unknown Sector,Unknown Industry
+CCU,Compania Cervecerias Unidas S.A.,2207779660,Consumer Defensive,Beverages - Alcoholic
+FA,First Advantage Corp,2205415973,Unknown Sector,Unknown Industry
+SDGR,Schrodinger Inc,2204570120,Unknown Sector,Unknown Industry
+STRA,Strategic Education Inc,2200191572,Consumer Defensive,Education
+SVV,Savers Value Village Inc,2193389147,Unknown Sector,Unknown Industry
+LZ,LegalZoom.com Inc,2192156820,Unknown Sector,Unknown Industry
+PZZA,Papa John`s International Inc,2190423436,Consumer Cyclical,Restaurants
+TCN,Tricon Residential Inc,2189439218,Unknown,Unknown
+CPE,Callon Petroleum Company,2187853824,Energy,Oil & Gas - E&P
+IMCR,Immunocore Holdings plc,2187819478,Unknown Sector,Unknown Industry
+NWTN,NWTN Inc - Class B,2187427943,Unknown Sector,Unknown Industry
+DNUT,Krispy Kreme Inc,2186600000,Unknown Sector,Unknown Industry
+LAC,Lithium Americas Corp,2186219775,Basic Materials,Metals & Mining
+AMBA,Ambarella Inc,2182490303,Technology,Semiconductors
+VCTR,Victory Capital Holdings Inc - Class A,2174931754,Financial Services,Asset Management
+RDNT,Radnet Inc,2174823600,Healthcare,Medical Diagnostics & Research
+PRFT,Perficient Inc,2173145933,Technology,Application Software
+PI,Impinj Inc,2172938647,Technology,Computer Hardware
+SLG,SL Green Realty Corp,2171162416,Real Estate,REITs
+VSTS,Vestis Corp,2168736666,Unknown Sector,Unknown Industry
+MODG,Topgolf Callaway Brands Corp,2168208992,Consumer Cyclical,Travel & Leisure
+GRBK,Green Brick Partners Inc,2166378088,Real Estate,Real Estate Services
+INTR,Inter & Co Inc - Class A,2162249926,Unknown Sector,Unknown Industry
+IFS,Intercorp Financial Services Inc,2161779140,Unknown,Unknown
+EGO,Eldorado Gold Corp,2155800652,Basic Materials,Metals & Mining
+NABL,N-able Inc,2153709308,Unknown Sector,Unknown Industry
+BRP,BRP Group Inc - Class A,2153489400,Unknown,Unknown
+DKL,Delek Logistics Partners LP,2151849509,Energy,Oil & Gas - Midstream
+RIOT,Riot Platforms Inc,2149547640,Financial Services,Brokers & Exchanges
+TDS,Telephone And Data Systems Inc,2149161762,Communication Services,Communication Services
+TAC,Transalta Corp,2147118000,Utilities,Utilities - Independent Power Producers
+PARR,Par Pacific Holdings Inc,2144674164,Energy,Oil & Gas - E&P
+XRX,Xerox Holdings Corp,2141545982,Technology,Application Software
+CENT,Central Garden & Pet Company,2140004015,Consumer Defensive,Consumer Packaged Goods
+EBC,Eastern Bankshares Inc,2135921534,Unknown Sector,Unknown Industry
+BOOT,Boot Barn Holdings Inc,2131515094,Consumer Cyclical,Retail - Apparel & Specialty
+EXTR,Extreme Networks Inc,2130000196,Technology,Communication Equipment
+ALKT,Alkami Technology Inc,2128630309,Unknown Sector,Unknown Industry
+VET,Vermilion Energy Inc,2124754920,Energy,Oil & Gas - E&P
+MYRG,MYR Group Inc,2124617248,Industrials,Engineering & Construction
+FL,Foot Locker Inc,2112348511,Consumer Cyclical,Manufacturing - Apparel & Furniture
+BB,BlackBerry Ltd,2111328123,Technology,Communication Equipment
+BLMN,Bloomin Brands Inc,2109496194,Consumer Cyclical,Restaurants
+TBBK,Bancorp Inc (The),2107229453,Financial Services,Banks
+PSMT,Pricesmart Inc,2097982687,Consumer Defensive,Retail - Defensive
+BTE,Baytex Energy Corp,2097420110,Energy,Oil & Gas - E&P
+PLUG,Plug Power Inc,2094863524,Technology,Computer Hardware
+EQC,Equity Commonwealth,2094754424,Real Estate,REITs
+PACB,Pacific Biosciences of California Inc,2094667329,Healthcare,Medical Diagnostics & Research
+LAUR,Laureate Education Inc,2092603524,Consumer Defensive,Education
+UDMY,Udemy Inc,2091877008,Unknown Sector,Unknown Industry
+ROCK,Gibraltar Industries Inc,2089800999,Basic Materials,Building Materials
+GDS,GDS Holdings Ltd,2089514602,Technology,Computer Hardware
+PAX,Patria Investments Ltd - Class A,2088667677,Unknown Sector,Unknown Industry
+SIX,Six Flags Entertainment Corp,2082981118,Consumer Cyclical,Travel & Leisure
+OII,Oceaneering International Inc,2082105586,Energy,Oil & Gas - Services
+LU,Lufax Holding Ltd,2075154568,Unknown Sector,Unknown Industry
+SIMO,Silicon Motion Technology Corp,2074795511,Technology,Semiconductors
+CAAP,Corporacion America Airports S.A.,2072928379,Industrials,Transportation & Logistics
+PJT,PJT Partners Inc - Class A,2069282970,Financial Services,Brokers & Exchanges
+JAMF,Jamf Holding Corp,2069255166,Unknown Sector,Unknown Industry
+BHVN,Biohaven Ltd,2067957951,Unknown Sector,Unknown Industry
+MWA,Mueller Water Products Inc - Series A,2067893988,Industrials,Industrial Products
+FCPT,Four Corners Property Trust Inc,2067618264,Real Estate,REITs
+LGF-B,Lions Gate Entertainment Corp - Class B,2065996029,Consumer Cyclical,Entertainment
+HPK,HighPeak Energy Inc,2064356860,Unknown Sector,Unknown Industry
+SJW,SJW Group,2060532994,Utilities,Utilities - Regulated
+RKLB,Rocket Lab USA Inc,2058971376,Unknown Sector,Unknown Industry
+VSTS,Vestis Corporation,2049917504,Unknown Sector,Unknown Industry
+SFNC,Simmons First National Corp - Class A,2045437709,Financial Services,Banks
+MGPI,MGP Ingredients Inc,2041909429,Consumer Defensive,Consumer Packaged Goods
+SHO,Sunstone Hotel Investors Inc,2038697359,Real Estate,REITs
+NAVI,Navient Corp,2038047241,Financial Services,Credit Services
+QTWO,Q2 Holdings Inc,2037446106,Technology,Application Software
+NS,Nustar Energy L P,2034037516,Energy,Oil & Gas - Midstream
+ICUI,ICU Medical Inc,2032722887,Healthcare,Medical Instruments & Equipment
+OUT,Outfront Media Inc,2030025431,Real Estate,REITs
+MCY,Mercury General Corp,2027136959,Financial Services,Insurance - Property & Casualty
+ENV,Envestnet Inc,2023218115,Financial Services,Brokers & Exchanges
+PTVE,Pactiv Evergreen Inc,2019327301,Unknown Sector,Unknown Industry
+FUN,Cedar Fair L.P.,2017053952,Consumer Cyclical,Travel & Leisure
+TRN,Trinity Industries Inc,2016871497,Industrials,Transportation & Logistics
+SLVM,Sylvamo Corp,2016615277,Unknown Sector,Unknown Industry
+SBLK,Star Bulk Carriers Corp,2015772860,Industrials,Transportation & Logistics
+GETY,Getty Images Holdings Inc - Class A,2014575401,Unknown Sector,Unknown Industry
+MTX,Minerals Technologies Inc,2013156622,Basic Materials,Chemicals
+OSIS,OSI Systems Inc,2006672324,Technology,Computer Hardware
+GVA,Granite Construction Inc,2004956080,Industrials,Engineering & Construction
+TFPM,Triple Flag Precious Metals Corp,2002784719,Unknown Sector,Unknown Industry
+STRL,Sterling Infrastructure Inc,2001633647,Industrials,Engineering & Construction
