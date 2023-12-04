@@ -626,6 +626,7 @@ p3 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return)) +
                 se = FALSE, colour = "springgreen4", linewidth = 1.5) +
     labs(x = "Std Dev (Risk)",
          y = "Return") +
+    coord_cartesian(xlim = c(0.0330, 0.050), ylim = c(0.0075, 0.0140)) + 
     theme_minimal()
 
 # Calculate a metric, Sharpe, that can inform COLOR fill
@@ -649,7 +650,7 @@ p4 <- ggplot(results_df, aes(x = Std_Dev, y = Exp_Return, color = efficiency)) +
     geom_segment(aes(x = 0, y = risk_free_cml_1, xend = extended_std_dev, yend = extended_exp_return_1), 
                  color = "dodgerblue2", linetype = "dashed", linewidth = 1) +
     theme_minimal() +
-    coord_cartesian(xlim = c(0.03, 0.05), ylim = c(0.00750, extended_exp_return_1)) +
+    coord_cartesian(xlim = c(0.0330, 0.050), ylim = c(0.0075, 0.0140)) + 
     labs(x = "Std Dev (Risk)",
          y = "Return", 
          color = "efficiency")
@@ -667,3 +668,15 @@ p5 <- p4 + geom_segment(aes(x = 0, y = risk_free_cml_2, xend = extended_std_dev,
 p5
 
 ```
+
+
+### This is for the social thumb
+
+```{r}
+
+cp9_thumb <- cp9 + theme(legend.position = "right")
+
+(cp7 + cp9_thumb) / (p2 + p4)
+
+```
+

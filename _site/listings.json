@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/kmeans_p1/index.html",
       "/posts/ppc_v2/index.html",
       "/posts/ppc/index.html",
       "/posts/volatility/index.html",
