@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -82,7 +82,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -91,6 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -104,10 +111,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">finedtech by David Harper, CFA, FRM</span>
     </a>
@@ -119,23 +126,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">About David</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About David</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/bionicturtle" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/bionicturtle"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.instagram.com/davidharper2/" rel="" target=""><i class="bi bi-instagram" role="img">
+    <a class="nav-link" href="https://www.instagram.com/davidharper2/"> <i class="bi bi-instagram" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -183,6 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+
 
 
 
@@ -261,7 +269,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">sprintf</span>(<span class="st">"In ths case, RSS = %.4f"</span>, RSS)</span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To show the residuals in a gt table</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>result_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -311,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>p1_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
+<div>
 <div id="ssjxucselg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ssjxucselg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -752,95 +764,119 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>S&amp;amp;P 1500</strong>"><strong>S&amp;P 1500</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>AAPL</strong>"><strong>AAPL</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>Pred(AAPL)</strong>"><strong>Pred(AAPL)</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>Residual</strong>"><strong>Residual</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>Residual^2</strong>"><strong>Residual^2</strong></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="<strong>Cook’s D</strong>"><strong>Cook’s D</strong></th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="X" class="gt_row gt_right">−9.15%</td>
-<td headers="Y" class="gt_row gt_right">−12.41%</td>
-<td headers="Pred_Y" class="gt_row gt_right">−11.61%</td>
-<td headers="residual" class="gt_row gt_right">−0.80%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #FEFEFF; color: #000000;">0.00006</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #FCFBFD; color: #000000;">0.00797</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">−7.60%</td>
-<td headers="Y" class="gt_row gt_right">−3.10%</td>
-<td headers="Pred_Y" class="gt_row gt_right">−9.62%</td>
-<td headers="residual" class="gt_row gt_right">6.53%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #DCCCE6; color: #000000;">0.00426</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #A17BBD; color: #FFFFFF;">0.28504</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">−6.64%</td>
-<td headers="Y" class="gt_row gt_right">−13.26%</td>
-<td headers="Pred_Y" class="gt_row gt_right">−8.38%</td>
-<td headers="residual" class="gt_row gt_right">−4.88%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #EBE2F1; color: #000000;">0.00238</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #DACAE5; color: #000000;">0.11176</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">0.19%</td>
-<td headers="Y" class="gt_row gt_right">−4.36%</td>
-<td headers="Pred_Y" class="gt_row gt_right">0.40%</td>
-<td headers="residual" class="gt_row gt_right">−4.76%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #ECE4F2; color: #000000;">0.00226</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #F6F2F9; color: #000000;">0.02610</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">0.42%</td>
-<td headers="Y" class="gt_row gt_right">0.58%</td>
-<td headers="Pred_Y" class="gt_row gt_right">0.70%</td>
-<td headers="residual" class="gt_row gt_right">−0.12%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #FFFFFF; color: #000000;">0.00000</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #FFFFFF; color: #000000;">0.00002</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">0.55%</td>
-<td headers="Y" class="gt_row gt_right">−1.51%</td>
-<td headers="Pred_Y" class="gt_row gt_right">0.86%</td>
-<td headers="residual" class="gt_row gt_right">−2.37%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #FAF8FC; color: #000000;">0.00056</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #FDFCFD; color: #000000;">0.00675</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">0.66%</td>
-<td headers="Y" class="gt_row gt_right">6.34%</td>
-<td headers="Pred_Y" class="gt_row gt_right">1.00%</td>
-<td headers="residual" class="gt_row gt_right">5.34%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #E8DDEE; color: #000000;">0.00285</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #F4EEF7; color: #000000;">0.03485</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">1.00%</td>
-<td headers="Y" class="gt_row gt_right">−5.89%</td>
-<td headers="Pred_Y" class="gt_row gt_right">1.44%</td>
-<td headers="residual" class="gt_row gt_right">−7.34%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #D3BFE0; color: #000000;">0.00538</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #E8DEEF; color: #000000;">0.06959</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">2.09%</td>
-<td headers="Y" class="gt_row gt_right">6.95%</td>
-<td headers="Pred_Y" class="gt_row gt_right">2.84%</td>
-<td headers="residual" class="gt_row gt_right">4.11%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #F1EBF5; color: #000000;">0.00169</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #F6F2F9; color: #000000;">0.02787</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">3.18%</td>
-<td headers="Y" class="gt_row gt_right">2.76%</td>
-<td headers="Pred_Y" class="gt_row gt_right">4.25%</td>
-<td headers="residual" class="gt_row gt_right">−1.49%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #FDFCFE; color: #000000;">0.00022</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #FDFDFE; color: #000000;">0.00499</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">3.42%</td>
-<td headers="Y" class="gt_row gt_right">18.27%</td>
-<td headers="Pred_Y" class="gt_row gt_right">4.55%</td>
-<td headers="residual" class="gt_row gt_right">13.72%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #602992; color: #FFFFFF;">0.01883</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #653095; color: #FFFFFF;">0.45582</td></tr>
-    <tr><td headers="X" class="gt_row gt_right">4.37%</td>
-<td headers="Y" class="gt_row gt_right">−2.18%</td>
-<td headers="Pred_Y" class="gt_row gt_right">5.77%</td>
-<td headers="residual" class="gt_row gt_right">−7.95%</td>
-<td headers="residual_sq" class="gt_row gt_right" style="background-color: #CBB4DA; color: #000000;">0.00632</td>
-<td headers="cooksD" class="gt_row gt_right" style="background-color: #BA9DCF; color: #000000;">0.20839</td></tr>
-  </tbody>
-  
-  
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="<strong>S&amp;amp;P 1500</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>S&amp;P 1500</strong></th>
+<th id="<strong>AAPL</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>AAPL</strong></th>
+<th id="<strong>Pred(AAPL)</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>Pred(AAPL)</strong></th>
+<th id="<strong>Residual</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>Residual</strong></th>
+<th id="<strong>Residual^2</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>Residual^2</strong></th>
+<th id="<strong>Cook’s D</strong>" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col"><strong>Cook’s D</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">−9.15%</td>
+<td class="gt_row gt_right" headers="Y">−12.41%</td>
+<td class="gt_row gt_right" headers="Pred_Y">−11.61%</td>
+<td class="gt_row gt_right" headers="residual">−0.80%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #FEFEFF; color: #000000">0.00006</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #FCFBFD; color: #000000">0.00797</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">−7.60%</td>
+<td class="gt_row gt_right" headers="Y">−3.10%</td>
+<td class="gt_row gt_right" headers="Pred_Y">−9.62%</td>
+<td class="gt_row gt_right" headers="residual">6.53%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #DCCCE6; color: #000000">0.00426</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #A17BBD; color: #FFFFFF">0.28504</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">−6.64%</td>
+<td class="gt_row gt_right" headers="Y">−13.26%</td>
+<td class="gt_row gt_right" headers="Pred_Y">−8.38%</td>
+<td class="gt_row gt_right" headers="residual">−4.88%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #EBE2F1; color: #000000">0.00238</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #DACAE5; color: #000000">0.11176</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">0.19%</td>
+<td class="gt_row gt_right" headers="Y">−4.36%</td>
+<td class="gt_row gt_right" headers="Pred_Y">0.40%</td>
+<td class="gt_row gt_right" headers="residual">−4.76%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #ECE4F2; color: #000000">0.00226</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #F6F2F9; color: #000000">0.02610</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">0.42%</td>
+<td class="gt_row gt_right" headers="Y">0.58%</td>
+<td class="gt_row gt_right" headers="Pred_Y">0.70%</td>
+<td class="gt_row gt_right" headers="residual">−0.12%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #FFFFFF; color: #000000">0.00000</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #FFFFFF; color: #000000">0.00002</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">0.55%</td>
+<td class="gt_row gt_right" headers="Y">−1.51%</td>
+<td class="gt_row gt_right" headers="Pred_Y">0.86%</td>
+<td class="gt_row gt_right" headers="residual">−2.37%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #FAF8FC; color: #000000">0.00056</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #FDFCFD; color: #000000">0.00675</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">0.66%</td>
+<td class="gt_row gt_right" headers="Y">6.34%</td>
+<td class="gt_row gt_right" headers="Pred_Y">1.00%</td>
+<td class="gt_row gt_right" headers="residual">5.34%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #E8DDEE; color: #000000">0.00285</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #F4EEF7; color: #000000">0.03485</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">1.00%</td>
+<td class="gt_row gt_right" headers="Y">−5.89%</td>
+<td class="gt_row gt_right" headers="Pred_Y">1.44%</td>
+<td class="gt_row gt_right" headers="residual">−7.34%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #D3BFE0; color: #000000">0.00538</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #E8DEEF; color: #000000">0.06959</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">2.09%</td>
+<td class="gt_row gt_right" headers="Y">6.95%</td>
+<td class="gt_row gt_right" headers="Pred_Y">2.84%</td>
+<td class="gt_row gt_right" headers="residual">4.11%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #F1EBF5; color: #000000">0.00169</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #F6F2F9; color: #000000">0.02787</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">3.18%</td>
+<td class="gt_row gt_right" headers="Y">2.76%</td>
+<td class="gt_row gt_right" headers="Pred_Y">4.25%</td>
+<td class="gt_row gt_right" headers="residual">−1.49%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #FDFCFE; color: #000000">0.00022</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #FDFDFE; color: #000000">0.00499</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="X">3.42%</td>
+<td class="gt_row gt_right" headers="Y">18.27%</td>
+<td class="gt_row gt_right" headers="Pred_Y">4.55%</td>
+<td class="gt_row gt_right" headers="residual">13.72%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #602992; color: #FFFFFF">0.01883</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #653095; color: #FFFFFF">0.45582</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="X">4.37%</td>
+<td class="gt_row gt_right" headers="Y">−2.18%</td>
+<td class="gt_row gt_right" headers="Pred_Y">5.77%</td>
+<td class="gt_row gt_right" headers="residual">−7.95%</td>
+<td class="gt_row gt_right" headers="residual_sq" style="background-color: #CBB4DA; color: #000000">0.00632</td>
+<td class="gt_row gt_right" headers="cooksD" style="background-color: #BA9DCF; color: #000000">0.20839</td>
+</tr>
+</tbody>
 </table>
+
+</div>
 </div>
 </div>
 </div>
@@ -882,7 +918,11 @@ x           1.285736582        0.99796665</code></pre>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p1i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -907,7 +947,11 @@ x           1.285736582        0.99796665</code></pre>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>p1_model_72</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_72) <span class="co"># Just to show the standard/typical output</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -972,7 +1016,7 @@ F-statistic: 34.68 on 1 and 70 DF,  p-value: 1.23e-07</code></pre>
 <span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>gt_table_model_72</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
+<div>
 <div id="ijqyeeyjtu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#ijqyeeyjtu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1413,41 +1457,47 @@ F-statistic: 34.68 on 1 and 70 DF,  p-value: 1.23e-07</code></pre>
   text-indent: 25px;
 }
 </style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_heading">
-      <td colspan="5" class="gt_heading gt_title gt_font_normal" style="">AAPL versus S&amp;P_1500: Gross (incl. Rf) monthly log return</td>
-    </tr>
-    <tr class="gt_heading">
-      <td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Six years (2014 - 2019), n = 72 months</td>
-    </tr>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Coefficient">Coefficient</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Estimate">Estimate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Std Error">Std Error</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="t-stat">t-stat</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="p value">p value</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="term" class="gt_row gt_left" style="font-weight: bold;">(Intercept)</td>
-<td headers="estimate" class="gt_row gt_right" style="font-weight: bold;">0.008</td>
-<td headers="std.error" class="gt_row gt_right" style="font-weight: bold;">0.007</td>
-<td headers="statistic" class="gt_row gt_right" style="font-weight: bold;">1.066</td>
-<td headers="p.value" class="gt_row gt_right" style="font-weight: bold;">2.90 × 10<sup style="font-size: 65%;">−1</sup></td></tr>
-    <tr><td headers="term" class="gt_row gt_left" style="font-weight: bold;">r_SP_1500</td>
-<td headers="estimate" class="gt_row gt_right" style="font-weight: bold;">1.270</td>
-<td headers="std.error" class="gt_row gt_right" style="font-weight: bold;">0.216</td>
-<td headers="statistic" class="gt_row gt_right" style="font-weight: bold;">5.889</td>
-<td headers="p.value" class="gt_row gt_right" style="font-weight: bold;">1.23 × 10<sup style="font-size: 65%;">−7</sup></td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="5">Source: tidyquant https://cran.r-project.org/web/packages/tidyquant/</td>
-    </tr>
-  </tfoot>
-  
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="5" class="gt_heading gt_title gt_font_normal">AAPL versus S&amp;P_1500: Gross (incl. Rf) monthly log return</th>
+</tr>
+<tr class="odd gt_heading">
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Six years (2014 - 2019), n = 72 months</th>
+</tr>
+<tr class="header gt_col_headings">
+<th id="Coefficient" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Coefficient</th>
+<th id="Estimate" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Estimate</th>
+<th id="Std Error" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Std Error</th>
+<th id="t-stat" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">t-stat</th>
+<th id="p value" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">p value</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="term" style="font-weight: bold">(Intercept)</td>
+<td class="gt_row gt_right" headers="estimate" style="font-weight: bold">0.008</td>
+<td class="gt_row gt_right" headers="std.error" style="font-weight: bold">0.007</td>
+<td class="gt_row gt_right" headers="statistic" style="font-weight: bold">1.066</td>
+<td class="gt_row gt_right" headers="p.value" style="font-weight: bold">2.90 × 10<sup>−1</sup></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="term" style="font-weight: bold">r_SP_1500</td>
+<td class="gt_row gt_right" headers="estimate" style="font-weight: bold">1.270</td>
+<td class="gt_row gt_right" headers="std.error" style="font-weight: bold">0.216</td>
+<td class="gt_row gt_right" headers="statistic" style="font-weight: bold">5.889</td>
+<td class="gt_row gt_right" headers="p.value" style="font-weight: bold">1.23 × 10<sup>−7</sup></td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="5" class="gt_sourcenote">Source: tidyquant https://cran.r-project.org/web/packages/tidyquant/</td>
+</tr>
+</tfoot>
+
 </table>
+
+</div>
 </div>
 </div>
 </div>
@@ -1511,7 +1561,11 @@ Answer: C. True: 90.0% CI = (0.91; 1.63)
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(model_72, <span class="at">check =</span> <span class="fu">c</span>(<span class="st">"linearity"</span>, <span class="st">"homogeneity"</span>, <span class="st">"outliers"</span>, <span class="st">"qq"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In regard to the above:</p>
@@ -1551,7 +1605,11 @@ Answer: C. True: 90.0% CI = (0.91; 1.63)
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> green_line) <span class="sc">+</span></span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Residuals <span class="sc">~</span> Lagged_Residuals, <span class="at">data =</span> residual_data)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>linear_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1692,10 +1750,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1705,8 +1780,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1718,7 +1802,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1762,6 +1969,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1787,6 +1995,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1847,6 +2081,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
