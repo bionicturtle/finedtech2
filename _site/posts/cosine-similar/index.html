@@ -8,7 +8,7 @@
 
 <meta name="author" content="David Harper, CFA, FRM">
 <meta name="dcterms.date" content="2024-04-04">
-<meta name="description" content="TBD">
+<meta name="description" content="Word embedding enables measures of semantic relatedness.">
 
 <title>finedtech by David Harper, CFA, FRM - Cosine similarity</title>
 <style>
@@ -153,7 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <h1 class="title">Cosine similarity</h1>
                   <div>
         <div class="description">
-          TBD
+          Word embedding enables measures of semantic relatedness.
         </div>
       </div>
                           <div class="quarto-categories">
@@ -195,12 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Notes on this routine</p>
+<p>The <a href="https://cran.r-project.org/web/packages/word2vec/readme/README.html">word2vec</a> package has a function to compute the cosine similarity, <em>word2vec_similarity (…, type = “cosine”)</em>. This is a measure of semantic relatedness between the words in the two sets. My example uses the <a href="https://nlp.stanford.edu/projects/glove/">GloVe embeddings</a> which conveniently comes in four sizes. I’m using the smallest: it has 6B tokens, 400K vocab, and 50 dimensions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(word2vec)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define words for vector1 and vector2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># First with some seasons</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>vector1_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"snow"</span>,<span class="st">"sun"</span>, <span class="st">"happy"</span>, <span class="st">"freedom"</span>, <span class="st">"graduate"</span>, <span class="st">"olympics"</span>, <span class="st">"vacation"</span>, </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"school"</span>, <span class="st">"resolutions"</span>, <span class="st">"beach"</span>, <span class="st">"mountain"</span>, <span class="st">"cold"</span>, <span class="st">"snowboard"</span>, <span class="st">"easter"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>vector2_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"winter"</span>, <span class="st">"spring"</span>, <span class="st">"summer"</span>, <span class="st">"fall"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -235,13 +235,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">as.data.frame</span>(embeddings))</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the vector for the words as dataframes</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>vector1_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector1_words)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>vector2_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector2_words)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vector1_embeds, vector2_embeds, <span class="at">file =</span> <span class="st">"embeddings.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the vector for the words as dataframes</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>vector1_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector1_words)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>vector2_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector2_words)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vector1_embeds, vector2_embeds, <span class="at">file =</span> <span class="st">"embeddings.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the saved data</span></span>
@@ -268,22 +266,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     return(result)</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix1, matrix2) {</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  norm_matrix1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix1<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  norm_matrix2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix2<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> matrix1 <span class="sc">%*%</span> <span class="fu">t</span>(matrix2) <span class="sc">/</span> (norm_matrix1 <span class="sc">%o%</span> norm_matrix2)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(matrix1), <span class="fu">row.names</span>(matrix2))</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>similarity_results <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector1_embeds_m, vector2_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually compute cosine similarity</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>manual_similarity_results <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector1_embeds_m, vector2_embeds_m)</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the word2vec similarity results with row and column names</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"word2vec_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># reduced to vector via perplexity.ai</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix1, matrix2) {</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  norm_matrix1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix1<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  norm_matrix2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix2<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> matrix1 <span class="sc">%*%</span> <span class="fu">t</span>(matrix2) <span class="sc">/</span> (norm_matrix1 <span class="sc">%o%</span> norm_matrix2)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(matrix1), <span class="fu">row.names</span>(matrix2))</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>similarity_results <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector1_embeds_m, vector2_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually compute cosine similarity</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>manual_similarity_results <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector1_embeds_m, vector2_embeds_m)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the word2vec similarity results with row and column names</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"word2vec_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "word2vec_similarity results:"</code></pre>
 </div>
@@ -329,7 +328,7 @@ snowboard   0.31661765 0.1385683 0.2266248 0.0351622
 easter      0.55143247 0.6239188 0.5490755 0.4957569</code></pre>
 </div>
 </div>
-<p>heatmap</p>
+<p>Heatmap #1</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>similarity_matrix <span class="ot">&lt;-</span> similarity_results</span>
@@ -350,6 +349,132 @@ easter      0.55143247 0.6239188 0.5490755 0.4957569</code></pre>
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s try some finance terms. Please note the following (attempted) terms were not in the vocabulary: mutual funds, ETFs, hedge funds, IPO, venture capital, interest rates, capital gains.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vector3_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"stocks"</span>, <span class="st">"bonds"</span>, <span class="st">"options"</span>, <span class="st">"commodities"</span>, <span class="st">"rates"</span>, <span class="st">"derivatives"</span>, <span class="st">"forex"</span>, <span class="st">"dividends"</span>, <span class="st">"profits"</span>, <span class="st">"bitcoin"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>vector4_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"economy"</span>, <span class="st">"growth"</span>, <span class="st">"recession"</span>, <span class="st">"inflation"</span>, <span class="st">"employment"</span>, <span class="st">"trade"</span>, <span class="st">"policy"</span>, <span class="st">"taxation"</span>, <span class="st">"savings"</span>, <span class="st">"investment"</span>, <span class="st">"credit"</span>, <span class="st">"bubble"</span>, <span class="st">"crisis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the vector for the words as dataframes</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>vector3_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector3_words)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>vector4_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector4_words)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vector3_embeds, vector4_embeds, <span class="at">file =</span> <span class="st">"embeddings_34.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the saved data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"embeddings_34.RData"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert dataframes to matrices by dropping the first column</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>vector3_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector3_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>vector4_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector4_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for matrices</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector3_embeds_m) <span class="ot">&lt;-</span> vector3_words</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector4_embeds_m) <span class="ot">&lt;-</span> vector4_words</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector3_embeds_m, vector4_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>manual_similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector3_embeds_m, vector4_embeds_m)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                economy     growth   recession   inflation employment
+stocks       0.65425959 0.62400151  0.59762752 0.599831902 0.42318812
+bonds        0.46402332 0.54405098  0.44274361 0.533199902 0.42457070
+options      0.43687030 0.49661368  0.31539672 0.451595130 0.60445833
+commodities  0.52723072 0.56284582  0.40773432 0.523646696 0.45590560
+rates        0.70896441 0.78751815  0.73347470 0.855651550 0.70941063
+derivatives  0.30290322 0.40283918  0.30166410 0.380573277 0.29504002
+forex        0.42746042 0.38058020  0.38743491 0.459205966 0.30298252
+dividends    0.35500459 0.48542552  0.32137017 0.442262514 0.47539279
+profits      0.63026826 0.70406166  0.59810072 0.612064950 0.55401247
+bitcoin     -0.05630604 0.04042479 -0.04533643 0.003072138 0.03177759
+                 trade     policy  taxation    savings investment     credit
+stocks      0.61352555  0.3726410 0.2920333 0.51031381 0.66155099 0.58753750
+bonds       0.57332197  0.4097863 0.3491461 0.62760221 0.68650892 0.71764750
+options     0.57757308  0.6185072 0.5086060 0.57442898 0.61132490 0.65763256
+commodities 0.61400985  0.3290529 0.4441649 0.47704508 0.70238981 0.51550950
+rates       0.55238752  0.5755616 0.5431489 0.69475675 0.64490454 0.77282115
+derivatives 0.49012202  0.3827311 0.5318247 0.43474149 0.61920591 0.54190151
+forex       0.40819574  0.2797698 0.3576979 0.34075318 0.64516846 0.50694883
+dividends   0.32676795  0.2749764 0.5389510 0.73133016 0.58852246 0.60794111
+profits     0.53869698  0.3672578 0.4587729 0.74918358 0.73580367 0.75875790
+bitcoin     0.05817392 -0.1300953 0.1242287 0.06331612 0.07221163 0.08769512
+               bubble      crisis
+stocks      0.4699493  0.47469567
+bonds       0.4333462  0.41757844
+options     0.2980414  0.38857788
+commodities 0.3962825  0.38706461
+rates       0.4628630  0.60169887
+derivatives 0.4796452  0.30869621
+forex       0.4183343  0.35766548
+dividends   0.1902493  0.25218451
+profits     0.4467198  0.47026321
+bitcoin     0.2190691 -0.05570452</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(manual_similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                economy     growth   recession   inflation employment
+stocks       0.65425959 0.62400151  0.59762752 0.599831902 0.42318812
+bonds        0.46402332 0.54405098  0.44274361 0.533199902 0.42457070
+options      0.43687030 0.49661368  0.31539672 0.451595130 0.60445833
+commodities  0.52723072 0.56284582  0.40773432 0.523646696 0.45590560
+rates        0.70896441 0.78751815  0.73347470 0.855651550 0.70941063
+derivatives  0.30290322 0.40283918  0.30166410 0.380573277 0.29504002
+forex        0.42746042 0.38058020  0.38743491 0.459205966 0.30298252
+dividends    0.35500459 0.48542552  0.32137017 0.442262514 0.47539279
+profits      0.63026826 0.70406166  0.59810072 0.612064950 0.55401247
+bitcoin     -0.05630604 0.04042479 -0.04533643 0.003072138 0.03177759
+                 trade     policy  taxation    savings investment     credit
+stocks      0.61352555  0.3726410 0.2920333 0.51031381 0.66155099 0.58753750
+bonds       0.57332197  0.4097863 0.3491461 0.62760221 0.68650892 0.71764750
+options     0.57757308  0.6185072 0.5086060 0.57442898 0.61132490 0.65763256
+commodities 0.61400985  0.3290529 0.4441649 0.47704508 0.70238981 0.51550950
+rates       0.55238752  0.5755616 0.5431489 0.69475675 0.64490454 0.77282115
+derivatives 0.49012202  0.3827311 0.5318247 0.43474149 0.61920591 0.54190151
+forex       0.40819574  0.2797698 0.3576979 0.34075318 0.64516846 0.50694883
+dividends   0.32676795  0.2749764 0.5389510 0.73133016 0.58852246 0.60794111
+profits     0.53869698  0.3672578 0.4587729 0.74918358 0.73580367 0.75875790
+bitcoin     0.05817392 -0.1300953 0.1242287 0.06331612 0.07221163 0.08769512
+               bubble      crisis
+stocks      0.4699493  0.47469567
+bonds       0.4333462  0.41757844
+options     0.2980414  0.38857788
+commodities 0.3962825  0.38706461
+rates       0.4628630  0.60169887
+derivatives 0.4796452  0.30869621
+forex       0.4183343  0.35766548
+dividends   0.1902493  0.25218451
+profits     0.4467198  0.47026321
+bitcoin     0.2190691 -0.05570452</code></pre>
+</div>
+</div>
+<p>Heatmap #2</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>similarity_matrix_34 <span class="ot">&lt;-</span> similarity_results_34</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the matrix to a data frame for plotting</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>similarity_df_34 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(similarity_matrix_34))</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(similarity_df_34) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Word1"</span>, <span class="st">"Word2"</span>, <span class="st">"Similarity"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the heatmap</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(similarity_df_34, <span class="fu">aes</span>(<span class="at">x =</span> Word2, <span class="at">y =</span> Word1, <span class="at">fill =</span> Similarity)) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"darkgreen"</span>, <span class="at">mid =</span> <span class="st">"lightgreen"</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>), <span class="at">space =</span> <span class="st">"Lab"</span>, <span class="at">name=</span><span class="st">"Cosine</span><span class="sc">\n</span><span class="st">Similarity"</span>) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Cosine Similarity Heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

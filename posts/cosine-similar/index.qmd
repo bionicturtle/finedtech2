@@ -1,6 +1,6 @@
 ---
 title: Cosine similarity
-description: TBD
+description: Word embedding enables measures of semantic relatedness.
 author: David Harper, CFA, FRM
 date: 2024-04-04
 categories: [code, analysis]
@@ -9,14 +9,14 @@ execute:
   warning: false
 ---
 
-Notes on this routine
+The [word2vec](https://cran.r-project.org/web/packages/word2vec/readme/README.html) package has a function to compute the cosine similarity, *word2vec_similarity (..., type = "cosine")*. This is a measure of semantic relatedness between the words in the two sets. My example uses the [GloVe embeddings](https://nlp.stanford.edu/projects/glove/) which conveniently comes in four sizes. I'm using the smallest: it has 6B tokens, 400K vocab, and 50 dimensions. 
 
 ```{r}
 
 library(data.table)
 library(word2vec)
 
-# Define words for vector1 and vector2
+# First with some seasons
 vector1_words <- c("snow","sun", "happy", "freedom", "graduate", "olympics", "vacation", 
                    "school", "resolutions", "beach", "mountain", "cold", "snowboard", "easter")
 vector2_words <- c("winter", "spring", "summer", "fall")
@@ -55,8 +55,6 @@ get_embeddings <- function(model, words) {
     return(as.data.frame(embeddings))
 }
 
-
-
 # Obtain the vector for the words as dataframes
 vector1_embeds <- get_embeddings(m_w2v, vector1_words)
 vector2_embeds <- get_embeddings(m_w2v, vector2_words)
@@ -91,6 +89,7 @@ rownames(vector2_embeds_m) <- vector2_words
 #     return(result)
 # }
 
+# reduced to vector via perplexity.ai
 cosine_similarity <- function(matrix1, matrix2) {
   norm_matrix1 <- sqrt(rowSums(matrix1^2))
   norm_matrix2 <- sqrt(rowSums(matrix2^2))
@@ -115,7 +114,7 @@ print(manual_similarity_results)
 
 ```
 
-heatmap
+Heatmap #1
 
 ```{r}
 library(ggplot2)
@@ -134,5 +133,73 @@ ggplot(similarity_df, aes(x = Word2, y = Word1, fill = Similarity)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = NULL, y = NULL, title = "Cosine Similarity Heatmap")
 
+```
+
+Now let's try some finance terms. Please note the following (attempted) terms were not in the vocabulary: mutual funds, ETFs, hedge funds, IPO, venture capital, interest rates, capital gains.
+
+```{r}
+#| eval: true
+
+vector3_words <- c("stocks", "bonds", "options", "commodities", "rates", "derivatives", "forex", "dividends", "profits", "bitcoin")
+
+vector4_words <- c("economy", "growth", "recession", "inflation", "employment", "trade", "policy", "taxation", "savings", "investment", "credit", "bubble", "crisis")
 
 ```
+
+
+```{r}
+#| eval: false
+
+# Obtain the vector for the words as dataframes
+vector3_embeds <- get_embeddings(m_w2v, vector3_words)
+vector4_embeds <- get_embeddings(m_w2v, vector4_words)
+
+save(vector3_embeds, vector4_embeds, file = "embeddings_34.RData")
+
+```
+
+
+```{r}
+#| eval: true
+
+# Load the saved data
+load("embeddings_34.RData")
+
+# Convert dataframes to matrices by dropping the first column
+vector3_embeds_m <- as.matrix(vector3_embeds[, -1, drop = FALSE])
+vector4_embeds_m <- as.matrix(vector4_embeds[, -1, drop = FALSE])
+
+# Set row and column names for matrices
+rownames(vector3_embeds_m) <- vector3_words
+rownames(vector4_embeds_m) <- vector4_words
+
+# Compute the similarity between the two collections of embeddings
+similarity_results_34 <- word2vec_similarity(vector3_embeds_m, vector4_embeds_m, type = "cosine")
+manual_similarity_results_34 <- cosine_similarity(vector3_embeds_m, vector4_embeds_m)
+
+print(similarity_results_34)
+print(manual_similarity_results_34)
+
+```
+
+Heatmap #2
+
+```{r}
+
+similarity_matrix_34 <- similarity_results_34
+
+# Convert the matrix to a data frame for plotting
+similarity_df_34 <- as.data.frame(as.table(similarity_matrix_34))
+names(similarity_df_34) <- c("Word1", "Word2", "Similarity")
+
+# Plot the heatmap
+ggplot(similarity_df_34, aes(x = Word2, y = Word1, fill = Similarity)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "white", high = "darkgreen", mid = "lightgreen", midpoint = 0.5, na.value = "lightgrey",
+                       limit = c(0.15, 0.85), space = "Lab", name="Cosine\nSimilarity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = NULL, y = NULL, title = "Cosine Similarity Heatmap")
+
+```
+
