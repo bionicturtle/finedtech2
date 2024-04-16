@@ -253,40 +253,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector1_embeds_m) <span class="ot">&lt;-</span> vector1_words</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector2_embeds_m) <span class="ot">&lt;-</span> vector2_words</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual cosine similarity function</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># cosine_similarity &lt;- function(matrix1, matrix2) {</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Compute cosine similarity between each row of matrix1 and each row of matrix2</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     result &lt;- matrix(0, nrow = nrow(matrix1), ncol = nrow(matrix2))</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     for (i in 1:nrow(matrix1)) {</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#         for (j in 1:nrow(matrix2)) {</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#             result[i, j] &lt;- sum(matrix1[i, ] * matrix2[j, ]) / (sqrt(sum(matrix1[i, ]^2)) * sqrt(sum(matrix2[j, ]^2)))</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#         }</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     dimnames(result) &lt;- list(row.names(matrix1), row.names(matrix2))</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     return(result)</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># reduced to vector via perplexity.ai</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix1, matrix2) {</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  norm_matrix1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix1<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  norm_matrix2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix2<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> matrix1 <span class="sc">%*%</span> <span class="fu">t</span>(matrix2) <span class="sc">/</span> (norm_matrix1 <span class="sc">%o%</span> norm_matrix2)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(matrix1), <span class="fu">row.names</span>(matrix2))</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>similarity_results <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector1_embeds_m, vector2_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually compute cosine similarity</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>manual_similarity_results <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector1_embeds_m, vector2_embeds_m)</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the word2vec similarity results with row and column names</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"word2vec_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># let's take a peek at the embeddings</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vector1_embeds_m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              V2       V3        V4        V5       V6       V7        V8
+snow     1.35750  0.42372  0.083063 -1.211500  0.27573 -0.90287  0.281930
+sun      1.66800  0.65616  1.284300 -0.070946 -1.61530 -0.28654 -0.673170
+happy    0.25710 -0.58693 -0.370290  1.082800 -0.55466 -0.78142  0.586960
+freedom  0.27814 -0.11302 -0.370570  0.578730 -0.14529  0.43383 -0.456070
+graduate 1.26790 -0.21186 -1.184100  0.037335 -0.34643 -0.97186 -0.549650
+olympics 1.46510 -0.18481  0.943780 -0.642520 -0.22036 -0.36813  0.061099
+                V9      V10      V11      V12      V13       V14      V15
+snow      0.120660 -0.95591 -0.50092 -0.15034  0.44381  0.169120  0.29532
+sun      -0.498870  0.10531  0.18092  0.40495  0.52388  0.285400 -0.25076
+happy    -0.587140  0.46318 -0.11267  0.26060 -0.26928 -0.072466  1.24700
+freedom   0.726200  0.31185  0.24079 -0.11883 -0.20353 -0.299890 -0.27301
+graduate -0.327130 -0.16357  0.17323 -0.16327  0.15325 -0.373970 -0.16660
+olympics  0.053339 -0.31116  0.55168 -0.87847 -0.90427  0.183010  2.04560
+               V16      V17        V18       V19        V20      V21      V22
+snow      0.882570  0.26583  0.0026311 -1.240000 -1.1411000 -0.25527  0.14486
+sun       0.751490 -1.21530  0.0534380 -1.064900  0.0371250 -0.22833  0.30398
+happy     0.305710  0.56731  0.3050900 -0.050312 -0.6444300 -0.54513  0.86429
+freedom  -0.236860  0.51582 -0.4709100  0.312370  0.0070554 -0.22833  0.89127
+graduate -0.359320 -0.25719  1.2180000 -0.085867  0.7923400  0.58087  1.00980
+olympics  0.029855  0.59809  0.7379100 -1.652100 -0.5135600  0.27897 -0.12678
+                 V23       V24       V25      V26      V27      V28      V29
+snow      1.42630000 -0.802170  0.795790 -0.35958 -0.40527  1.46130  1.13130
+sun       1.26880000 -0.854940  0.493300 -0.92463 -0.14650  0.53333  0.20661
+happy     0.20914000  0.563340  1.122800 -1.05160 -0.78105  0.29656  0.72610
+freedom  -0.32475000 -0.225810  0.437050 -1.66280 -0.64576 -1.00980  0.37792
+graduate -0.09386400  0.039381 -0.021806 -1.48020  0.11213 -1.38060 -1.60380
+olympics -0.00045526 -0.042126  0.632920 -1.56250 -0.24168 -0.25314 -0.24796
+                V30    V31       V32      V33        V34      V35       V36
+snow      0.2795800 2.1674  0.317700 -0.10946  0.3054600  0.10803  0.094701
+sun      -0.0545700 2.6193 -0.114240 -0.30039 -0.0018384 -0.77640 -0.582290
+happy    -0.6139200 2.4225  1.014200 -0.17753  0.4147000 -0.12966 -0.470640
+freedom   0.3350400 2.6654  0.585240 -1.34250 -0.4082400 -1.49580 -0.645440
+graduate -0.4843900 1.9821  0.055824 -0.39400 -1.4108000  0.76513  0.200460
+olympics -0.0049081 1.5883  1.499000 -0.92456 -0.7842300 -0.75093 -0.060259
+               V37        V38      V39      V40      V41      V42      V43
+snow     -0.337730 -0.0098902  0.73014  0.50604 -0.93652  0.71403  0.29732
+sun      -0.418170 -0.0403710  0.41883 -0.23931  0.21250 -0.17315 -0.31351
+happy     0.380700  0.1630900 -0.32300 -0.77899 -0.42473 -0.30826 -0.42242
+freedom   0.071664 -0.8043900 -0.76056  0.36512  0.32903 -0.25687  0.13765
+graduate -0.425190  1.2023000  1.33160 -0.20597 -0.45072 -0.40206  0.19261
+olympics  0.691380  1.4169000 -1.18020 -0.52624 -0.61480 -0.75260  0.60151
+               V44      V45       V46      V47      V48       V49      V50
+snow     -0.430210  0.48054 -0.116270  0.20659 -0.62230  0.073763 -0.37068
+sun       0.360400  0.79981 -0.171440  0.19295 -1.61960  0.341350 -0.17726
+happy     0.055069  0.38267  0.037415 -0.43020 -0.39442  0.105110  0.87286
+freedom   0.395330 -0.68773 -0.043908 -0.95513 -0.47569 -0.336710 -0.44242
+graduate  0.378680 -0.44808 -0.444620  0.97568  0.20168 -0.948270  0.95086
+olympics -0.213030  0.23234 -0.125800 -0.26376 -0.22645  0.102860 -0.36960</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual cosine similarity function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cosine_similarity &lt;- function(matrix1, matrix2) {</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Compute cosine similarity between each row of matrix1 and each row of matrix2</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     result &lt;- matrix(0, nrow = nrow(matrix1), ncol = nrow(matrix2))</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     for (i in 1:nrow(matrix1)) {</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#         for (j in 1:nrow(matrix2)) {</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#             result[i, j] &lt;- sum(matrix1[i, ] * matrix2[j, ]) / (sqrt(sum(matrix1[i, ]^2)) * sqrt(sum(matrix2[j, ]^2)))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#         }</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     }</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     dimnames(result) &lt;- list(row.names(matrix1), row.names(matrix2))</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     return(result)</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># reduced to vector via perplexity.ai</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(matrix1, matrix2) {</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  norm_matrix1 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix1<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  norm_matrix2 <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">rowSums</span>(matrix2<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> matrix1 <span class="sc">%*%</span> <span class="fu">t</span>(matrix2) <span class="sc">/</span> (norm_matrix1 <span class="sc">%o%</span> norm_matrix2)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dimnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">row.names</span>(matrix1), <span class="fu">row.names</span>(matrix2))</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(result)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>similarity_results <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector1_embeds_m, vector2_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually compute cosine similarity</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>manual_similarity_results <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector1_embeds_m, vector2_embeds_m)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the word2vec similarity results with row and column names</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"word2vec_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "word2vec_similarity results:"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(similarity_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(similarity_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                winter    spring    summer      fall
 snow        0.74125017 0.6963912 0.6185827 0.5663821
@@ -304,12 +357,12 @@ cold        0.70956314 0.6887602 0.6809916 0.6406256
 snowboard   0.31661765 0.1385683 0.2266248 0.0351622
 easter      0.55143247 0.6239188 0.5490755 0.4957569</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the manually calculated cosine similarity results</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Manual cosine_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the manually calculated cosine similarity results</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Manual cosine_similarity results:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Manual cosine_similarity results:"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(manual_similarity_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(manual_similarity_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                winter    spring    summer      fall
 snow        0.74125017 0.6963912 0.6185827 0.5663821
@@ -330,21 +383,21 @@ easter      0.55143247 0.6239188 0.5490755 0.4957569</code></pre>
 </div>
 <p>Heatmap #1</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>similarity_matrix <span class="ot">&lt;-</span> similarity_results</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the matrix to a data frame for plotting</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>similarity_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(similarity_matrix))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(similarity_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Word1"</span>, <span class="st">"Word2"</span>, <span class="st">"Similarity"</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the heatmap</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(similarity_df, <span class="fu">aes</span>(<span class="at">x =</span> Word2, <span class="at">y =</span> Word1, <span class="at">fill =</span> Similarity)) <span class="sc">+</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"darkgreen"</span>, <span class="at">mid =</span> <span class="st">"lightgreen"</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>), <span class="at">space =</span> <span class="st">"Lab"</span>, <span class="at">name=</span><span class="st">"Cosine</span><span class="sc">\n</span><span class="st">Similarity"</span>) <span class="sc">+</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Cosine Similarity Heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>similarity_matrix <span class="ot">&lt;-</span> similarity_results</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the matrix to a data frame for plotting</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>similarity_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(similarity_matrix))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(similarity_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Word1"</span>, <span class="st">"Word2"</span>, <span class="st">"Similarity"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the heatmap</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(similarity_df, <span class="fu">aes</span>(<span class="at">x =</span> Word2, <span class="at">y =</span> Word1, <span class="at">fill =</span> Similarity)) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"darkgreen"</span>, <span class="at">mid =</span> <span class="st">"lightgreen"</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>), <span class="at">space =</span> <span class="st">"Lab"</span>, <span class="at">name=</span><span class="st">"Cosine</span><span class="sc">\n</span><span class="st">Similarity"</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Cosine Similarity Heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -355,34 +408,34 @@ easter      0.55143247 0.6239188 0.5490755 0.4957569</code></pre>
 </div>
 <p>Now let’s try some finance terms. Please note the following (attempted) terms were not in the vocabulary: mutual funds, ETFs, hedge funds, IPO, venture capital, interest rates, capital gains.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vector3_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"stocks"</span>, <span class="st">"bonds"</span>, <span class="st">"options"</span>, <span class="st">"commodities"</span>, <span class="st">"rates"</span>, <span class="st">"derivatives"</span>, <span class="st">"forex"</span>, <span class="st">"dividends"</span>, <span class="st">"profits"</span>, <span class="st">"bitcoin"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>vector4_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"economy"</span>, <span class="st">"growth"</span>, <span class="st">"recession"</span>, <span class="st">"inflation"</span>, <span class="st">"employment"</span>, <span class="st">"trade"</span>, <span class="st">"policy"</span>, <span class="st">"taxation"</span>, <span class="st">"savings"</span>, <span class="st">"investment"</span>, <span class="st">"credit"</span>, <span class="st">"bubble"</span>, <span class="st">"crisis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>vector3_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"stocks"</span>, <span class="st">"bonds"</span>, <span class="st">"options"</span>, <span class="st">"commodities"</span>, <span class="st">"rates"</span>, <span class="st">"derivatives"</span>, <span class="st">"forex"</span>, <span class="st">"dividends"</span>, <span class="st">"profits"</span>, <span class="st">"bitcoin"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>vector4_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"economy"</span>, <span class="st">"growth"</span>, <span class="st">"recession"</span>, <span class="st">"inflation"</span>, <span class="st">"employment"</span>, <span class="st">"trade"</span>, <span class="st">"policy"</span>, <span class="st">"taxation"</span>, <span class="st">"savings"</span>, <span class="st">"investment"</span>, <span class="st">"credit"</span>, <span class="st">"bubble"</span>, <span class="st">"crisis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the vector for the words as dataframes</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>vector3_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector3_words)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>vector4_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector4_words)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vector3_embeds, vector4_embeds, <span class="at">file =</span> <span class="st">"embeddings_34.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain the vector for the words as dataframes</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>vector3_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector3_words)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>vector4_embeds <span class="ot">&lt;-</span> <span class="fu">get_embeddings</span>(m_w2v, vector4_words)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vector3_embeds, vector4_embeds, <span class="at">file =</span> <span class="st">"embeddings_34.RData"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the saved data</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"embeddings_34.RData"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert dataframes to matrices by dropping the first column</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>vector3_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector3_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>vector4_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector4_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for matrices</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector3_embeds_m) <span class="ot">&lt;-</span> vector3_words</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector4_embeds_m) <span class="ot">&lt;-</span> vector4_words</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector3_embeds_m, vector4_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>manual_similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector3_embeds_m, vector4_embeds_m)</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the saved data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"embeddings_34.RData"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert dataframes to matrices by dropping the first column</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>vector3_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector3_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>vector4_embeds_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(vector4_embeds[, <span class="sc">-</span><span class="dv">1</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set row and column names for matrices</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector3_embeds_m) <span class="ot">&lt;-</span> vector3_words</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(vector4_embeds_m) <span class="ot">&lt;-</span> vector4_words</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the similarity between the two collections of embeddings</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">word2vec_similarity</span>(vector3_embeds_m, vector4_embeds_m, <span class="at">type =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>manual_similarity_results_34 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(vector3_embeds_m, vector4_embeds_m)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                economy     growth   recession   inflation employment
 stocks       0.65425959 0.62400151  0.59762752 0.599831902 0.42318812
@@ -418,7 +471,7 @@ dividends   0.1902493  0.25218451
 profits     0.4467198  0.47026321
 bitcoin     0.2190691 -0.05570452</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(manual_similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(manual_similarity_results_34)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                economy     growth   recession   inflation employment
 stocks       0.65425959 0.62400151  0.59762752 0.599831902 0.42318812
@@ -457,20 +510,20 @@ bitcoin     0.2190691 -0.05570452</code></pre>
 </div>
 <p>Heatmap #2</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>similarity_matrix_34 <span class="ot">&lt;-</span> similarity_results_34</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the matrix to a data frame for plotting</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>similarity_df_34 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(similarity_matrix_34))</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(similarity_df_34) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Word1"</span>, <span class="st">"Word2"</span>, <span class="st">"Similarity"</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the heatmap</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(similarity_df_34, <span class="fu">aes</span>(<span class="at">x =</span> Word2, <span class="at">y =</span> Word1, <span class="at">fill =</span> Similarity)) <span class="sc">+</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"darkgreen"</span>, <span class="at">mid =</span> <span class="st">"lightgreen"</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>), <span class="at">space =</span> <span class="st">"Lab"</span>, <span class="at">name=</span><span class="st">"Cosine</span><span class="sc">\n</span><span class="st">Similarity"</span>) <span class="sc">+</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Cosine Similarity Heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>similarity_matrix_34 <span class="ot">&lt;-</span> similarity_results_34</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the matrix to a data frame for plotting</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>similarity_df_34 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">as.table</span>(similarity_matrix_34))</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(similarity_df_34) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Word1"</span>, <span class="st">"Word2"</span>, <span class="st">"Similarity"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the heatmap</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(similarity_df_34, <span class="fu">aes</span>(<span class="at">x =</span> Word2, <span class="at">y =</span> Word1, <span class="at">fill =</span> Similarity)) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"darkgreen"</span>, <span class="at">mid =</span> <span class="st">"lightgreen"</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limit =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.85</span>), <span class="at">space =</span> <span class="st">"Lab"</span>, <span class="at">name=</span><span class="st">"Cosine</span><span class="sc">\n</span><span class="st">Similarity"</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Cosine Similarity Heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -483,68 +536,68 @@ bitcoin     0.2190691 -0.05570452</code></pre>
 <h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
 <p>Illustration of cosine similarity</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)  <span class="co"># For arrow functions</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define three vectors</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>vector_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">xend =</span> <span class="fu">c</span>(v1[<span class="dv">1</span>], v2[<span class="dv">1</span>], v3[<span class="dv">1</span>]),</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">yend =</span> <span class="fu">c</span>(v1[<span class="dv">2</span>], v2[<span class="dv">2</span>], v3[<span class="dv">2</span>]),</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">vector =</span> <span class="fu">c</span>(<span class="st">"v1"</span>, <span class="st">"v2"</span>, <span class="st">"v3"</span>)</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate cosine similarity</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(a <span class="sc">*</span> b) <span class="sc">/</span> (<span class="fu">sqrt</span>(<span class="fu">sum</span>(a<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(b<span class="sc">^</span><span class="dv">2</span>)))</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate vector magnitude</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>vector_length <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>(v<span class="sc">^</span><span class="dv">2</span>))</span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate cosine similarities</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>sim_v1_v2 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v1, v2)</span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>sim_v1_v3 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v1, v3)</span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>sim_v2_v3 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v2, v3)</span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate angles in degrees</span></span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>angle_v1_v2 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v1_v2) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>angle_v1_v3 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v1_v3) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>angle_v2_v3 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v2_v3) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate vector lengths</span></span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>length_v1 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v1)</span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>length_v2 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v2)</span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>length_v3 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v3)</span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the vectors</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vector_data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> xend, <span class="at">yend =</span> yend, <span class="at">color =</span> vector),</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">"inches"</span>)), <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">lineend =</span> <span class="st">'round'</span>) <span class="sc">+</span></span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> xend, <span class="at">y =</span> yend, <span class="at">label =</span> vector), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Vector Metrics:</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Lengths   v1: "</span>, <span class="fu">round</span>(length_v1, <span class="dv">2</span>), <span class="st">", v2: "</span>, </span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(length_v2, <span class="dv">2</span>), <span class="st">", v3: "</span>, </span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(length_v3, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Cosine Similarities   v1-v2: "</span>, </span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v1_v2, <span class="dv">2</span>), <span class="st">", v1-v3: "</span>, </span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v1_v3, <span class="dv">2</span>), <span class="st">", v2-v3: "</span>, </span>
-<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v2_v3, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Angles (Degrees)   v1-v2: "</span>, </span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v1_v2, <span class="dv">2</span>), <span class="st">", v1-v3: "</span>, </span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v1_v3, <span class="dv">2</span>), <span class="st">", v2-v3: "</span>, </span>
-<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v2_v3, <span class="dv">2</span>))) <span class="sc">+</span></span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkolivegreen3"</span>, <span class="st">"darkgreen"</span>, <span class="st">"cyan3"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)  <span class="co"># For arrow functions</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define three vectors</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>vector_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">xend =</span> <span class="fu">c</span>(v1[<span class="dv">1</span>], v2[<span class="dv">1</span>], v3[<span class="dv">1</span>]),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">yend =</span> <span class="fu">c</span>(v1[<span class="dv">2</span>], v2[<span class="dv">2</span>], v3[<span class="dv">2</span>]),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">vector =</span> <span class="fu">c</span>(<span class="st">"v1"</span>, <span class="st">"v2"</span>, <span class="st">"v3"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate cosine similarity</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>cosine_similarity <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(a <span class="sc">*</span> b) <span class="sc">/</span> (<span class="fu">sqrt</span>(<span class="fu">sum</span>(a<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(b<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate vector magnitude</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>vector_length <span class="ot">&lt;-</span> <span class="cf">function</span>(v) {</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>(v<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate cosine similarities</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>sim_v1_v2 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v1, v2)</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>sim_v1_v3 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v1, v3)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>sim_v2_v3 <span class="ot">&lt;-</span> <span class="fu">cosine_similarity</span>(v2, v3)</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate angles in degrees</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>angle_v1_v2 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v1_v2) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>angle_v1_v3 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v1_v3) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>angle_v2_v3 <span class="ot">&lt;-</span> <span class="fu">acos</span>(sim_v2_v3) <span class="sc">*</span> (<span class="dv">180</span> <span class="sc">/</span> pi)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate vector lengths</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>length_v1 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v1)</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>length_v2 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v2)</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>length_v3 <span class="ot">&lt;-</span> <span class="fu">vector_length</span>(v3)</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the vectors</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vector_data, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> xend, <span class="at">yend =</span> yend, <span class="at">color =</span> vector),</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.2</span>, <span class="st">"inches"</span>)), <span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">lineend =</span> <span class="st">'round'</span>) <span class="sc">+</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x =</span> xend, <span class="at">y =</span> yend, <span class="at">label =</span> vector), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">3</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"Vector Metrics:</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Lengths   v1: "</span>, <span class="fu">round</span>(length_v1, <span class="dv">2</span>), <span class="st">", v2: "</span>, </span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(length_v2, <span class="dv">2</span>), <span class="st">", v3: "</span>, </span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(length_v3, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Cosine Similarities   v1-v2: "</span>, </span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v1_v2, <span class="dv">2</span>), <span class="st">", v1-v3: "</span>, </span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v1_v3, <span class="dv">2</span>), <span class="st">", v2-v3: "</span>, </span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(sim_v2_v3, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Angles (Degrees)   v1-v2: "</span>, </span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v1_v2, <span class="dv">2</span>), <span class="st">", v1-v3: "</span>, </span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v1_v3, <span class="dv">2</span>), <span class="st">", v2-v3: "</span>, </span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(angle_v2_v3, <span class="dv">2</span>))) <span class="sc">+</span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkolivegreen3"</span>, <span class="st">"darkgreen"</span>, <span class="st">"cyan3"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -552,52 +605,52 @@ bitcoin     0.2190691 -0.05570452</code></pre>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the lengths, cosine similarities, and angles</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Vector Lengths:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the lengths, cosine similarities, and angles</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Vector Lengths:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Vector Lengths:</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1:"</span>, length_v1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1:"</span>, length_v1, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v1: 2.236068 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2:"</span>, length_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2:"</span>, length_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v2: 3.605551 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v3:"</span>, length_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v3:"</span>, length_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v3: 1.414214 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cosine Similarities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Cosine Similarities:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cosine Similarities:</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v2:"</span>, sim_v1_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v2:"</span>, sim_v1_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v1-v2: 0.9922779 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v3:"</span>, sim_v1_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v3:"</span>, sim_v1_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v1-v3: 0.3162278 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2-v3:"</span>, sim_v2_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2-v3:"</span>, sim_v2_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v2-v3: 0.1961161 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Angles (Degrees):</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Angles (Degrees):</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Angles (Degrees):</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v2:"</span>, angle_v1_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v2:"</span>, angle_v1_v2, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v1-v2: 7.125016 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v3:"</span>, angle_v1_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v1-v3:"</span>, angle_v1_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v1-v3: 71.56505 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2-v3:"</span>, angle_v2_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"v2-v3:"</span>, angle_v2_v3, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>v2-v3: 78.69007 </code></pre>
 </div>
