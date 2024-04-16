@@ -69,8 +69,8 @@ save(vector1_embeds, vector2_embeds, file = "embeddings.RData")
 load("embeddings.RData")
 
 # Convert dataframes to matrices by dropping the first column
-vector1_embeds_m <- as.matrix(vector1_embeds[, -1, drop = FALSE])
-vector2_embeds_m <- as.matrix(vector2_embeds[, -1, drop = FALSE])
+vector1_embeds_m <- as.matrix(vector1_embeds[, , drop = FALSE])
+vector2_embeds_m <- as.matrix(vector2_embeds[, , drop = FALSE])
 
 # Set row and column names for matrices
 rownames(vector1_embeds_m) <- vector1_words
@@ -166,8 +166,8 @@ save(vector3_embeds, vector4_embeds, file = "embeddings_34.RData")
 load("embeddings_34.RData")
 
 # Convert dataframes to matrices by dropping the first column
-vector3_embeds_m <- as.matrix(vector3_embeds[, -1, drop = FALSE])
-vector4_embeds_m <- as.matrix(vector4_embeds[, -1, drop = FALSE])
+vector3_embeds_m <- as.matrix(vector3_embeds[, , drop = FALSE])
+vector4_embeds_m <- as.matrix(vector4_embeds[, , drop = FALSE])
 
 # Set row and column names for matrices
 rownames(vector3_embeds_m) <- vector3_words
