@@ -203,3 +203,88 @@ ggplot(similarity_df_34, aes(x = Word2, y = Word1, fill = Similarity)) +
 
 ```
 
+## Appendix
+
+Illustration of cosine similarity
+```{r}
+
+# Load necessary library
+library(ggplot2)
+library(grid)  # For arrow functions
+
+# Define three vectors
+v1 <- c(1, 2)
+v2 <- c(2, 3)
+v3 <- c(-1, 1)
+
+# Create a data frame for plotting
+vector_data <- data.frame(
+  x = c(0, 0, 0), y = c(0, 0, 0),
+  xend = c(v1[1], v2[1], v3[1]),
+  yend = c(v1[2], v2[2], v3[2]),
+  vector = c("v1", "v2", "v3")
+)
+
+# Function to calculate cosine similarity
+cosine_similarity <- function(a, b) {
+  sum(a * b) / (sqrt(sum(a^2)) * sqrt(sum(b^2)))
+}
+
+# Function to calculate vector magnitude
+vector_length <- function(v) {
+  sqrt(sum(v^2))
+}
+
+# Calculate cosine similarities
+sim_v1_v2 <- cosine_similarity(v1, v2)
+sim_v1_v3 <- cosine_similarity(v1, v3)
+sim_v2_v3 <- cosine_similarity(v2, v3)
+
+# Calculate angles in degrees
+angle_v1_v2 <- acos(sim_v1_v2) * (180 / pi)
+angle_v1_v3 <- acos(sim_v1_v3) * (180 / pi)
+angle_v2_v3 <- acos(sim_v2_v3) * (180 / pi)
+
+# Calculate vector lengths
+length_v1 <- vector_length(v1)
+length_v2 <- vector_length(v2)
+length_v3 <- vector_length(v3)
+
+# Plot the vectors
+ggplot(vector_data, aes(x = x, y = y)) +
+  geom_segment(aes(xend = xend, yend = yend, color = vector),
+               arrow = arrow(length = unit(0.2, "inches")), size = 1.5, lineend = 'round') +
+  geom_text(aes(x = xend, y = yend, label = vector), vjust = -0.5, hjust = -0.5) +
+  coord_fixed(ratio = 1, xlim = c(-2, 3), ylim = c(-1, 4)) +
+  ggtitle(paste("Vector Metrics:\n",
+                "Lengths - v1: ", round(length_v1, 2), ", v2: ", 
+                round(length_v2, 2), ", v3: ", 
+                round(length_v3, 2), "\n",
+                "Cosine Similarities - v1-v2: ", 
+                round(sim_v1_v2, 2), ", v1-v3: ", 
+                round(sim_v1_v3, 2), ", v2-v3: ", 
+                round(sim_v2_v3, 2), "\n",
+                "Angles (Degrees) - v1-v2: ", 
+                round(angle_v1_v2, 2), ", v1-v3: ", 
+                round(angle_v1_v3, 2), ", v2-v3: ", 
+                round(angle_v2_v3, 2))) +
+  theme_minimal() +
+  scale_color_manual(values = c("darkolivegreen3", "darkgreen", "cyan3"))
+
+# Print the lengths, cosine similarities, and angles
+cat("Vector Lengths:\n")
+cat("v1:", length_v1, "\n")
+cat("v2:", length_v2, "\n")
+cat("v3:", length_v3, "\n")
+cat("Cosine Similarities:\n")
+cat("v1-v2:", sim_v1_v2, "\n")
+cat("v1-v3:", sim_v1_v3, "\n")
+cat("v2-v3:", sim_v2_v3, "\n")
+cat("Angles (Degrees):\n")
+cat("v1-v2:", angle_v1_v2, "\n")
+cat("v1-v3:", angle_v1_v3, "\n")
+cat("v2-v3:", angle_v2_v3, "\n")
+
+
+```
+
