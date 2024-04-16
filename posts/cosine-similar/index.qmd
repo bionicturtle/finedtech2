@@ -257,14 +257,14 @@ ggplot(vector_data, aes(x = x, y = y)) +
   geom_text(aes(x = xend, y = yend, label = vector), vjust = -0.5, hjust = -0.5) +
   coord_fixed(ratio = 1, xlim = c(-2, 3), ylim = c(-1, 4)) +
   ggtitle(paste("Vector Metrics:\n",
-                "Lengths - v1: ", round(length_v1, 2), ", v2: ", 
+                "Lengths   v1: ", round(length_v1, 2), ", v2: ", 
                 round(length_v2, 2), ", v3: ", 
                 round(length_v3, 2), "\n",
-                "Cosine Similarities - v1-v2: ", 
+                "Cosine Similarities   v1-v2: ", 
                 round(sim_v1_v2, 2), ", v1-v3: ", 
                 round(sim_v1_v3, 2), ", v2-v3: ", 
                 round(sim_v2_v3, 2), "\n",
-                "Angles (Degrees) - v1-v2: ", 
+                "Angles (Degrees)   v1-v2: ", 
                 round(angle_v1_v2, 2), ", v1-v3: ", 
                 round(angle_v1_v3, 2), ", v2-v3: ", 
                 round(angle_v2_v3, 2))) +
