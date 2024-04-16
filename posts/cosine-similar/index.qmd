@@ -76,9 +76,6 @@ vector2_embeds_m <- as.matrix(vector2_embeds[, -1, drop = FALSE])
 rownames(vector1_embeds_m) <- vector1_words
 rownames(vector2_embeds_m) <- vector2_words
 
-# let's take a peek at the embeddings
-head(vector1_embeds_m)
-
 # Manual cosine similarity function
 # cosine_similarity <- function(matrix1, matrix2) {
 #     # Compute cosine similarity between each row of matrix1 and each row of matrix2
@@ -175,6 +172,9 @@ vector4_embeds_m <- as.matrix(vector4_embeds[, -1, drop = FALSE])
 # Set row and column names for matrices
 rownames(vector3_embeds_m) <- vector3_words
 rownames(vector4_embeds_m) <- vector4_words
+
+# let's take a peek at the embeddings
+head(vector3_embeds_m)
 
 # Compute the similarity between the two collections of embeddings
 similarity_results_34 <- word2vec_similarity(vector3_embeds_m, vector4_embeds_m, type = "cosine")
