@@ -1,0 +1,66 @@
+---
+title: Creativity as temperature in LLMs
+description: The softmax function converts a numeric vector into a probabilty distribution
+author: David Harper, CFA, FRM
+date: 2024-05-12
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+I liked Logan Thorneloe's swift explainer of LLM *temperature* in his [What you need to understand about LLM creativity](https://societysbackend.com/p/temperature-in-llms). Below I illustrate the softmax function with a dead-simple example. 
+
+Let's assume our sentence begins "We live in Los Angeles, tomorrow we will travel to the ..." where the **possible** location-destinations are found in the vector {beach, mountains, lake, mall, park, city}. 
+
+```{r}
+
+library(ggplot2)
+library(tidyr)
+
+softmax <- function(values, temps) {
+  words <- names(values) 
+  
+  # Below is the softmax function
+  exp_values <- exp(outer(values, 1 / temps))
+  softmax_values <- sweep(exp_values, 2, colSums(exp_values), `/`)
+  
+  data.frame(
+    temp = rep(temps, each = length(values)),
+    word = rep(words, times = length(temps)),
+    prob = c(softmax_values)
+  )
+}
+
+# We live in Los Angeles, tomorrow we will travel to the ..
+values <- c("beach"     = 9.1,
+            "mountains" = 7.2, 
+            "lake"      = 5.8,
+            "mall"      = 3.4,
+            "park"      = 2.3,
+            "city"      = 1.5
+           )
+
+temps <- c(0.3, 1, 5, 10)
+softmax_data <- softmax(values, temps)
+
+# Plot
+softmax_data |> ggplot(aes(y = reorder(word, -values[word]),
+                           x = prob, fill = temp)) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~temp, nrow = 2, ncol = 2, 
+               labeller = labeller(temp = function(x) paste("Temp =", x))) +
+    labs(title = "We live in Los Angeles, tomorrow we will travel to the ..",
+         subtitle = "Horizontal axis is probability",
+         x = NULL, y = NULL) +
+    scale_fill_gradient(low = "darkseagreen4", high = "darkorange") + 
+    theme_minimal() +
+    theme(
+        strip.text = element_text(face = "bold", size = 12), # facet labels
+        axis.title.x = element_text(face = "bold", size = 12), # X-axis label
+        axis.text.x = element_text(size = 11, face = "bold"),
+        axis.text.y = element_text(size = 11, face = "bold")
+    )
+
+```
+

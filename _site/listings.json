@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/temp-creative-p1/index.html",
       "/posts/cosine-similar/index.html",
       "/posts/kmeans_p1/index.html",
       "/posts/ppc_v2/index.html",
