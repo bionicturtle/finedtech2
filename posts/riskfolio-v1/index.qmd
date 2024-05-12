@@ -1,0 +1,115 @@
+---
+title: "Combined Language Analysis with Features"
+description: Being unobservable, it cleaves to a subjective model
+author: David Harper, CFA, FRM
+date: 2023-11-12
+categories: [code, analysis]
+format:
+  html:
+    code-fold: true
+engines:
+  r: default
+jupyter: python3
+---
+
+# Advanced Python Example
+
+This section demonstrates more complex Python capabilities, such as numerical computations with NumPy and plotting with Matplotlib.
+
+```{python}
+
+import numpy as np
+import pandas as pd
+import riskfolio as rp
+import matplotlib.pyplot as plt
+import yfinance as yf
+import warnings
+
+warnings.filterwarnings("ignore")
+pd.options.display.float_format = '{:.4%}'.format
+
+# Date range
+start = '2016-01-01'
+end = '2019-12-30'
+
+# Tickers of assets
+assets = ['JCI', 'TGT', 'CMCSA', 'CPB', 'MO', 'APA', 'MMC', 'JPM',
+          'ZION', 'PSA', 'BAX', 'BMY', 'LUV', 'PCAR', 'TXT', 'TMO',
+          'DE', 'MSFT', 'HPQ', 'SEE', 'VZ', 'CNP', 'NI', 'T', 'BA']
+assets.sort()
+
+# Downloading data
+data = yf.download(assets, start = start, end = end)
+data = data.loc[:,('Adj Close', slice(None))]
+data.columns = assets
+
+Y = data[assets].pct_change().dropna()
+
+display(Y.head())
+
+#
+#
+
+
+
+# Building the portfolio object
+port = rp.Portfolio(returns=Y)
+
+# Calculating optimal portfolio
+
+# Select method and estimate input parameters:
+
+method_mu='hist' # Method to estimate expected returns based on historical data.
+method_cov='hist' # Method to estimate covariance matrix based on historical data.
+
+port.assets_stats(method_mu=method_mu, method_cov=method_cov, d=0.94)
+
+# Estimate optimal portfolio:
+
+model='Classic' # Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)
+rm = 'MV' # Risk measure used, this time will be variance
+obj = 'Sharpe' # Objective function, could be MinRisk, MaxRet, Utility or Sharpe
+hist = True # Use historical scenarios for risk measures that depend on scenarios
+rf = 0 # Risk free rate
+l = 0 # Risk aversion factor, only useful when obj is 'Utility'
+
+w = port.optimization(model=model, rm=rm, obj=obj, rf=rf, l=l, hist=hist)
+
+display(w.T)
+
+#
+# Plotting the composition of the portfolio
+plt.figure(figsize=(10, 6))
+ax = rp.plot_pie(w=w, title='Sharpe Mean Variance', others=0.05, 
+nrow=25, cmap = "tab20", height=3, width=5, ax=None)
+
+points = 50 # Number of points of the frontier
+frontier = port.efficient_frontier(model=model, rm=rm, points=points, rf=rf, hist=hist)
+display(frontier.T.head())
+
+# Plotting the efficient frontier
+
+label = 'Max Risk Adjusted Return Portfolio' # Title of point
+mu = port.mu # Expected returns
+cov = port.cov # Covariance matrix
+returns = port.returns # Returns of the assets
+plt.figure(figsize=(10, 6))
+ax = rp.plot_frontier(w_frontier=frontier, mu=mu, cov=cov, returns=returns, rm=rm,
+                      rf=rf, alpha=0.05, cmap='viridis', w=w, label=label,
+                      marker='*', s=16, c='r', height=3, width=5, ax=None)
+
+```
+
+```{r}
+
+# Generate 100 random numbers from a normal distribution
+random_numbers <- rnorm(100, mean = 50, sd = 10)
+
+# Calculate summary statistics
+summary_stats <- summary(random_numbers)
+
+# Print summary statistics
+print(summary_stats)
+
+
+```
