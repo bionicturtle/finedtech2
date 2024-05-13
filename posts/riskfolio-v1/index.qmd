@@ -1,8 +1,8 @@
 ---
-title: "Combined Language Analysis with Features"
-description: Being unobservable, it cleaves to a subjective model
+title: "Riskfolio-Lib is a python library for optimation"
+description: Description goes here
 author: David Harper, CFA, FRM
-date: 2023-11-12
+date: 2024-05-12
 categories: [code, analysis]
 format:
   html:
@@ -12,9 +12,9 @@ engines:
 jupyter: python3
 ---
 
-# Advanced Python Example
+# Riskfolio-Lib is a python library for optimation
 
-This section demonstrates more complex Python capabilities, such as numerical computations with NumPy and plotting with Matplotlib.
+Notice I'm running a python code block here in my Quarto documen.
 
 ```{python}
 
@@ -29,13 +29,16 @@ warnings.filterwarnings("ignore")
 pd.options.display.float_format = '{:.4%}'.format
 
 # Date range
-start = '2016-01-01'
-end = '2019-12-30'
+start = '2021-03-31'
+end =   '2024-05-10'
 
 # Tickers of assets
-assets = ['JCI', 'TGT', 'CMCSA', 'CPB', 'MO', 'APA', 'MMC', 'JPM',
-          'ZION', 'PSA', 'BAX', 'BMY', 'LUV', 'PCAR', 'TXT', 'TMO',
-          'DE', 'MSFT', 'HPQ', 'SEE', 'VZ', 'CNP', 'NI', 'T', 'BA']
+
+assets = ['TMHC', 'LEN', 'ESTC', 'DHI', 'INVH', 
+          'GOOGL', 'COUR', 'DT', 'META', 'DDOG', 
+          'HASI', 'AMH', 'DBX', 'ZUO', 'BLK',
+          'DELL', 'TJX', 'O', 'STAG', 'ENB']
+
 assets.sort()
 
 # Downloading data
@@ -50,7 +53,13 @@ display(Y.head())
 #
 #
 
+average_returns = Y.mean()
+volatilities = Y.std()
+cov_matrix = Y.cov()
 
+print("Average Returns:\n", average_returns)
+print("Volatilities:\n", volatilities)
+print("Covariance Matrix:\n", cov_matrix)
 
 # Building the portfolio object
 port = rp.Portfolio(returns=Y)
@@ -75,7 +84,7 @@ l = 0 # Risk aversion factor, only useful when obj is 'Utility'
 
 w = port.optimization(model=model, rm=rm, obj=obj, rf=rf, l=l, hist=hist)
 
-display(w.T)
+display(w)
 
 #
 # Plotting the composition of the portfolio
@@ -85,7 +94,7 @@ nrow=25, cmap = "tab20", height=3, width=5, ax=None)
 
 points = 50 # Number of points of the frontier
 frontier = port.efficient_frontier(model=model, rm=rm, points=points, rf=rf, hist=hist)
-display(frontier.T.head())
+display(frontier)
 
 # Plotting the efficient frontier
 
@@ -97,19 +106,5 @@ plt.figure(figsize=(10, 6))
 ax = rp.plot_frontier(w_frontier=frontier, mu=mu, cov=cov, returns=returns, rm=rm,
                       rf=rf, alpha=0.05, cmap='viridis', w=w, label=label,
                       marker='*', s=16, c='r', height=3, width=5, ax=None)
-
-```
-
-```{r}
-
-# Generate 100 random numbers from a normal distribution
-random_numbers <- rnorm(100, mean = 50, sd = 10)
-
-# Calculate summary statistics
-summary_stats <- summary(random_numbers)
-
-# Print summary statistics
-print(summary_stats)
-
 
 ```

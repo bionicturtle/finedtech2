@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="David Harper, CFA, FRM">
-<meta name="dcterms.date" content="2024-05-12">
+<meta name="dcterms.date" content="2024-05-11">
 <meta name="description" content="The softmax function converts a numeric vector into a probabilty distribution">
 
 <title>finedtech by David Harper, CFA, FRM - Creativity as temperature in LLMs</title>
@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 12, 2024</p>
+        <p class="date">May 11, 2024</p>
       </div>
     </div>
     
@@ -195,7 +195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>I liked Logan Thorneloe’s swift explainer of LLM <em>temperature</em> in his <a href="https://societysbackend.com/p/temperature-in-llms">What you need to understand about LLM creativity</a>. Below I illustrate the softmax function with a dead-simple example. Let’s just assume the sentence begins “We live in Los Angeles, tomorrow we will travel to the …” where the <strong>possible</strong> location-destinations are found in the vector {beach, mountains, lake, mall, park, city}.</p>
+<p>I liked Logan Thorneloe’s swift explainer of LLM <em>temperature</em> in his <a href="https://societysbackend.com/p/temperature-in-llms">What you need to understand about LLM creativity</a>. Below I illustrate the softmax function with a dead-simple example.</p>
+<p>Let’s assume our sentence begins “We live in Los Angeles, tomorrow we will travel to the …” where the <strong>possible</strong> location-destinations are found in the vector {beach, mountains, lake, mall, park, city}.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>

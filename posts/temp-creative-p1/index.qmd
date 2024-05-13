@@ -2,16 +2,16 @@
 title: Creativity as temperature in LLMs
 description: The softmax function converts a numeric vector into a probabilty distribution
 author: David Harper, CFA, FRM
-date: 2024-05-12
+date: 2024-05-11
 categories: [code, analysis]
 execute: 
   echo: true
   warning: false
 ---
 
-I liked Logan Thorneloe's swift explainer of LLM *temperature* in his [What you need to understand about LLM creativity](https://societysbackend.com/p/temperature-in-llms). Below I illustrate the softmax function with a dead-simple example. 
+I liked Logan Thorneloe's swift explainer of LLM *temperature* in his [What you need to understand about LLM creativity](https://societysbackend.com/p/temperature-in-llms). Below I illustrate the softmax function with a dead-simple example.
 
-Let's assume our sentence begins "We live in Los Angeles, tomorrow we will travel to the ..." where the **possible** location-destinations are found in the vector {beach, mountains, lake, mall, park, city}. 
+Let's assume our sentence begins "We live in Los Angeles, tomorrow we will travel to the ..." where the **possible** location-destinations are found in the vector {beach, mountains, lake, mall, park, city}.
 
 ```{r}
 
@@ -63,4 +63,3 @@ softmax_data |> ggplot(aes(y = reorder(word, -values[word]),
     )
 
 ```
-
