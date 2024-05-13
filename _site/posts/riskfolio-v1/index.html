@@ -197,71 +197,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="riskfolio-lib-is-a-python-library-for-optimation" class="level1">
 <h1>Riskfolio-Lib is a python library for optimation</h1>
-<p>Notice I’m running a python code block here in my Quarto document.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 100 standard normally distributed random numbers</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>test_r_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># will cut this out after I make sure I grok the different YAML params</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... many of which turned out to be unnecessary only AFTER I </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># upgraded Quarto to the prerelease version. So what I thought were</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># YAML problems were maybe bugs</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># prior v2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># python:</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># path: "D:/anaconda3/python.exe"</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the data frame</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_r_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  x....rnorm.50. y....rnorm.50. z....rnorm.50.
-1     -1.3585256      0.4253304    -1.50998474
-2     -0.2454117      0.2375650    -0.96187453
-3     -1.0024853     -1.4762635     0.26891435
-4      0.7045397     -1.4570667     0.07752469
-5      0.8686903     -0.9019707     1.28554102
-6      1.0771154      1.1133983    -2.34994116</code></pre>
-</div>
-</div>
-<p>Then python code block</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cut this out</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># python:</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># path: "D:/anaconda3/python.exe"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># initial YAML</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># engines:</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># r: default</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># format:</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># html:</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    code-fold: true</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> riskfolio <span class="im">as</span> rp</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:.4%}</span><span class="st">'</span>.<span class="bu">format</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Date range</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="st">'2021-03-31'</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span>   <span class="st">'2024-05-10'</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Tickers of assets</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> [<span class="st">'TMHC'</span>, <span class="st">'LEN'</span>, <span class="st">'ESTC'</span>, <span class="st">'DHI'</span>, <span class="st">'INVH'</span>, </span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">'GOOGL'</span>, <span class="st">'COUR'</span>, <span class="st">'DT'</span>, <span class="st">'META'</span>, <span class="st">'DDOG'</span>, </span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>          <span class="st">'HASI'</span>, <span class="st">'AMH'</span>, <span class="st">'DBX'</span>, <span class="st">'ZUO'</span>, <span class="st">'BLK'</span>,</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>          <span class="st">'DELL'</span>, <span class="st">'TJX'</span>, <span class="st">'O'</span>, <span class="st">'STAG'</span>, <span class="st">'ENB'</span>]</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>assets.sort()</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Downloading data</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> yf.download(assets, start <span class="op">=</span> start, end <span class="op">=</span> end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># initial YAML v1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># engines:</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># r: default</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># format:</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># html:</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    code-fold: true</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> riskfolio <span class="im">as</span> rp</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:.4%}</span><span class="st">'</span>.<span class="bu">format</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Date range</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="st">'2021-03-31'</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span>   <span class="st">'2024-05-10'</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Tickers of assets</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> [<span class="st">'TMHC'</span>, <span class="st">'LEN'</span>, <span class="st">'ESTC'</span>, <span class="st">'DHI'</span>, <span class="st">'INVH'</span>, </span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>          <span class="st">'GOOGL'</span>, <span class="st">'COUR'</span>, <span class="st">'DT'</span>, <span class="st">'META'</span>, <span class="st">'DDOG'</span>, </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>          <span class="st">'HASI'</span>, <span class="st">'AMH'</span>, <span class="st">'DBX'</span>, <span class="st">'ZUO'</span>, <span class="st">'BLK'</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>          <span class="st">'DELL'</span>, <span class="st">'TJX'</span>, <span class="st">'O'</span>, <span class="st">'STAG'</span>, <span class="st">'ENB'</span>]</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>assets.sort()</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Downloading data</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> yf.download(assets, start <span class="op">=</span> start, end <span class="op">=</span> end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 [                       0%%                      ]
@@ -285,31 +263,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 [**********************95%%********************  ]  19 of 20 completed
 [*********************100%%**********************]  20 of 20 completed</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.loc[:,(<span class="st">'Adj Close'</span>, <span class="bu">slice</span>(<span class="va">None</span>))]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.columns <span class="op">=</span> assets</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> data[assets].pct_change().dropna()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Y.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.loc[:,(<span class="st">'Adj Close'</span>, <span class="bu">slice</span>(<span class="va">None</span>))]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data.columns <span class="op">=</span> assets</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> data[assets].pct_change().dropna()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Y.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                AMH      BLK     COUR  ...      TJX     TMHC      ZUO
 Date                                   ...                           
 2021-04-01  2.6695%  1.7070%  1.7333%  ... -0.2570%  2.7913%  1.2838%
-2021-04-05 -1.3146%  2.2417%  8.3661%  ...  2.6978%  2.5576%  0.0000%
+2021-04-05 -1.3147%  2.2417%  8.3661%  ...  2.6978%  2.5576%  0.0000%
 2021-04-06  1.6578% -0.2946% 13.3441%  ... -0.1771% -0.7697%  2.2682%
-2021-04-07 -0.4077%  0.8047%  3.1478%  ...  0.2070% -2.3891% -1.9569%
+2021-04-07 -0.4077%  0.8046%  3.1478%  ...  0.2070% -2.3891% -1.9569%
 2021-04-08  0.0000%  1.5990% -3.4483%  ...  1.8442% -2.7336% 12.4418%
 
 [5 rows x 20 columns]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>average_returns <span class="op">=</span> Y.mean()</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>volatilities <span class="op">=</span> Y.std()</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="op">=</span> Y.cov()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average Returns:</span><span class="ch">\n</span><span class="st">"</span>, average_returns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>average_returns <span class="op">=</span> Y.mean()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>volatilities <span class="op">=</span> Y.std()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="op">=</span> Y.cov()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average Returns:</span><span class="ch">\n</span><span class="st">"</span>, average_returns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average Returns:
  AMH      0.0297%
@@ -334,7 +312,7 @@ TMHC     0.1139%
 ZUO      0.0100%
 dtype: float64</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Volatilities:</span><span class="ch">\n</span><span class="st">"</span>, volatilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Volatilities:</span><span class="ch">\n</span><span class="st">"</span>, volatilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Volatilities:
  AMH     1.4660%
@@ -359,7 +337,7 @@ TMHC    2.4480%
 ZUO     3.2840%
 dtype: float64</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covariance Matrix:</span><span class="ch">\n</span><span class="st">"</span>, cov_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covariance Matrix:</span><span class="ch">\n</span><span class="st">"</span>, cov_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Covariance Matrix:
            AMH     BLK    COUR     DBX  ...    STAG     TJX    TMHC     ZUO
@@ -386,30 +364,30 @@ ZUO   0.0169% 0.0267% 0.0492% 0.0351%  ... 0.0184% 0.0168% 0.0300% 0.1078%
 
 [20 rows x 20 columns]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Building the portfolio object</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>port <span class="op">=</span> rp.Portfolio(returns<span class="op">=</span>Y)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating optimal portfolio</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select method and estimate input parameters:</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>method_mu<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate expected returns based on historical data.</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>method_cov<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate covariance matrix based on historical data.</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>port.assets_stats(method_mu<span class="op">=</span>method_mu, method_cov<span class="op">=</span>method_cov, d<span class="op">=</span><span class="fl">0.94</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate optimal portfolio:</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>model<span class="op">=</span><span class="st">'Classic'</span> <span class="co"># Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>rm <span class="op">=</span> <span class="st">'MV'</span> <span class="co"># Risk measure used, this time will be variance</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> <span class="st">'Sharpe'</span> <span class="co"># Objective function, could be MinRisk, MaxRet, Utility or Sharpe</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="va">True</span> <span class="co"># Use historical scenarios for risk measures that depend on scenarios</span></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk free rate</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk aversion factor, only useful when obj is 'Utility'</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> port.optimization(model<span class="op">=</span>model, rm<span class="op">=</span>rm, obj<span class="op">=</span>obj, rf<span class="op">=</span>rf, l<span class="op">=</span>l, hist<span class="op">=</span>hist)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Building the portfolio object</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>port <span class="op">=</span> rp.Portfolio(returns<span class="op">=</span>Y)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating optimal portfolio</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select method and estimate input parameters:</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>method_mu<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate expected returns based on historical data.</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>method_cov<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate covariance matrix based on historical data.</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>port.assets_stats(method_mu<span class="op">=</span>method_mu, method_cov<span class="op">=</span>method_cov, d<span class="op">=</span><span class="fl">0.94</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate optimal portfolio:</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>model<span class="op">=</span><span class="st">'Classic'</span> <span class="co"># Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>rm <span class="op">=</span> <span class="st">'MV'</span> <span class="co"># Risk measure used, this time will be variance</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> <span class="st">'Sharpe'</span> <span class="co"># Objective function, could be MinRisk, MaxRet, Utility or Sharpe</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="va">True</span> <span class="co"># Use historical scenarios for risk measures that depend on scenarios</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk free rate</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk aversion factor, only useful when obj is 'Utility'</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> port.optimization(model<span class="op">=</span>model, rm<span class="op">=</span>rm, obj<span class="op">=</span>obj, rf<span class="op">=</span>rf, l<span class="op">=</span>l, hist<span class="op">=</span>hist)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       weights
 AMH    0.0000%
@@ -433,26 +411,26 @@ TJX   28.5279%
 TMHC  10.3729%
 ZUO    0.0000%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the composition of the portfolio</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_pie(w<span class="op">=</span>w, title<span class="op">=</span><span class="st">'Sharpe Mean Variance'</span>, others<span class="op">=</span><span class="fl">0.05</span>, </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>nrow<span class="op">=</span><span class="dv">25</span>, cmap <span class="op">=</span> <span class="st">"tab20"</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">50</span> <span class="co"># Number of points of the frontier</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>frontier <span class="op">=</span> port.efficient_frontier(model<span class="op">=</span>model, rm<span class="op">=</span>rm, points<span class="op">=</span>points, rf<span class="op">=</span>rf, hist<span class="op">=</span>hist)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frontier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the composition of the portfolio</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_pie(w<span class="op">=</span>w, title<span class="op">=</span><span class="st">'Sharpe Mean Variance'</span>, others<span class="op">=</span><span class="fl">0.05</span>, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>nrow<span class="op">=</span><span class="dv">25</span>, cmap <span class="op">=</span> <span class="st">"tab20"</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">50</span> <span class="co"># Number of points of the frontier</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>frontier <span class="op">=</span> port.efficient_frontier(model<span class="op">=</span>model, rm<span class="op">=</span>rm, points<span class="op">=</span>points, rf<span class="op">=</span>rf, hist<span class="op">=</span>hist)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frontier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            0        1        2        3   ...       46       47       48        49
 AMH    5.0343%  4.8209%  4.3502%  3.9823%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 BLK    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 COUR   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
-DBX    4.1010%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+DBX    4.1011%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 DDOG   0.0000%  0.0000%  0.0000%  0.0000%  ...  1.6982%  1.3297%  0.9711%   0.0000%
 DELL   1.3745%  9.7606% 13.4684% 16.3418%  ... 94.0017% 96.0515% 98.0499% 100.0000%
 DHI    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 DT     0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
-ENB   34.9365% 31.9075% 30.3226% 29.0943%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+ENB   34.9365% 31.9075% 30.3225% 29.0943%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 ESTC   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 GOOGL  4.2815%  8.1264%  9.1584%  9.9584%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 HASI   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
@@ -461,76 +439,76 @@ LEN    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.00
 META   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 O     33.2404% 23.7638% 19.3733% 15.9726%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 STAG   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
-TJX   17.0318% 21.6207% 23.3272% 24.6505%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+TJX   17.0318% 21.6208% 23.3272% 24.6505%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 TMHC   0.0000%  0.0000%  0.0000%  0.0000%  ...  4.3001%  2.6189%  0.9790%   0.0000%
 ZUO    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 
 [20 rows x 50 columns]</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the efficient frontier</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> <span class="st">'Max Risk Adjusted Return Portfolio'</span> <span class="co"># Title of point</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> port.mu <span class="co"># Expected returns</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> port.cov <span class="co"># Covariance matrix</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> port.returns <span class="co"># Returns of the assets</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_frontier(w_frontier<span class="op">=</span>frontier, mu<span class="op">=</span>mu, cov<span class="op">=</span>cov, returns<span class="op">=</span>returns, rm<span class="op">=</span>rm,</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                      rf<span class="op">=</span>rf, alpha<span class="op">=</span><span class="fl">0.05</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, w<span class="op">=</span>w, label<span class="op">=</span>label,</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                      marker<span class="op">=</span><span class="st">'*'</span>, s<span class="op">=</span><span class="dv">16</span>, c<span class="op">=</span><span class="st">'r'</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the efficient frontier</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> <span class="st">'Max Risk Adjusted Return Portfolio'</span> <span class="co"># Title of point</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> port.mu <span class="co"># Expected returns</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> port.cov <span class="co"># Covariance matrix</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> port.returns <span class="co"># Returns of the assets</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_frontier(w_frontier<span class="op">=</span>frontier, mu<span class="op">=</span>mu, cov<span class="op">=</span>cov, returns<span class="op">=</span>returns, rm<span class="op">=</span>rm,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                      rf<span class="op">=</span>rf, alpha<span class="op">=</span><span class="fl">0.05</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, w<span class="op">=</span>w, label<span class="op">=</span>label,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                      marker<span class="op">=</span><span class="st">'*'</span>, s<span class="op">=</span><span class="dv">16</span>, c<span class="op">=</span><span class="st">'r'</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="480"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Now we switch to R so we can use ggplot2 (quick version, not fancy)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>frontier_r <span class="ot">&lt;-</span> py<span class="sc">$</span>frontier <span class="co"># frontier_r is a dataframe: 20obs * 50vars</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>average_returns_r <span class="ot">&lt;-</span> py<span class="sc">$</span>average_returns <span class="co"># vector length = 20</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>volatilities_r <span class="ot">&lt;-</span> py<span class="sc">$</span>volatilities <span class="co"># vector length = 20</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>cov_matrix_r <span class="ot">&lt;-</span> py<span class="sc">$</span>cov_matrix <span class="co"># dataframe: 20r * 20c matrix</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>frontier_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(frontier_r) <span class="co"># 20r * 50c matrix</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>average_returns_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(average_returns_r, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="co"># 1r * 20c matrix </span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Below is (1r * 20c) * (20r * 50c) = 1r * 50c matrix</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>expected_returns <span class="ot">&lt;-</span>  average_returns_matrix <span class="sc">%*%</span> frontier_matrix </span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert cov_matrix_r to a matrix if it's not already</span></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cov_matrix_r)</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the risk (standard deviation) for each portfolio</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>portfolio_risks <span class="ot">&lt;-</span> <span class="fu">apply</span>(frontier_matrix, <span class="dv">2</span>, <span class="cf">function</span>(weights) {</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights)</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Since expected_returns is a 1*50 matrix, convert it to a vector to match the length of portfolio_risks</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>expected_returns_vector <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(expected_returns)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>frontier_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Risk =</span> portfolio_risks, <span class="at">Return =</span> expected_returns_vector)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the efficient frontier using ggplot2</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>efficient_frontier_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(frontier_data, <span class="fu">aes</span>(<span class="at">x =</span> Risk, <span class="at">y =</span> Return)) <span class="sc">+</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"seagreen"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Risk (Standard Deviation)"</span>, </span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Expected Return"</span>, <span class="at">title =</span> <span class="st">"Efficient Frontier (but DAILY)"</span>) <span class="sc">+</span></span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"aquamarine"</span>, <span class="at">size =</span> <span class="dv">2</span>)  <span class="co"># Highlight each portfolio point</span></span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(efficient_frontier_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>frontier_r <span class="ot">&lt;-</span> py<span class="sc">$</span>frontier <span class="co"># frontier_r is a dataframe: 20obs * 50vars</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>average_returns_r <span class="ot">&lt;-</span> py<span class="sc">$</span>average_returns <span class="co"># vector length = 20</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>volatilities_r <span class="ot">&lt;-</span> py<span class="sc">$</span>volatilities <span class="co"># vector length = 20</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>cov_matrix_r <span class="ot">&lt;-</span> py<span class="sc">$</span>cov_matrix <span class="co"># dataframe: 20r * 20c matrix</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>frontier_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(frontier_r) <span class="co"># 20r * 50c matrix</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>average_returns_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(average_returns_r, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="co"># 1r * 20c matrix </span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Below is (1r * 20c) * (20r * 50c) = 1r * 50c matrix</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>expected_returns <span class="ot">&lt;-</span>  average_returns_matrix <span class="sc">%*%</span> frontier_matrix </span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert cov_matrix_r to a matrix if it's not already</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cov_matrix_r)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the risk (standard deviation) for each portfolio</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>portfolio_risks <span class="ot">&lt;-</span> <span class="fu">apply</span>(frontier_matrix, <span class="dv">2</span>, <span class="cf">function</span>(weights) {</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Since expected_returns is a 1*50 matrix, convert it to a vector to match the length of portfolio_risks</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>expected_returns_vector <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(expected_returns)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>frontier_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Risk =</span> portfolio_risks, <span class="at">Return =</span> expected_returns_vector)</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the efficient frontier using ggplot2</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>efficient_frontier_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(frontier_data, <span class="fu">aes</span>(<span class="at">x =</span> Risk, <span class="at">y =</span> Return)) <span class="sc">+</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"seagreen"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Risk (Standard Deviation)"</span>, </span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Expected Return"</span>, <span class="at">title =</span> <span class="st">"Efficient Frontier (but DAILY)"</span>) <span class="sc">+</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"aquamarine"</span>, <span class="at">size =</span> <span class="dv">2</span>)  <span class="co"># Highlight each portfolio point</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(efficient_frontier_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

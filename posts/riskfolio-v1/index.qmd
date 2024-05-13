@@ -12,42 +12,24 @@ engines:
 
 # Riskfolio-Lib is a python library for optimation
 
-Notice I'm running a python code block here in my Quarto document.
-
-```{r}
-
-library(reticulate)
-
-# 100 standard normally distributed random numbers
-test_r_df <- data.frame(
-    x <- rnorm(50),
-    y <- rnorm(50),
-    z <- rnorm(50)
-)
-
-# Display the first few rows of the data frame
-head(test_r_df)
-
-```
-
-Then python code block
-
 ```{python}
 
-# cut this out
+# will cut this out after I make sure I grok the different YAML params
+# ... many of which turned out to be unnecessary only AFTER I 
+# upgraded Quarto to the prerelease version. So what I thought were
+# YAML problems were maybe bugs
+# prior v2
 # jupyter: python3
 # python:
 # path: "D:/anaconda3/python.exe"
 
-
-# initial YAML
+# initial YAML v1
 # engines:
 # r: default
 # jupyter: python3
 # format:
 # html:
 #    code-fold: true
-
 
 import numpy as np
 import pandas as pd
