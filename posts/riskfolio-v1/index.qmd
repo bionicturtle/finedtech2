@@ -4,19 +4,50 @@ description: Description goes here
 author: David Harper, CFA, FRM
 date: 2024-05-12
 categories: [code, analysis]
-format:
-  html:
-    code-fold: true
 engines:
-  r: default
-jupyter: python3
+  r: knitr
+  python: reticulate
+
 ---
 
 # Riskfolio-Lib is a python library for optimation
 
-Notice I'm running a python code block here in my Quarto documen.
+Notice I'm running a python code block here in my Quarto document.
+
+```{r}
+
+library(reticulate)
+
+# 100 standard normally distributed random numbers
+test_r_df <- data.frame(
+    x <- rnorm(50),
+    y <- rnorm(50),
+    z <- rnorm(50)
+)
+
+# Display the first few rows of the data frame
+head(test_r_df)
+
+```
+
+Then python code block
 
 ```{python}
+
+# cut this out
+# jupyter: python3
+# python:
+# path: "D:/anaconda3/python.exe"
+
+
+# initial YAML
+# engines:
+# r: default
+# jupyter: python3
+# format:
+# html:
+#    code-fold: true
+
 
 import numpy as np
 import pandas as pd
@@ -48,7 +79,7 @@ data.columns = assets
 
 Y = data[assets].pct_change().dropna()
 
-display(Y.head())
+print(Y.head())
 
 #
 #
@@ -84,7 +115,7 @@ l = 0 # Risk aversion factor, only useful when obj is 'Utility'
 
 w = port.optimization(model=model, rm=rm, obj=obj, rf=rf, l=l, hist=hist)
 
-display(w)
+print(w)
 
 #
 # Plotting the composition of the portfolio
@@ -94,7 +125,7 @@ nrow=25, cmap = "tab20", height=3, width=5, ax=None)
 
 points = 50 # Number of points of the frontier
 frontier = port.efficient_frontier(model=model, rm=rm, points=points, rf=rf, hist=hist)
-display(frontier)
+print(frontier)
 
 # Plotting the efficient frontier
 
@@ -108,3 +139,51 @@ ax = rp.plot_frontier(w_frontier=frontier, mu=mu, cov=cov, returns=returns, rm=r
                       marker='*', s=16, c='r', height=3, width=5, ax=None)
 
 ```
+
+Now we switch to R so we can use ggplot2 (quick version, not fancy)
+
+```{r}
+#| warning: false
+
+library(reticulate)
+library(tidyverse)
+
+frontier_r <- py$frontier # frontier_r is a dataframe: 20obs * 50vars
+average_returns_r <- py$average_returns # vector length = 20
+volatilities_r <- py$volatilities # vector length = 20
+cov_matrix_r <- py$cov_matrix # dataframe: 20r * 20c matrix
+
+frontier_matrix <- as.matrix(frontier_r) # 20r * 50c matrix
+average_returns_matrix <- matrix(average_returns_r, nrow = 1) # 1r * 20c matrix 
+
+# Below is (1r * 20c) * (20r * 50c) = 1r * 50c matrix
+expected_returns <-  average_returns_matrix %*% frontier_matrix 
+
+# Convert cov_matrix_r to a matrix if it's not already
+cov_matrix <- as.matrix(cov_matrix_r)
+
+# Calculate the risk (standard deviation) for each portfolio
+portfolio_risks <- apply(frontier_matrix, 2, function(weights) {
+  sqrt(t(weights) %*% cov_matrix %*% weights)
+})
+
+# Since expected_returns is a 1*50 matrix, convert it to a vector to match the length of portfolio_risks
+expected_returns_vector <- as.vector(expected_returns)
+
+# Create a data frame for plotting
+frontier_data <- data.frame(Risk = portfolio_risks, Return = expected_returns_vector)
+
+# Plot the efficient frontier using ggplot2
+library(ggplot2)
+efficient_frontier_plot <- ggplot(frontier_data, aes(x = Risk, y = Return)) +
+  geom_line(color = "seagreen", size = 1) +
+  theme_minimal() +
+  labs(x = "Risk (Standard Deviation)", 
+       y = "Expected Return", title = "Efficient Frontier (but DAILY)") +
+  geom_point(color = "aquamarine", size = 2)  # Highlight each portfolio point
+
+# Print the plot
+print(efficient_frontier_plot)
+
+```
+

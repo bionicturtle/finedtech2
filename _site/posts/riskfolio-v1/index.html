@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.5.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2024-05-12">
 <meta name="description" content="Description goes here">
 
-<title>finedtech by David Harper, CFA, FRM - Riskfolio-Lib is a python library for optimation</title>
+<title>finedtech by David Harper, CFA, FRM – Riskfolio-Lib is a python library for optimation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -103,12 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -126,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -147,7 +141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -203,278 +197,119 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="riskfolio-lib-is-a-python-library-for-optimation" class="level1">
 <h1>Riskfolio-Lib is a python library for optimation</h1>
-<p>Notice I’m running a python code block here in my Quarto documen.</p>
-<div id="5b801711" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> riskfolio <span class="im">as</span> rp</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:.4%}</span><span class="st">'</span>.<span class="bu">format</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Date range</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="st">'2021-03-31'</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span>   <span class="st">'2024-05-10'</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Tickers of assets</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> [<span class="st">'TMHC'</span>, <span class="st">'LEN'</span>, <span class="st">'ESTC'</span>, <span class="st">'DHI'</span>, <span class="st">'INVH'</span>, </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">'GOOGL'</span>, <span class="st">'COUR'</span>, <span class="st">'DT'</span>, <span class="st">'META'</span>, <span class="st">'DDOG'</span>, </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">'HASI'</span>, <span class="st">'AMH'</span>, <span class="st">'DBX'</span>, <span class="st">'ZUO'</span>, <span class="st">'BLK'</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>          <span class="st">'DELL'</span>, <span class="st">'TJX'</span>, <span class="st">'O'</span>, <span class="st">'STAG'</span>, <span class="st">'ENB'</span>]</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>assets.sort()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Downloading data</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> yf.download(assets, start <span class="op">=</span> start, end <span class="op">=</span> end)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.loc[:,(<span class="st">'Adj Close'</span>, <span class="bu">slice</span>(<span class="va">None</span>))]</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>data.columns <span class="op">=</span> assets</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> data[assets].pct_change().dropna()</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>display(Y.head())</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>average_returns <span class="op">=</span> Y.mean()</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>volatilities <span class="op">=</span> Y.std()</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="op">=</span> Y.cov()</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average Returns:</span><span class="ch">\n</span><span class="st">"</span>, average_returns)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Volatilities:</span><span class="ch">\n</span><span class="st">"</span>, volatilities)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covariance Matrix:</span><span class="ch">\n</span><span class="st">"</span>, cov_matrix)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Building the portfolio object</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>port <span class="op">=</span> rp.Portfolio(returns<span class="op">=</span>Y)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating optimal portfolio</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Select method and estimate input parameters:</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>method_mu<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate expected returns based on historical data.</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>method_cov<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate covariance matrix based on historical data.</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>port.assets_stats(method_mu<span class="op">=</span>method_mu, method_cov<span class="op">=</span>method_cov, d<span class="op">=</span><span class="fl">0.94</span>)</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate optimal portfolio:</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>model<span class="op">=</span><span class="st">'Classic'</span> <span class="co"># Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>rm <span class="op">=</span> <span class="st">'MV'</span> <span class="co"># Risk measure used, this time will be variance</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> <span class="st">'Sharpe'</span> <span class="co"># Objective function, could be MinRisk, MaxRet, Utility or Sharpe</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="va">True</span> <span class="co"># Use historical scenarios for risk measures that depend on scenarios</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk free rate</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk aversion factor, only useful when obj is 'Utility'</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> port.optimization(model<span class="op">=</span>model, rm<span class="op">=</span>rm, obj<span class="op">=</span>obj, rf<span class="op">=</span>rf, l<span class="op">=</span>l, hist<span class="op">=</span>hist)</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>display(w)</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the composition of the portfolio</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_pie(w<span class="op">=</span>w, title<span class="op">=</span><span class="st">'Sharpe Mean Variance'</span>, others<span class="op">=</span><span class="fl">0.05</span>, </span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>nrow<span class="op">=</span><span class="dv">25</span>, cmap <span class="op">=</span> <span class="st">"tab20"</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">50</span> <span class="co"># Number of points of the frontier</span></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>frontier <span class="op">=</span> port.efficient_frontier(model<span class="op">=</span>model, rm<span class="op">=</span>rm, points<span class="op">=</span>points, rf<span class="op">=</span>rf, hist<span class="op">=</span>hist)</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>display(frontier)</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the efficient frontier</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> <span class="st">'Max Risk Adjusted Return Portfolio'</span> <span class="co"># Title of point</span></span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> port.mu <span class="co"># Expected returns</span></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> port.cov <span class="co"># Covariance matrix</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> port.returns <span class="co"># Returns of the assets</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_frontier(w_frontier<span class="op">=</span>frontier, mu<span class="op">=</span>mu, cov<span class="op">=</span>cov, returns<span class="op">=</span>returns, rm<span class="op">=</span>rm,</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>                      rf<span class="op">=</span>rf, alpha<span class="op">=</span><span class="fl">0.05</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, w<span class="op">=</span>w, label<span class="op">=</span>label,</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>                      marker<span class="op">=</span><span class="st">'*'</span>, s<span class="op">=</span><span class="dv">16</span>, c<span class="op">=</span><span class="st">'r'</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>[                       0%%                      ][*****                 10%%                      ]  2 of 20 completed[*******               15%%                      ]  3 of 20 completed[**********            20%%                      ]  4 of 20 completed[************          25%%                      ]  5 of 20 completed[************          25%%                      ]  5 of 20 completed[*****************     35%%                      ]  7 of 20 completed[*******************   40%%                      ]  8 of 20 completed[**********************45%%                      ]  9 of 20 completed[**********************50%%                      ]  10 of 20 completed[**********************55%%                      ]  11 of 20 completed[**********************60%%***                   ]  12 of 20 completed[**********************65%%*****                 ]  13 of 20 completed[**********************70%%********              ]  14 of 20 completed[**********************70%%********              ]  14 of 20 completed[**********************80%%************          ]  16 of 20 completed[**********************80%%************          ]  16 of 20 completed[**********************90%%*****************     ]  18 of 20 completed[**********************95%%********************  ]  19 of 20 completed[*********************100%%**********************]  20 of 20 completed</code></pre>
+<p>Notice I’m running a python code block here in my Quarto document.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 100 standard normally distributed random numbers</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>test_r_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the data frame</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(test_r_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  x....rnorm.50. y....rnorm.50. z....rnorm.50.
+1     -1.3585256      0.4253304    -1.50998474
+2     -0.2454117      0.2375650    -0.96187453
+3     -1.0024853     -1.4762635     0.26891435
+4      0.7045397     -1.4570667     0.07752469
+5      0.8686903     -0.9019707     1.28554102
+6      1.0771154      1.1133983    -2.34994116</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<div>
+</div>
+<p>Then python code block</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cut this out</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># python:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># path: "D:/anaconda3/python.exe"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># initial YAML</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># engines:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># r: default</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># jupyter: python3</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># format:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># html:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#    code-fold: true</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> riskfolio <span class="im">as</span> rp</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> yfinance <span class="im">as</span> yf</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:.4%}</span><span class="st">'</span>.<span class="bu">format</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Date range</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> <span class="st">'2021-03-31'</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>end <span class="op">=</span>   <span class="st">'2024-05-10'</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Tickers of assets</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> [<span class="st">'TMHC'</span>, <span class="st">'LEN'</span>, <span class="st">'ESTC'</span>, <span class="st">'DHI'</span>, <span class="st">'INVH'</span>, </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">'GOOGL'</span>, <span class="st">'COUR'</span>, <span class="st">'DT'</span>, <span class="st">'META'</span>, <span class="st">'DDOG'</span>, </span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>          <span class="st">'HASI'</span>, <span class="st">'AMH'</span>, <span class="st">'DBX'</span>, <span class="st">'ZUO'</span>, <span class="st">'BLK'</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>          <span class="st">'DELL'</span>, <span class="st">'TJX'</span>, <span class="st">'O'</span>, <span class="st">'STAG'</span>, <span class="st">'ENB'</span>]</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>assets.sort()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Downloading data</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> yf.download(assets, start <span class="op">=</span> start, end <span class="op">=</span> end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+[                       0%%                      ]
+[*****                 10%%                      ]  2 of 20 completed
+[*******               15%%                      ]  3 of 20 completed
+[**********            20%%                      ]  4 of 20 completed
+[************          25%%                      ]  5 of 20 completed
+[**************        30%%                      ]  6 of 20 completed
+[*****************     35%%                      ]  7 of 20 completed
+[*******************   40%%                      ]  8 of 20 completed
+[**********************45%%                      ]  9 of 20 completed
+[**********************50%%                      ]  10 of 20 completed
+[**********************55%%                      ]  11 of 20 completed
+[**********************60%%***                   ]  12 of 20 completed
+[**********************65%%*****                 ]  13 of 20 completed
+[**********************70%%********              ]  14 of 20 completed
+[**********************75%%**********            ]  15 of 20 completed
+[**********************80%%************          ]  16 of 20 completed
+[**********************85%%***************       ]  17 of 20 completed
+[**********************90%%*****************     ]  18 of 20 completed
+[**********************95%%********************  ]  19 of 20 completed
+[*********************100%%**********************]  20 of 20 completed</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.loc[:,(<span class="st">'Adj Close'</span>, <span class="bu">slice</span>(<span class="va">None</span>))]</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.columns <span class="op">=</span> assets</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> data[assets].pct_change().dropna()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Y.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                AMH      BLK     COUR  ...      TJX     TMHC      ZUO
+Date                                   ...                           
+2021-04-01  2.6695%  1.7070%  1.7333%  ... -0.2570%  2.7913%  1.2838%
+2021-04-05 -1.3146%  2.2417%  8.3661%  ...  2.6978%  2.5576%  0.0000%
+2021-04-06  1.6578% -0.2946% 13.3441%  ... -0.1771% -0.7697%  2.2682%
+2021-04-07 -0.4077%  0.8047%  3.1478%  ...  0.2070% -2.3891% -1.9569%
+2021-04-08  0.0000%  1.5990% -3.4483%  ...  1.8442% -2.7336% 12.4418%
 
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">AMH</th>
-<th data-quarto-table-cell-role="th">BLK</th>
-<th data-quarto-table-cell-role="th">COUR</th>
-<th data-quarto-table-cell-role="th">DBX</th>
-<th data-quarto-table-cell-role="th">DDOG</th>
-<th data-quarto-table-cell-role="th">DELL</th>
-<th data-quarto-table-cell-role="th">DHI</th>
-<th data-quarto-table-cell-role="th">DT</th>
-<th data-quarto-table-cell-role="th">ENB</th>
-<th data-quarto-table-cell-role="th">ESTC</th>
-<th data-quarto-table-cell-role="th">GOOGL</th>
-<th data-quarto-table-cell-role="th">HASI</th>
-<th data-quarto-table-cell-role="th">INVH</th>
-<th data-quarto-table-cell-role="th">LEN</th>
-<th data-quarto-table-cell-role="th">META</th>
-<th data-quarto-table-cell-role="th">O</th>
-<th data-quarto-table-cell-role="th">STAG</th>
-<th data-quarto-table-cell-role="th">TJX</th>
-<th data-quarto-table-cell-role="th">TMHC</th>
-<th data-quarto-table-cell-role="th">ZUO</th>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Date</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2021-04-01</td>
-<td>2.6695%</td>
-<td>1.7070%</td>
-<td>1.7333%</td>
-<td>2.7382%</td>
-<td>4.6316%</td>
-<td>1.0550%</td>
-<td>2.1656%</td>
-<td>2.7156%</td>
-<td>1.1813%</td>
-<td>2.9946%</td>
-<td>3.2611%</td>
-<td>-1.8117%</td>
-<td>2.1257%</td>
-<td>2.1733%</td>
-<td>1.4022%</td>
-<td>2.5354%</td>
-<td>2.8265%</td>
-<td>-0.2570%</td>
-<td>2.7913%</td>
-<td>1.2838%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2021-04-05</td>
-<td>-1.3146%</td>
-<td>2.2417%</td>
-<td>8.3661%</td>
-<td>1.7525%</td>
-<td>-4.5413%</td>
-<td>0.3143%</td>
-<td>1.7463%</td>
-<td>0.7064%</td>
-<td>0.4073%</td>
-<td>-1.1176%</td>
-<td>4.1873%</td>
-<td>-1.8816%</td>
-<td>-0.9795%</td>
-<td>1.2955%</td>
-<td>3.4320%</td>
-<td>0.2150%</td>
-<td>-0.4051%</td>
-<td>2.6978%</td>
-<td>2.5576%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2021-04-06</td>
-<td>1.6578%</td>
-<td>-0.2946%</td>
-<td>13.3441%</td>
-<td>-0.2153%</td>
-<td>6.7876%</td>
-<td>0.1343%</td>
-<td>0.7988%</td>
-<td>1.4629%</td>
-<td>-0.5679%</td>
-<td>7.1170%</td>
-<td>-0.4371%</td>
-<td>0.7820%</td>
-<td>1.5456%</td>
-<td>0.1814%</td>
-<td>-0.8579%</td>
-<td>-0.1839%</td>
-<td>0.3486%</td>
-<td>-0.1771%</td>
-<td>-0.7697%</td>
-<td>2.2682%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">2021-04-07</td>
-<td>-0.4077%</td>
-<td>0.8046%</td>
-<td>3.1478%</td>
-<td>-0.6832%</td>
-<td>-2.5762%</td>
-<td>2.2687%</td>
-<td>-1.2958%</td>
-<td>-1.5406%</td>
-<td>-0.0816%</td>
-<td>0.3627%</td>
-<td>1.3475%</td>
-<td>-1.6811%</td>
-<td>-1.0046%</td>
-<td>-1.4958%</td>
-<td>2.2301%</td>
-<td>0.6449%</td>
-<td>0.0290%</td>
-<td>0.2070%</td>
-<td>-2.3891%</td>
-<td>-1.9569%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">2021-04-08</td>
-<td>0.0000%</td>
-<td>1.5990%</td>
-<td>-3.4483%</td>
-<td>0.2534%</td>
-<td>1.9861%</td>
-<td>1.1693%</td>
-<td>-0.7595%</td>
-<td>5.3360%</td>
-<td>1.0071%</td>
-<td>3.6715%</td>
-<td>0.5091%</td>
-<td>1.5784%</td>
-<td>-0.2767%</td>
-<td>-1.0736%</td>
-<td>-0.0224%</td>
-<td>-0.2136%</td>
-<td>0.5789%</td>
-<td>1.8442%</td>
-<td>-2.7336%</td>
-<td>12.4418%</td>
-</tr>
-</tbody>
-</table>
-
+[5 rows x 20 columns]</code></pre>
 </div>
-</div>
-</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>average_returns <span class="op">=</span> Y.mean()</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>volatilities <span class="op">=</span> Y.std()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="op">=</span> Y.cov()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average Returns:</span><span class="ch">\n</span><span class="st">"</span>, average_returns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average Returns:
  AMH      0.0297%
@@ -497,8 +332,11 @@ STAG     0.0354%
 TJX      0.0696%
 TMHC     0.1139%
 ZUO      0.0100%
-dtype: float64
-Volatilities:
+dtype: float64</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Volatilities:</span><span class="ch">\n</span><span class="st">"</span>, volatilities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Volatilities:
  AMH     1.4660%
 BLK     1.7092%
 COUR    3.5182%
@@ -519,704 +357,180 @@ STAG    1.5397%
 TJX     1.5504%
 TMHC    2.4480%
 ZUO     3.2840%
-dtype: float64
-Covariance Matrix:
-           AMH     BLK    COUR     DBX    DDOG    DELL     DHI      DT     ENB  \
-AMH   0.0215% 0.0124% 0.0143% 0.0105% 0.0193% 0.0093% 0.0143% 0.0138% 0.0072%   
-BLK   0.0124% 0.0292% 0.0207% 0.0166% 0.0275% 0.0175% 0.0204% 0.0222% 0.0106%   
-COUR  0.0143% 0.0207% 0.1238% 0.0280% 0.0568% 0.0141% 0.0226% 0.0413% 0.0073%   
-DBX   0.0105% 0.0166% 0.0280% 0.0440% 0.0378% 0.0147% 0.0187% 0.0325% 0.0066%   
-DDOG  0.0193% 0.0275% 0.0568% 0.0378% 0.1464% 0.0226% 0.0319% 0.0705% 0.0094%   
-DELL  0.0093% 0.0175% 0.0141% 0.0147% 0.0226% 0.0655% 0.0194% 0.0159% 0.0091%   
-DHI   0.0143% 0.0204% 0.0226% 0.0187% 0.0319% 0.0194% 0.0474% 0.0217% 0.0082%   
-DT    0.0138% 0.0222% 0.0413% 0.0325% 0.0705% 0.0159% 0.0217% 0.0748% 0.0089%   
-ENB   0.0072% 0.0106% 0.0073% 0.0066% 0.0094% 0.0091% 0.0082% 0.0089% 0.0156%   
-ESTC  0.0204% 0.0274% 0.0639% 0.0415% 0.1001% 0.0196% 0.0281% 0.0691% 0.0100%   
-GOOGL 0.0106% 0.0179% 0.0253% 0.0206% 0.0361% 0.0164% 0.0182% 0.0251% 0.0068%   
-HASI  0.0205% 0.0237% 0.0350% 0.0213% 0.0412% 0.0165% 0.0271% 0.0357% 0.0149%   
-INVH  0.0197% 0.0132% 0.0143% 0.0100% 0.0190% 0.0103% 0.0142% 0.0136% 0.0075%   
-LEN   0.0145% 0.0204% 0.0234% 0.0185% 0.0320% 0.0195% 0.0437% 0.0226% 0.0085%   
-META  0.0140% 0.0222% 0.0359% 0.0264% 0.0480% 0.0225% 0.0259% 0.0362% 0.0069%   
-O     0.0116% 0.0098% 0.0090% 0.0065% 0.0125% 0.0063% 0.0115% 0.0094% 0.0067%   
-STAG  0.0158% 0.0152% 0.0146% 0.0108% 0.0188% 0.0111% 0.0164% 0.0138% 0.0079%   
-TJX   0.0078% 0.0138% 0.0150% 0.0112% 0.0185% 0.0108% 0.0154% 0.0162% 0.0063%   
-TMHC  0.0158% 0.0228% 0.0258% 0.0210% 0.0342% 0.0232% 0.0454% 0.0243% 0.0107%   
-ZUO   0.0169% 0.0267% 0.0492% 0.0351% 0.0699% 0.0222% 0.0274% 0.0525% 0.0109%   
-
-         ESTC   GOOGL    HASI    INVH     LEN    META       O    STAG     TJX  \
-AMH   0.0204% 0.0106% 0.0205% 0.0197% 0.0145% 0.0140% 0.0116% 0.0158% 0.0078%   
-BLK   0.0274% 0.0179% 0.0237% 0.0132% 0.0204% 0.0222% 0.0098% 0.0152% 0.0138%   
-COUR  0.0639% 0.0253% 0.0350% 0.0143% 0.0234% 0.0359% 0.0090% 0.0146% 0.0150%   
-DBX   0.0415% 0.0206% 0.0213% 0.0100% 0.0185% 0.0264% 0.0065% 0.0108% 0.0112%   
-DDOG  0.1001% 0.0361% 0.0412% 0.0190% 0.0320% 0.0480% 0.0125% 0.0188% 0.0185%   
-DELL  0.0196% 0.0164% 0.0165% 0.0103% 0.0195% 0.0225% 0.0063% 0.0111% 0.0108%   
-DHI   0.0281% 0.0182% 0.0271% 0.0142% 0.0437% 0.0259% 0.0115% 0.0164% 0.0154%   
-DT    0.0691% 0.0251% 0.0357% 0.0136% 0.0226% 0.0362% 0.0094% 0.0138% 0.0162%   
-ENB   0.0100% 0.0068% 0.0149% 0.0075% 0.0085% 0.0069% 0.0067% 0.0079% 0.0063%   
-ESTC  0.1496% 0.0344% 0.0473% 0.0191% 0.0305% 0.0475% 0.0114% 0.0199% 0.0192%   
-GOOGL 0.0344% 0.0398% 0.0175% 0.0110% 0.0187% 0.0363% 0.0067% 0.0119% 0.0112%   
-HASI  0.0473% 0.0175% 0.1122% 0.0201% 0.0288% 0.0238% 0.0161% 0.0220% 0.0142%   
-INVH  0.0191% 0.0110% 0.0201% 0.0228% 0.0147% 0.0150% 0.0122% 0.0162% 0.0082%   
-LEN   0.0305% 0.0187% 0.0288% 0.0147% 0.0460% 0.0268% 0.0112% 0.0168% 0.0154%   
-META  0.0475% 0.0363% 0.0238% 0.0150% 0.0268% 0.0915% 0.0070% 0.0151% 0.0152%   
-O     0.0114% 0.0067% 0.0161% 0.0122% 0.0112% 0.0070% 0.0157% 0.0129% 0.0061%   
-STAG  0.0199% 0.0119% 0.0220% 0.0162% 0.0168% 0.0151% 0.0129% 0.0237% 0.0086%   
-TJX   0.0192% 0.0112% 0.0142% 0.0082% 0.0154% 0.0152% 0.0061% 0.0086% 0.0240%   
-TMHC  0.0315% 0.0218% 0.0305% 0.0163% 0.0444% 0.0296% 0.0127% 0.0190% 0.0167%   
-ZUO   0.0685% 0.0282% 0.0419% 0.0173% 0.0285% 0.0362% 0.0114% 0.0184% 0.0168%   
-
-         TMHC     ZUO  
-AMH   0.0158% 0.0169%  
-BLK   0.0228% 0.0267%  
-COUR  0.0258% 0.0492%  
-DBX   0.0210% 0.0351%  
-DDOG  0.0342% 0.0699%  
-DELL  0.0232% 0.0222%  
-DHI   0.0454% 0.0274%  
-DT    0.0243% 0.0525%  
-ENB   0.0107% 0.0109%  
-ESTC  0.0315% 0.0685%  
-GOOGL 0.0218% 0.0282%  
-HASI  0.0305% 0.0419%  
-INVH  0.0163% 0.0173%  
-LEN   0.0444% 0.0285%  
-META  0.0296% 0.0362%  
-O     0.0127% 0.0114%  
-STAG  0.0190% 0.0184%  
-TJX   0.0167% 0.0168%  
-TMHC  0.0599% 0.0300%  
-ZUO   0.0300% 0.1078%  </code></pre>
+dtype: float64</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Covariance Matrix:</span><span class="ch">\n</span><span class="st">"</span>, cov_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Covariance Matrix:
+           AMH     BLK    COUR     DBX  ...    STAG     TJX    TMHC     ZUO
+AMH   0.0215% 0.0124% 0.0143% 0.0105%  ... 0.0158% 0.0078% 0.0158% 0.0169%
+BLK   0.0124% 0.0292% 0.0207% 0.0166%  ... 0.0152% 0.0138% 0.0228% 0.0267%
+COUR  0.0143% 0.0207% 0.1238% 0.0280%  ... 0.0146% 0.0150% 0.0258% 0.0492%
+DBX   0.0105% 0.0166% 0.0280% 0.0440%  ... 0.0108% 0.0112% 0.0210% 0.0351%
+DDOG  0.0193% 0.0275% 0.0568% 0.0378%  ... 0.0188% 0.0185% 0.0342% 0.0699%
+DELL  0.0093% 0.0175% 0.0141% 0.0147%  ... 0.0111% 0.0108% 0.0232% 0.0222%
+DHI   0.0143% 0.0204% 0.0226% 0.0187%  ... 0.0164% 0.0154% 0.0454% 0.0274%
+DT    0.0138% 0.0222% 0.0413% 0.0325%  ... 0.0138% 0.0162% 0.0243% 0.0525%
+ENB   0.0072% 0.0106% 0.0073% 0.0066%  ... 0.0079% 0.0063% 0.0107% 0.0109%
+ESTC  0.0204% 0.0274% 0.0639% 0.0415%  ... 0.0199% 0.0192% 0.0315% 0.0685%
+GOOGL 0.0106% 0.0179% 0.0253% 0.0206%  ... 0.0119% 0.0112% 0.0218% 0.0282%
+HASI  0.0205% 0.0237% 0.0350% 0.0213%  ... 0.0220% 0.0142% 0.0305% 0.0419%
+INVH  0.0197% 0.0132% 0.0143% 0.0100%  ... 0.0162% 0.0082% 0.0163% 0.0173%
+LEN   0.0145% 0.0204% 0.0234% 0.0185%  ... 0.0168% 0.0154% 0.0444% 0.0285%
+META  0.0140% 0.0222% 0.0359% 0.0264%  ... 0.0151% 0.0152% 0.0296% 0.0362%
+O     0.0116% 0.0098% 0.0090% 0.0065%  ... 0.0129% 0.0061% 0.0127% 0.0114%
+STAG  0.0158% 0.0152% 0.0146% 0.0108%  ... 0.0237% 0.0086% 0.0190% 0.0184%
+TJX   0.0078% 0.0138% 0.0150% 0.0112%  ... 0.0086% 0.0240% 0.0167% 0.0168%
+TMHC  0.0158% 0.0228% 0.0258% 0.0210%  ... 0.0190% 0.0167% 0.0599% 0.0300%
+ZUO   0.0169% 0.0267% 0.0492% 0.0351%  ... 0.0184% 0.0168% 0.0300% 0.1078%
 
+[20 rows x 20 columns]</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Building the portfolio object</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>port <span class="op">=</span> rp.Portfolio(returns<span class="op">=</span>Y)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating optimal portfolio</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select method and estimate input parameters:</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>method_mu<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate expected returns based on historical data.</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>method_cov<span class="op">=</span><span class="st">'hist'</span> <span class="co"># Method to estimate covariance matrix based on historical data.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>port.assets_stats(method_mu<span class="op">=</span>method_mu, method_cov<span class="op">=</span>method_cov, d<span class="op">=</span><span class="fl">0.94</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate optimal portfolio:</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>model<span class="op">=</span><span class="st">'Classic'</span> <span class="co"># Could be Classic (historical), BL (Black Litterman) or FM (Factor Model)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>rm <span class="op">=</span> <span class="st">'MV'</span> <span class="co"># Risk measure used, this time will be variance</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> <span class="st">'Sharpe'</span> <span class="co"># Objective function, could be MinRisk, MaxRet, Utility or Sharpe</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>hist <span class="op">=</span> <span class="va">True</span> <span class="co"># Use historical scenarios for risk measures that depend on scenarios</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk free rate</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">0</span> <span class="co"># Risk aversion factor, only useful when obj is 'Utility'</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> port.optimization(model<span class="op">=</span>model, rm<span class="op">=</span>rm, obj<span class="op">=</span>obj, rf<span class="op">=</span>rf, l<span class="op">=</span>l, hist<span class="op">=</span>hist)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       weights
+AMH    0.0000%
+BLK    0.0000%
+COUR   0.0000%
+DBX    0.0000%
+DDOG   0.6043%
+DELL  47.9516%
+DHI    0.0000%
+DT     0.0000%
+ENB    0.0000%
+ESTC   0.0000%
+GOOGL 11.1558%
+HASI   0.0000%
+INVH   0.0000%
+LEN    0.0000%
+META   1.3875%
+O      0.0000%
+STAG   0.0000%
+TJX   28.5279%
+TMHC  10.3729%
+ZUO    0.0000%</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the composition of the portfolio</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_pie(w<span class="op">=</span>w, title<span class="op">=</span><span class="st">'Sharpe Mean Variance'</span>, others<span class="op">=</span><span class="fl">0.05</span>, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>nrow<span class="op">=</span><span class="dv">25</span>, cmap <span class="op">=</span> <span class="st">"tab20"</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> <span class="dv">50</span> <span class="co"># Number of points of the frontier</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>frontier <span class="op">=</span> port.efficient_frontier(model<span class="op">=</span>model, rm<span class="op">=</span>rm, points<span class="op">=</span>points, rf<span class="op">=</span>rf, hist<span class="op">=</span>hist)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(frontier)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            0        1        2        3   ...       46       47       48        49
+AMH    5.0343%  4.8209%  4.3502%  3.9823%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+BLK    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+COUR   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+DBX    4.1010%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+DDOG   0.0000%  0.0000%  0.0000%  0.0000%  ...  1.6982%  1.3297%  0.9711%   0.0000%
+DELL   1.3745%  9.7606% 13.4684% 16.3418%  ... 94.0017% 96.0515% 98.0499% 100.0000%
+DHI    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+DT     0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+ENB   34.9365% 31.9075% 30.3226% 29.0943%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+ESTC   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+GOOGL  4.2815%  8.1264%  9.1584%  9.9584%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+HASI   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+INVH   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+LEN    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+META   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+O     33.2404% 23.7638% 19.3733% 15.9726%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+STAG   0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+TJX   17.0318% 21.6207% 23.3272% 24.6505%  ...  0.0000%  0.0000%  0.0000%   0.0000%
+TMHC   0.0000%  0.0000%  0.0000%  0.0000%  ...  4.3001%  2.6189%  0.9790%   0.0000%
+ZUO    0.0000%  0.0000%  0.0000%  0.0000%  ...  0.0000%  0.0000%  0.0000%   0.0000%
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">weights</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AMH</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">BLK</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">COUR</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DBX</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">DDOG</td>
-<td>0.6043%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DELL</td>
-<td>47.9516%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">DHI</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DT</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">ENB</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">ESTC</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GOOGL</td>
-<td>11.1558%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">HASI</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">INVH</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">LEN</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">META</td>
-<td>1.3875%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">O</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">STAG</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">TJX</td>
-<td>28.5278%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">TMHC</td>
-<td>10.3729%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">ZUO</td>
-<td>0.0000%</td>
-</tr>
-</tbody>
-</table>
-
+[20 rows x 50 columns]</code></pre>
 </div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">0</th>
-<th data-quarto-table-cell-role="th">1</th>
-<th data-quarto-table-cell-role="th">2</th>
-<th data-quarto-table-cell-role="th">3</th>
-<th data-quarto-table-cell-role="th">4</th>
-<th data-quarto-table-cell-role="th">5</th>
-<th data-quarto-table-cell-role="th">6</th>
-<th data-quarto-table-cell-role="th">7</th>
-<th data-quarto-table-cell-role="th">8</th>
-<th data-quarto-table-cell-role="th">9</th>
-<th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">40</th>
-<th data-quarto-table-cell-role="th">41</th>
-<th data-quarto-table-cell-role="th">42</th>
-<th data-quarto-table-cell-role="th">43</th>
-<th data-quarto-table-cell-role="th">44</th>
-<th data-quarto-table-cell-role="th">45</th>
-<th data-quarto-table-cell-role="th">46</th>
-<th data-quarto-table-cell-role="th">47</th>
-<th data-quarto-table-cell-role="th">48</th>
-<th data-quarto-table-cell-role="th">49</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AMH</td>
-<td>5.0343%</td>
-<td>4.8210%</td>
-<td>4.3502%</td>
-<td>3.9823%</td>
-<td>3.4871%</td>
-<td>3.0214%</td>
-<td>2.5906%</td>
-<td>2.1855%</td>
-<td>1.8006%</td>
-<td>1.4010%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">BLK</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">COUR</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DBX</td>
-<td>4.1011%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">DDOG</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>3.3330%</td>
-<td>3.1785%</td>
-<td>3.0263%</td>
-<td>2.8649%</td>
-<td>2.4625%</td>
-<td>2.0736%</td>
-<td>1.6982%</td>
-<td>1.3297%</td>
-<td>0.9711%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DELL</td>
-<td>1.3745%</td>
-<td>9.7606%</td>
-<td>13.4683%</td>
-<td>16.3418%</td>
-<td>18.5851%</td>
-<td>20.5837%</td>
-<td>22.4316%</td>
-<td>24.1672%</td>
-<td>25.8156%</td>
-<td>27.3880%</td>
-<td>...</td>
-<td>80.4692%</td>
-<td>82.8896%</td>
-<td>85.2180%</td>
-<td>87.4728%</td>
-<td>89.7211%</td>
-<td>91.8941%</td>
-<td>94.0017%</td>
-<td>96.0515%</td>
-<td>98.0499%</td>
-<td>100.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">DHI</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.8643%</td>
-<td>1.7431%</td>
-<td>2.5557%</td>
-<td>3.3187%</td>
-<td>4.0433%</td>
-<td>4.7274%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">DT</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">ENB</td>
-<td>34.9366%</td>
-<td>31.9076%</td>
-<td>30.3226%</td>
-<td>29.0944%</td>
-<td>28.1516%</td>
-<td>27.3133%</td>
-<td>26.5383%</td>
-<td>25.8106%</td>
-<td>25.1194%</td>
-<td>24.4637%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">ESTC</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">GOOGL</td>
-<td>4.2814%</td>
-<td>8.1264%</td>
-<td>9.1584%</td>
-<td>9.9584%</td>
-<td>10.4526%</td>
-<td>10.8765%</td>
-<td>11.2684%</td>
-<td>11.6366%</td>
-<td>11.9862%</td>
-<td>12.2826%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">HASI</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">INVH</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0261%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">LEN</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">META</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0001%</td>
-<td>0.0506%</td>
-<td>...</td>
-<td>2.4647%</td>
-<td>1.5909%</td>
-<td>0.7515%</td>
-<td>0.0001%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">O</td>
-<td>33.2404%</td>
-<td>23.7637%</td>
-<td>19.3732%</td>
-<td>15.9726%</td>
-<td>12.9933%</td>
-<td>10.2964%</td>
-<td>7.8032%</td>
-<td>5.4619%</td>
-<td>3.2382%</td>
-<td>1.1193%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">STAG</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">TJX</td>
-<td>17.0318%</td>
-<td>21.6207%</td>
-<td>23.3272%</td>
-<td>24.6505%</td>
-<td>25.4660%</td>
-<td>26.1655%</td>
-<td>26.8121%</td>
-<td>27.4196%</td>
-<td>27.9965%</td>
-<td>28.5415%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">TMHC</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>13.7331%</td>
-<td>12.3409%</td>
-<td>11.0042%</td>
-<td>9.6623%</td>
-<td>7.8164%</td>
-<td>6.0322%</td>
-<td>4.3001%</td>
-<td>2.6189%</td>
-<td>0.9790%</td>
-<td>0.0000%</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">ZUO</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>...</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-<td>0.0000%</td>
-</tr>
-</tbody>
-</table>
-
-<p>20 rows × 50 columns</p>
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the efficient frontier</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> <span class="st">'Max Risk Adjusted Return Portfolio'</span> <span class="co"># Title of point</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> port.mu <span class="co"># Expected returns</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>cov <span class="op">=</span> port.cov <span class="co"># Covariance matrix</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>returns <span class="op">=</span> port.returns <span class="co"># Returns of the assets</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> rp.plot_frontier(w_frontier<span class="op">=</span>frontier, mu<span class="op">=</span>mu, cov<span class="op">=</span>cov, returns<span class="op">=</span>returns, rm<span class="op">=</span>rm,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                      rf<span class="op">=</span>rf, alpha<span class="op">=</span><span class="fl">0.05</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, w<span class="op">=</span>w, label<span class="op">=</span>label,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                      marker<span class="op">=</span><span class="st">'*'</span>, s<span class="op">=</span><span class="dv">16</span>, c<span class="op">=</span><span class="st">'r'</span>, height<span class="op">=</span><span class="dv">3</span>, width<span class="op">=</span><span class="dv">5</span>, ax<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-2-output-6.png" width="482" height="278" class="figure-img"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-display">
+</div>
+<p>Now we switch to R so we can use ggplot2 (quick version, not fancy)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>frontier_r <span class="ot">&lt;-</span> py<span class="sc">$</span>frontier <span class="co"># frontier_r is a dataframe: 20obs * 50vars</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>average_returns_r <span class="ot">&lt;-</span> py<span class="sc">$</span>average_returns <span class="co"># vector length = 20</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>volatilities_r <span class="ot">&lt;-</span> py<span class="sc">$</span>volatilities <span class="co"># vector length = 20</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>cov_matrix_r <span class="ot">&lt;-</span> py<span class="sc">$</span>cov_matrix <span class="co"># dataframe: 20r * 20c matrix</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>frontier_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(frontier_r) <span class="co"># 20r * 50c matrix</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>average_returns_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(average_returns_r, <span class="at">nrow =</span> <span class="dv">1</span>) <span class="co"># 1r * 20c matrix </span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Below is (1r * 20c) * (20r * 50c) = 1r * 50c matrix</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>expected_returns <span class="ot">&lt;-</span>  average_returns_matrix <span class="sc">%*%</span> frontier_matrix </span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert cov_matrix_r to a matrix if it's not already</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>cov_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(cov_matrix_r)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the risk (standard deviation) for each portfolio</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>portfolio_risks <span class="ot">&lt;-</span> <span class="fu">apply</span>(frontier_matrix, <span class="dv">2</span>, <span class="cf">function</span>(weights) {</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">t</span>(weights) <span class="sc">%*%</span> cov_matrix <span class="sc">%*%</span> weights)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Since expected_returns is a 1*50 matrix, convert it to a vector to match the length of portfolio_risks</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>expected_returns_vector <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(expected_returns)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame for plotting</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>frontier_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Risk =</span> portfolio_risks, <span class="at">Return =</span> expected_returns_vector)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the efficient frontier using ggplot2</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>efficient_frontier_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(frontier_data, <span class="fu">aes</span>(<span class="at">x =</span> Risk, <span class="at">y =</span> Return)) <span class="sc">+</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"seagreen"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Risk (Standard Deviation)"</span>, </span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Expected Return"</span>, <span class="at">title =</span> <span class="st">"Efficient Frontier (but DAILY)"</span>) <span class="sc">+</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"aquamarine"</span>, <span class="at">size =</span> <span class="dv">2</span>)  <span class="co"># Highlight each portfolio point</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(efficient_frontier_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-2-output-7.png" width="468" height="276" class="figure-img"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1261,18 +575,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1304,7 +607,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1312,7 +637,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
