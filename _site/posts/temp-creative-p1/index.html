@@ -200,56 +200,180 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>softmax <span class="ot">&lt;-</span> <span class="cf">function</span>(values, temps) {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  words <span class="ot">&lt;-</span> <span class="fu">names</span>(values) </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Below is the softmax function</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  exp_values <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">outer</span>(values, <span class="dv">1</span> <span class="sc">/</span> temps))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  softmax_values <span class="ot">&lt;-</span> <span class="fu">sweep</span>(exp_values, <span class="dv">2</span>, <span class="fu">colSums</span>(exp_values), <span class="st">`</span><span class="at">/</span><span class="st">`</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp =</span> <span class="fu">rep</span>(temps, <span class="at">each =</span> <span class="fu">length</span>(values)),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">word =</span> <span class="fu">rep</span>(words, <span class="at">times =</span> <span class="fu">length</span>(temps)),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fu">c</span>(softmax_values)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># We live in Los Angeles, tomorrow we will travel to the ..</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"beach"</span>     <span class="ot">=</span> <span class="fl">9.1</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mountains"</span> <span class="ot">=</span> <span class="fl">7.2</span>, </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"lake"</span>      <span class="ot">=</span> <span class="fl">5.8</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mall"</span>      <span class="ot">=</span> <span class="fl">3.4</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">"park"</span>      <span class="ot">=</span> <span class="fl">2.3</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"city"</span>      <span class="ot">=</span> <span class="fl">1.5</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>           )</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>temps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>softmax_data <span class="ot">&lt;-</span> <span class="fu">softmax</span>(values, temps)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>softmax_data <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">reorder</span>(word, <span class="sc">-</span>values[word]),</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                           <span class="at">x =</span> prob, <span class="at">fill =</span> temp)) <span class="sc">+</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>temp, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, </span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>               <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">temp =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"Temp ="</span>, x))) <span class="sc">+</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"We live in Los Angeles, tomorrow we will travel to the .."</span>,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"Horizontal axis is probability"</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"darkseagreen4"</span>, <span class="at">high =</span> <span class="st">"darkorange"</span>) <span class="sc">+</span> </span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>), <span class="co"># facet labels</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>), <span class="co"># X-axis label</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">"bold"</span>)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>softmax <span class="ot">&lt;-</span> <span class="cf">function</span>(values, temps) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  words <span class="ot">&lt;-</span> <span class="fu">names</span>(values) </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Below is the softmax function</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  exp_values <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">outer</span>(values, <span class="dv">1</span> <span class="sc">/</span> temps))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  softmax_values <span class="ot">&lt;-</span> <span class="fu">sweep</span>(exp_values, <span class="dv">2</span>, <span class="fu">colSums</span>(exp_values), <span class="st">`</span><span class="at">/</span><span class="st">`</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">temp =</span> <span class="fu">rep</span>(temps, <span class="at">each =</span> <span class="fu">length</span>(values)),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">word =</span> <span class="fu">rep</span>(words, <span class="at">times =</span> <span class="fu">length</span>(temps)),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fu">c</span>(softmax_values)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># We live in Los Angeles, tomorrow we will travel to the ..</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"beach"</span>     <span class="ot">=</span> <span class="fl">9.1</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mountains"</span> <span class="ot">=</span> <span class="fl">7.2</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"lake"</span>      <span class="ot">=</span> <span class="fl">5.8</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">"mall"</span>      <span class="ot">=</span> <span class="fl">3.4</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"park"</span>      <span class="ot">=</span> <span class="fl">2.3</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">"city"</span>      <span class="ot">=</span> <span class="fl">1.5</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>           )</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>temps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>softmax_data <span class="ot">&lt;-</span> <span class="fu">softmax</span>(values, temps)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>softmax_data <span class="sc">|&gt;</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">reorder</span>(word, <span class="sc">-</span>values[word]),</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                           <span class="at">x =</span> prob, <span class="at">fill =</span> temp)) <span class="sc">+</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>temp, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>               <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">temp =</span> <span class="cf">function</span>(x) <span class="fu">paste</span>(<span class="st">"Temp ="</span>, x))) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"We live in Los Angeles, tomorrow we will travel to the .."</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>         <span class="at">subtitle =</span> <span class="st">"Horizontal axis is probability"</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"darkseagreen4"</span>, <span class="at">high =</span> <span class="st">"darkorange"</span>) <span class="sc">+</span> </span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>), <span class="co"># facet labels</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>), <span class="co"># X-axis label</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>, <span class="at">face =</span> <span class="st">"bold"</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
 <p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+</div>
+</div>
+<p>The above was my crafted example. Next I’ll conduct a tiny experiment to see how the temperature setting affects the output of the OpenAI language model (LLM) GPT-3.5. According to my co-pilot, “The temperature setting controls the randomness of the output generated by the model. A lower temperature setting results in more deterministic output, while a higher temperature setting leads to more creative and diverse responses.”</p>
+<p>The first example is a financial advisor specializing in portfolio allocation. The second example will be a creative fiction writer using vivid imagery. Notice how I changed the system message to instruct the model to act as a creative writer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># | output.wrap: true</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># | output.frame.width: 300</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the OpenAI client</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> OpenAI(api_key<span class="op">=</span>os.getenv(<span class="st">"OPENAI_API_KEY"</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the system message to instruct the model to act as a creative writer</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>system_message <span class="op">=</span> {</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"role"</span>: <span class="st">"system"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"content"</span>: <span class="st">"You are a financial advisor specializing in portfolio allocation. Your goal is to provide personalized investment recommendations based on an individual's risk tolerance, financial goals, and market conditions."</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the user message</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>user_message <span class="op">=</span> {</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"content"</span>: <span class="st">"Given an investor's risk tolerance of High and a target retirement age of 65, suggest an optimal portfolio allocation strategy."</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to generate text with a specific temperature setting</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_text_with_temperature(prompt, temperature):</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    completion <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span><span class="st">"gpt-3.5-turbo-16k"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[system_message, user_message],</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        temperature<span class="op">=</span>temperature,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        max_tokens<span class="op">=</span><span class="dv">200</span>,  <span class="co"># Adjust max_tokens as needed</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> completion.choices[<span class="dv">0</span>].message.content.strip()</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate text with different temperature settings</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>]</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temp <span class="kw">in</span> temperatures:</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    generated_text <span class="op">=</span> generate_text_with_temperature(user_message, temp)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Temperature </span><span class="sc">{</span>temp<span class="sc">}</span><span class="ss">:</span><span class="ch">\n</span><span class="sc">{</span>generated_text<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Temperature 0.1:
+Based on a high risk tolerance and a target retirement age of 65, an optimal portfolio allocation strategy may include a higher allocation to growth-oriented assets such as stocks and a smaller allocation to more conservative assets like bonds. Here's a suggested allocation:
+
+1. Stocks: Allocate around 70% of the portfolio to a diversified mix of domestic and international stocks. This can be achieved through low-cost index funds or exchange-traded funds (ETFs) that track broad market indices.
+
+2. Bonds: Allocate around 20% of the portfolio to bonds. Consider a mix of government bonds, corporate bonds, and/or bond funds. This allocation helps provide stability and income generation.
+
+3. Cash and Cash Equivalents: Allocate around 10% of the portfolio to cash or cash equivalents. This can include high-yield savings accounts or short-term Treasury bills. Cash provides liquidity and acts as a buffer during market downturns.
+
+It's important to note that this allocation is a general guideline and should be adjusted
+
+Temperature 0.8:
+Based on a high risk tolerance and a target retirement age of 65, here is an optimal portfolio allocation strategy:
+
+1. Equities: Allocate a significant portion of the portfolio (around 70-80%) to diversified equity investments such as stocks or equity-based mutual funds. This allocation aims to maximize long-term growth potential, as equities tend to provide higher returns over the long run. However, keep in mind that this allocation comes with higher volatility and short-term fluctuations.
+
+2. Bonds: Allocate a smaller portion of the portfolio (around 20-30%) to fixed-income investments such as bonds or bond-based mutual funds. Bonds provide stability and regular income, serving as a buffer against market downturns. They also help diversify the portfolio and reduce overall risk.
+
+3. Real Estate: Consider diversifying the portfolio further by allocating a small portion (around 5-10%) to real estate investments such as Real Estate Investment Trusts (REITs) or real estate funds. Real estate
+
+Temperature 1.0:
+Based on your risk tolerance of High, it is reasonable to assume that you are comfortable with a higher level of volatility and have a longer time horizon for your investments. With a target retirement age of 65, you have a significant investment horizon, which means you can potentially earn higher returns over time by taking on more risk.
+
+An optimal portfolio allocation strategy for you might include a higher allocation to equities and a smaller allocation to fixed income. The specific allocation percentages will depend on your individual circumstances, but here is a suggested allocation as a starting point:
+
+Equities: 75%
+Fixed Income: 25%
+
+Within the equities allocation, it is advisable to diversify your investments across different asset classes and geographic regions to reduce risk. This may include allocating a portion of your equities to domestic and international stocks, as well as exposure to different sectors such as technology, healthcare, finance, etc.
+
+For the fixed income allocation, consider investing in a mix of government bonds, corporate bonds, and other
+
+Temperature 1.5:
+Based on your risk tolerance of High and target retirement age of 65, an optimal portfolio allocation strategy could be:
+
+1. Aggressive growth stocks: Allocate around 60-70% of your portfolio to aggressive growth stocks. These stocks have higher growth potential but also come with higher volatility.
+2. Diversified equity mutual funds: Allocate around 15-25% of your portfolio to diversified equity mutual funds. These funds offer exposure to a broad range of stocks, which can help mitigate risk while still providing potential for growth.
+3. Bonds: Allocate around 10-20% of your portfolio to bonds. This can include a mix of corporate bonds, treasury bonds, and municipal bonds. Bonds can provide more stability and act as a hedge against stock market volatility.
+4. Real Estate Investment Trusts (REITs): Allocate around 5-10% of your portfolio to REITs. These investments can provide steady income from rental properties, while also offering potential for capital appreciation.
+5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>system_message <span class="op">=</span> {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"role"</span>: <span class="st">"system"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"content"</span>: <span class="st">"You are a creative fiction writer who uses vivid imagery"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>user_message <span class="op">=</span> {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"content"</span>: <span class="st">"Finish this sentence: She opened her cryptocurrency wallet and discovered ..."</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temp <span class="kw">in</span> temperatures:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    generated_text <span class="op">=</span> generate_text_with_temperature(user_message, temp)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Temperature </span><span class="sc">{</span>temp<span class="sc">}</span><span class="ss">:</span><span class="ch">\n</span><span class="sc">{</span>generated_text<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Temperature 0.1:
+She opened her cryptocurrency wallet and discovered a kaleidoscope of digital currencies swirling in a mesmerizing dance of colors and shapes. Each coin, like a radiant gemstone, emitted a unique glow that illuminated the screen before her. Bitcoin, with its golden hue, stood tall and proud, exuding an air of dominance. Ethereum, adorned in a shimmering shade of azure, seemed to pulsate with untapped potential. Ripple, with its liquid silver sheen, appeared to ripple and flow like a tranquil river. Litecoin, a luminous silver orb, emitted a soft, ethereal glow, reminiscent of a moonlit night. And amidst this dazzling array, a myriad of other cryptocurrencies, each with its own distinct personality, formed a celestial tapestry of digital wealth.
+
+As she delved deeper into her wallet, she discovered the intricate web of transactions, a labyrinthine network of connections that spanned the globe. Each transaction, like a shooting star, left a trail of shimmering stardust
+
+Temperature 0.8:
+She opened her cryptocurrency wallet and discovered a mesmerizing digital landscape, pulsating with vibrant colors and shimmering with a kaleidoscope of ever-changing patterns. The wallet, a portal into this virtual realm, seemed to breathe with a life of its own, as if it held the secrets of an enchanting universe.
+
+Floating in the depths of this ethereal expanse were countless digital coins, each one a miniature constellation of light. Their luminescence danced and swirled, casting ethereal hues that reflected the essence of their respective blockchain networks. Bitcoin glowed with a golden radiance, representing the pioneering spirit that birthed the decentralized revolution. Ethereum shimmered with a soothing blue, evoking the innovative energy of its smart contracts and decentralized applications.
+
+As she navigated through this digital cosmos, she uncovered a multitude of tokenized wonders. Tokens representing art, music, and literature floated gracefully, their beauty transcending the physical realm. NFTs, like celestial gems, sparkled with the
+
+Temperature 1.0:
+that it was a mesmerizing labyrinth of shimmering codes and colors. Each coin and token seemed to have a life of its own, pulsating with an ethereal glow that reflected the digital essence within. As she delved deeper into the depths of her wallet, the myriad of currencies unfolded like an enchanting kaleidoscope, beckoning her to explore the infinite possibilities of this alternate world.
+
+With a gentle touch, she selected her prized Bitcoin. Like a radiant sun, it radiated a warm golden hue, exuding an air of stability and dominance among the others. As she moved her virtual fingers, she marveled at the intricate pattern of intricate lock and key combinations dancing across the surface. It was as if the essence of virtual value had materialized into an electric tapestry.
+
+Beside the Bitcoin, a graceful Ethereum token rested, vibrant with a heavenly shade of blue. Evoking a sense of infinite potential, it seemed to ripple and shimmer like a mystical ocean captured within its digital boundaries
+
+Temperature 1.5:
+a dazzling galaxy of currencies swirling within it, each one emanating its own luminous pulse. Each digital coin was a shimmering orb of unique colors and patterns, casting a hypnotic spell upon her eager eyes. Like gems plucked from worlds yet explored, they sparkled with untapped potential. Silkily floating in the ether, they beckoned her to dive deeper into their mysterious enclave.
+
+Amidst the electrifying atmosphere, Bitcoin stood poised in its timeless dominance - a massive ethereal monolith radiating golden warmth and historical significance. Ethereum followed closely, resembling a nebula painted with all the colors of introspection and newly ignited futures. Ripple, reminiscent of undulating helicoids in an outpouring tide resonating with liveliness joined silently. Stoke of Tezos within delivering cryptic codes coding freedom not coded. Ada a mathematical frontier us called victory length furereal Tiëbeurtsjong puzzle store assisted fortune sliding thought abstract radical Chaın soft uncträd Disk "you</code></pre>
 </div>
 </div>
 
