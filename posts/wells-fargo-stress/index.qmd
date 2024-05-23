@@ -1,0 +1,338 @@
+---
+title: Stress test (simulation) of WFC balance sheet and income statement
+description: description goes here
+author: David Harper, CFA, FRM
+date: 2024-05-15
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+## first code block: retrieve data from filing tables
+
+```{r}
+
+balance_df <- readRDS("balance_df.rds")
+income_df <- readRDS("income_df.rds")
+
+# balance_df (actual calcs below)
+# 
+# balance_df: Calculated Variables (7) as pulled from 10Q
+# Total Debt Securities (TotDebtSec):   Sum of Trading, Available-for-Sale, and Held-to-Maturity Debt Securities.
+# Net Loans (NetLoans):                 Loans plus Allowance for Loan Losses.
+# Total Deposits (TotDep):              Sum of Noninterest-Bearing and Interest-Bearing Deposits.
+# Total Liabilities (TotLiab):          Sum of Total Deposits, Short-Term Borrowings, Derivative Liabilities, 
+#                                       Accrued Expenses and Other Liabilities, and Long-Term Debt.
+# Total Shareholders' Equity (TotSHREq):Sum of Preferred Stock, Common Stock, Additional Paid-In Capital, 
+#                                       Retained  Earnings, Accumulated Other Comprehensive Loss, Treasury Stock, 
+#                                       Unearned ESOP Shares, and Noncontrolling Interests.
+# Total Assets (TotAssets):             Sum of all asset accounts plus Total Liabilities and Equity.
+# Total Liabilities and Equity (TotLiabEq):Sum of Total Liabilities and Total Shareholders' Equity.
+#
+# balance_df: Calculated Variables (7) with shorter names
+# balance_df$TotDebtSec <- balance_df$TradDebtSec + balance_df$AvailSaleDebtSec + balance_df$HeldMatDebtSec
+# balance_df$NetLoans   <- balance_df$Loans + balance_df$LoanLossAllow
+# balance_df$TotDep     <- balance_df$NonIntBearDep + balance_df$IntBearDep
+# balance_df$TotLiab    <- balance_df$TotDep + balance_df$STBorrow + balance_df$DerivLiab + balance_df$AccExpOthLiab +
+#                          balance_df$LTDebt
+# balance_df$TotSHREq   <- balance_df$PrefStock + balance_df$ComStock + balance_df$AddlPaidCap + balance_df$RetEarn +
+#                          balance_df$AOCL + balance_df$TreasStock + balance_df$UnearnESOP + balance_df$NonCtrlInt
+# balance_df$TotAssets  <- balance_df$Cash + balance_df$IntEarnDep + balance_df$FedFundsSold + balance_df$TotDebtSec +
+#                          balance_df$LoansForSale + balance_df$NetLoans + balance_df$MortServRights + balance_df$PremEquip + 
+#                          balance_df$Goodwill + balance_df$DerivAssets + balance_df$EquitySec + balance_df$OthAssets + 
+# balance_df$TotLiabEq  <- balance_df$TotLiab + balance_df$TotSHREq
+#
+# balance_df: Input Variables (4)
+# Loans (Loans)
+# Allowance for Loan Losses (LoanLossAllow)
+# Noninterest Bearing Deposits (NonIntBearDep)
+# Interest Bearing Deposits (IntBearDep)
+#
+# balance_df: Drift Variables
+# Cash (Cash)
+# Interest Earning Deposits (IntEarnDep)
+# Federal Funds Sold (FedFundsSold)
+# Trading Debt Securities (TradDebtSec)
+# Available-for-Sale Debt Securities (AvailSaleDebtSec)
+# Held-to-Maturity Debt Securities (HeldMatDebtSec)
+# Loans Held for Sale (LoansForSale)
+# Mortgage Servicing Rights (MortServRights)
+# Premises and Equipment (PremEquip)
+# Goodwill
+# Derivative Assets (DerivAssets)
+# Equity Securities (EquitySec)
+# Other Assets (OthAssets)
+# Short-Term Borrowings (STBorrow)
+# Derivative Liabilities (DerivLiab)
+# Accrued Expenses and Other Liabilities (AccExpOthLiab)
+# Long-Term Debt (LTDebt)
+# Preferred Stock (PrefStock)
+# Common Stock (ComStock)
+# Additional Paid-In Capital (AddlPaidCap)
+# Retained Earnings (RetEarn)
+# Accumulated Other Comprehensive Loss (AOCL)
+# Treasury Stock (TreasStock)
+# Unearned ESOP Shares (UnearnESOP)
+# Noncontrolling Interests (NonCtrlInt)
+#
+#
+# income_df
+# 
+# income_df: Calculated variables (10)
+# income_df$TotIntInc <- income_df$DebtSec + income_df$LoansSale + income_df$Loans + income_df$EqSec + income_df$OthIntInc
+# income_df$TotIntExp <- income_df$DepIntExp + income_df$STBIntExp + income_df$LTBIntExp + income_df$OthIntExp
+# income_df$NetIntInc <- income_df$TotIntInc - income_df$TotIntExp
+# income_df$TotnonIntInc <- income_df$DepLendFees + income_df$InvAdvFees + income_df$CommBrkFees + income_df$InvBankFees +
+#                           income_df$CardFees + income_df$MortBank + income_df$NetGainTrade + income_df$OthNonIntInc
+# income_df$TotRev <- income_df$NetIntInc + income_df$TotNonIntInc
+# income_df$TotNonIntExp <- income_df$Personnel + income_df$TechTelEquip + income_df$Occupancy + 
+#                           income_df$OperLoss + income_df$ProfOutServ + 
+#                           income_df$AdvPromo + income_df$OthNonIntExp
+# income_df$IncBefTax <- income_df$TotRev - income_df$TotNonIntExp - income_df$ProvCredLoss
+# income_df$NetIncBefNCI <- income_df$IncBefTax - income_df$TaxExp
+# income_df$WFNetInc <- income_df$NetIncBefNCI - income_df$NetIncLossNCI
+# income_df$WFNetIncCS <- income_df$WFNetInc - income_df$PrefStkDiv
+#
+#
+# income_df: Input Variables (6) ... directly impacted by external macroeconomic changes and focus in stress test scenarios
+# Loans (Loans):            Total amount of loans issued, sensitive to economic changes affecting credit demand and default rates.
+# Equity Securities (EqSec):Investments in equity securities, influenced by market valuations and economic conditions.
+# Other Interest Income (OthIntInc): Income generated from various miscellaneous financial sources, potentially sensitive to
+#                                    interest rate changes and economic conditions.
+# Provision for Credit Losses (ProvCredLoss): Reserves set aside to cover potential loan defaults, directly impacted by
+#                                             economic conditions and credit risk assessments.
+# Deposits Interest Expense (DepIntExp): Cost incurred from interest on deposits, which fluctuates with interest rate 
+#                                        changes.
+# Mortgage Banking (MortBank): Income from mortgage-related activities, which can vary significantly with housing market
+#                              conditions and interest rates.
+#
+# income_df: Drift Variables
+# Debt Securities (DebtSec): Typically more stable investments unless significantly impacted by interest rate changes or 
+#       credit quality adjustments.
+# Loans Held for Sale (LoansSale): Loans intended for sale in the near term, might not be directly impacted by long-term
+#       economic trends.
+# Short Term Borrowings Interest Expense (STBIntExp): Costs associated with short-term borrowings, which could have fixed
+#       rates or short adjustment periods.
+# Long Term Debt Interest Expense (LTBIntExp): Costs related to long-term borrowings, which may be fixed or less sensitive
+#       to immediate market fluctuations.
+# Other Interest Expense (OthIntExp): Miscellaneous interest expenses that may not directly correlate with macroeconomic
+# Deposit Lending Related Fees (DepLendFees): Fees associated with deposit accounts and lending services, relatively stable
+#       and less directly impacted by macro conditions.
+# Investment Advisory & Other Asset-Based Fees (InvAdvFees): Fees earned from managing client assets, depending on market
+#       conditions but also on contractual arrangements.
+# Commissions & Brokerage Services Fees (CommBrkFees): Fees from brokerage and trading services, 
+#       somewhat dependent on market activity levels.
+# Investment Banking Fees (InvBankFees): Revenue from investment banking activities, which can fluctuate with 
+#       market conditions but are also driven by deal flow.
+# Card Fees (CardFees): Fees associated with credit and debit card usage, generally stable unless consumer spending
+#       habits change significantly.
+# Net Gains from Trading Securities (NetGainTrade): Profits from trading activities, highly variable but also dependent 
+#       on trading strategies and market conditions.
+# Other Noninterest Income (OthNonIntInc): Diverse sources of income not classified elsewhere, potentially variable 
+#       but not directly linked to macroeconomic stressors.
+# Personnel (Personnel): Employee-related expenses, relatively fixed in the short term.
+# Technology, Telecommunications, and Equipment (TechTelEquip): Expenses related to technology and equipment, 
+#       typically follow planned investment patterns.
+# Occupancy (Occupancy): Costs associated with physical premises, largely fixed.
+# Operating Losses (OperLoss): Losses from operational issues, not directly linked to economic conditions.
+# Professional and Outside Services (ProfOutServ): Costs for external services, can vary with business activity 
+#       but not directly tied to economic stressors.
+# Advertising and Promotion (AdvPromo): Marketing and advertising costs, generally discretionary.
+# Other Noninterest Expense (OthNonIntExp): Miscellaneous expenses not categorized elsewhere
+# Income Tax Expense (TaxExp): Taxes on profits, varies with earnings but not directly impacted by most macroeconomic 
+# Net Income Loss from Noncontrolling Interests (NetIncLossNCI): Earnings attributed to noncontrolling interests, 
+#       varies based on subsidiary performance.
+# Preferred Stock Dividends and Other (PrefStkDiv): Dividends and similar payments to preferred shareholders, 
+#       typically fixed based on issuance terms.
+#
+# *summary:*
+# balance_df
+# Total Variables: 36
+#   Calculated Variables: 7
+#   Input Variables: 4
+#   Drift Variables: 36 - 7 - 4 = 25
+# 
+# income_df
+# Total Variables: 38
+#   Calculated Variables: 10
+#   Input Variables: 6
+#   Drift Variables: 38 - 10 - 6 = 22
+
+# Transpose dataframes
+balance_df_t <- t(balance_df)
+balance_df_t <- as.data.frame(balance_df_t)
+income_df_t <- t(income_df)
+income_df_t <- as.data.frame(income_df_t)
+
+print("Balance Sheet Dataframe:")
+print(balance_df_t)
+print("Income Statement Dataframe:")
+print(income_df_t)
+
+```
+
+## second code block: stress tests and project forward one year
+
+-   Initialize coefficient matrices with hypothetical values.
+-   Defines stress scenario changes
+-   Calculate changes in the input variables based on the stress scenario.
+-   Update INPUT accounts; i.e., newBalancevalues and newIncomeValues
+-   Updates the balance_df and income_df dataframes; note the other values will be NA at the point.
+
+```{r}
+
+library(tidyverse)
+library(scales)
+
+# Define names for input and macro variables for clarity
+balanceInputVarNames <- c("Loans", "LoanLossAllow", "NonIntBearDep", "IntBearDep")
+incomeInputVarNames <- c("Loans", "EqSec", "OthIntInc", "ProvCredLoss", "DepIntExp", "MortBank")
+
+# Define macro variable names
+macroVarNames <- c("GDP Growth", "Unemployment Rate", "Interest Rates", "Housing Market",
+                   "Inflation Rate", "Stock Market", "Consumer Confidence", "Corporate Profits")
+
+# Initialize the coefficient matrix with hypothetical values
+balanceCoefficients <- matrix(runif(32, -0.1, 0.1), nrow = 4, ncol = 8, dimnames = list(balanceInputVarNames, macroVarNames))
+incomeCoefficients <- matrix(runif(48, -0.1, 0.1), nrow = 6, ncol = 8, dimnames = list(incomeInputVarNames, macroVarNames))  # 6 income inputs and 8 macro variables
+
+# Define stress scenario changes - assuming 1 set of changes for simplicity, which can be expanded
+stressScenarios <- matrix(c(-0.01, 0.02, -0.03, 0.01, -0.02, 0.03, 0.04, -0.01), ncol = 1, dimnames = list(macroVarNames, "Change"))
+
+# Extract the last row (2023 values) as the base for simulation
+balanceInputs <- as.matrix(balance_df[nrow(balance_df), balanceInputVarNames])
+incomeInputs <- as.matrix(income_df[nrow(income_df), incomeInputVarNames])
+
+# Calculate changes for each matrix and transpose
+balanceChangeMatrix <- balanceCoefficients %*% stressScenarios
+balanceChangeMatrix_t <- t(balanceChangeMatrix)
+incomeChangeMatrix <- incomeCoefficients %*% stressScenarios
+incomeChangeMatrix_t <- t(incomeChangeMatrix)
+
+# Apply changes to the original values from the last rows of each dataframe
+newBalanceValues <- balanceInputs * (1 + balanceChangeMatrix_t)
+newIncomeValues <- incomeInputs * (1 + incomeChangeMatrix_t)
+
+# Update the dataframes with these new values for the next year's projection
+balance_df[nrow(balance_df) + 1, balanceInputVarNames] <- t(newBalanceValues)
+income_df[nrow(income_df) + 1, incomeInputVarNames] <- newIncomeValues
+
+format_percent <- function(x) {
+  sprintf("%.2f%%", x * 100)
+}
+
+formatted_balance_coefficients <- apply(balanceCoefficients, c(1, 2), format_percent)
+formatted_balance_coefficients_df <- as.data.frame(formatted_balance_coefficients)
+
+print("Balance Coefficient Matrix:")
+print(formatted_balance_coefficients_df, row.names = TRUE)
+
+# Format and print the income coefficient matrix
+formatted_income_coefficients <- apply(incomeCoefficients, c(1, 2), format_percent)
+formatted_income_coefficients_df <- as.data.frame(formatted_income_coefficients)
+
+print("Income Coefficient Matrix:")
+print(formatted_income_coefficients_df, row.names = TRUE)
+
+print("Stress Scenario Changes:")
+print(stressScenarios)
+
+print("Balance Change Matrix:")
+print(as.data.frame(apply(balanceChangeMatrix_t, 2, format_percent)))
+
+print("Income Change Matrix:")
+print(as.data.frame(apply(incomeChangeMatrix_t, 2, format_percent)))
+
+# Let's just confirm with Loans
+loans_coefficients <- balanceCoefficients["Loans", ]
+stress_scenario_values <- stressScenarios[, "Change"]
+
+intermediate_results_loans <- loans_coefficients * stress_scenario_values
+total_change_loans <- sum(intermediate_results_loans)
+total_change_loans_percentage <- total_change_loans * 100
+
+print(paste("Total Change for Balance Sheet Loans (as percentage):", sprintf("%.2f%%", total_change_loans_percentage)))
+
+```
+
+## Third code block: apply drift rates 
+
+```{r}
+
+# Example drift rates for demonstration
+
+balanceCalcVarNames <- c("TotDebtSec", "NetLoans", "TotDep", "TotLiab", "TotSHREq", "TotAssets", "TotLiabEq")
+incomeCalcVarNames <- c("TotIntInc", "TotIntExp", "NetIntInc", "TotNonIntInc", "TotRev", 
+                        "TotNonIntExp", "IncBefTax","NetIncBefNCI", "WFNetInc", "WFNetIncCS")
+
+# Define indices or names for drift variables and their rates
+driftVarIndicesBalance <- setdiff(names(balance_df), c(balanceCalcVarNames, balanceInputVarNames))
+driftVarIndicesIncome <- setdiff(names(income_df), c(incomeCalcVarNames, incomeInputVarNames))
+
+# Example drift rates for demonstration
+# vector of repeating value the length of driftVarIndicesBalance
+driftRatesBalance <- rep(0.02, length(driftVarIndicesBalance))
+driftRatesIncome <- rep(0.03, length(driftVarIndicesIncome))
+
+# Apply drift
+balance_df[nrow(balance_df), driftVarIndicesBalance] <- balance_df[nrow(balance_df) - 1, driftVarIndicesBalance] * (1 + driftRatesBalance)
+income_df[nrow(income_df), driftVarIndicesIncome] <- income_df[nrow(income_df) - 1, driftVarIndicesIncome] * (1 + driftRatesIncome)
+
+# Print the drift variables and their new values for balance_df
+print("Balance Drift Variables and Their New Values:")
+for (var in driftVarIndicesBalance) {
+  cat(sprintf("%s: %.2f -> %.2f\n", var, balance_df[nrow(balance_df) - 1, var], balance_df[nrow(balance_df), var]))
+}
+
+# Print the drift variables and their new values for income_df
+print("Income Drift Variables and Their New Values:")
+for (var in driftVarIndicesIncome) {
+  cat(sprintf("%s: %.2f -> %.2f\n", var, income_df[nrow(income_df) - 1, var], income_df[nrow(income_df), var]))
+}
+
+
+```
+
+## Fourth code block: update calculated variables
+
+```{r}
+
+# Update calculated variables directly in the latest row
+balance_df[nrow(balance_df), "TotDebtSec"] <- sum(balance_df[nrow(balance_df), c("TradDebtSec", "AvailSaleDebtSec", "HeldMatDebtSec")])
+balance_df[nrow(balance_df), "NetLoans"] <- sum(balance_df[nrow(balance_df), c("Loans", "LoanLossAllow")])
+balance_df[nrow(balance_df), "TotAssets"] <- sum(balance_df[nrow(balance_df), c("Cash", "IntEarnDep", "FedFundsSold", "TotDebtSec", "LoansForSale", "NetLoans", "MortServRights", "PremEquip", "Goodwill", "DerivAssets", "EquitySec", "OthAssets")])
+balance_df[nrow(balance_df), "TotDep"] <- sum(balance_df[nrow(balance_df), c("NonIntBearDep", "IntBearDep")])
+balance_df[nrow(balance_df), "TotLiab"] <- sum(balance_df[nrow(balance_df), c("TotDep", "STBorrow", "DerivLiab", "AccExpOthLiab", "LTDebt")])
+# balance_df[nrow(balance_df), "TotSHREq"] <- sum(balance_df[nrow(balance_df), c("PrefStock", "ComStock", "AddlPaidCap",     #       "RetEarn", "AOCL", "TreasStock", "UnearnESOP", "NonCtrlInt")])
+balance_df[nrow(balance_df), "TotSHREq"] <- balance_df[nrow(balance_df), "TotAssets"] -
+    balance_df[nrow(balance_df), "TotLiab"] 
+balance_df[nrow(balance_df), "TotLiabEq"] <- sum(balance_df[nrow(balance_df), c("TotLiab", "TotSHREq")])
+
+# Update calculated variables directly in the latest row
+income_df[nrow(income_df), "TotIntInc"] <- sum(income_df[nrow(income_df), c("DebtSec", "LoansSale", "Loans", "EqSec", "OthIntInc")])
+income_df[nrow(income_df), "TotIntExp"] <- sum(income_df[nrow(income_df), c("DepIntExp", "STBIntExp", "LTBIntExp", "OthIntExp")])
+income_df[nrow(income_df), "NetIntInc"] <- income_df[nrow(income_df), "TotIntInc"] - income_df[nrow(income_df), "TotIntExp"]
+income_df[nrow(income_df), "TotNonIntInc"] <- sum(income_df[nrow(income_df), c("DepLendFees", "InvAdvFees", "CommBrkFees", "InvBankFees", "CardFees", "MortBank", "NetGainTrade", "OthNonIntInc")])
+income_df[nrow(income_df), "TotRev"] <- income_df[nrow(income_df), "NetIntInc"] + income_df[nrow(income_df), "TotNonIntInc"]
+income_df[nrow(income_df), "TotNonIntExp"] <- sum(income_df[nrow(income_df), c("Personnel", "TechTelEquip", "Occupancy", "OperLoss", "ProfOutServ", "AdvPromo", "OthNonIntExp")])
+income_df[nrow(income_df), "IncBefTax"] <- income_df[nrow(income_df), "TotRev"] - income_df[nrow(income_df), "TotNonIntExp"] - income_df[nrow(income_df), "ProvCredLoss"]
+income_df[nrow(income_df), "NetIncBefNCI"] <- income_df[nrow(income_df), "IncBefTax"] - income_df[nrow(income_df), "TaxExp"]
+income_df[nrow(income_df), "WFNetInc"] <- income_df[nrow(income_df), "NetIncBefNCI"] - income_df[nrow(income_df), "NetIncLossNCI"]
+income_df[nrow(income_df), "WFNetIncCS"] <- income_df[nrow(income_df), "WFNetInc"] - income_df[nrow(income_df), "PrefStkDiv"]
+
+rownames(balance_df)[nrow(balance_df)] <- "2024"
+rownames(income_df)[nrow(income_df)] <- "2024"
+
+# Print the updated dataframes
+balance_df_t <- t(balance_df)
+balance_df_t <- as.data.frame(balance_df_t)
+income_df_t <- t(income_df)
+income_df_t <- as.data.frame(income_df_t)
+
+print("Balance Sheet Dataframe:")
+print(balance_df_t)
+print("Income Statement Dataframe:")
+print(income_df_t)
+
+```

@@ -2,12 +2,11 @@
 title: "Riskfolio-Lib is a python library for optimation"
 description: Description goes here
 author: David Harper, CFA, FRM
-date: 2024-05-12
+date: 2024-05-22
 categories: [code, analysis]
 engines:
   r: knitr
   python: reticulate
-
 ---
 
 # Riskfolio-Lib is a python library for optimation
@@ -168,4 +167,3 @@ efficient_frontier_plot <- ggplot(frontier_data, aes(x = Risk, y = Return)) +
 print(efficient_frontier_plot)
 
 ```
-

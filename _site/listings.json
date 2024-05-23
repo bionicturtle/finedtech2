@@ -3,6 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/riskfolio-v1/index.html",
+      "/posts/wells-fargo-stress/index.html",
       "/posts/temp-creative-p1/index.html",
       "/posts/cosine-similar/index.html",
       "/posts/kmeans_p1/index.html",
