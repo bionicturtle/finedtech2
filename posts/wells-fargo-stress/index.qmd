@@ -9,7 +9,9 @@ execute:
   warning: false
 ---
 
-## first code block: retrieve data from filing tables
+This v1 simulator is discussed on my [ai bucks substack](https://aibucks.substack.com/).
+
+## First code block: pull statement data into tidy dataframes: balance_df and income_df
 
 ```{r}
 
@@ -172,7 +174,7 @@ print(income_df_t)
 
 ```
 
-## second code block: stress tests and project forward one year
+## Second code block: simulate the go-forward input variables (influenced accounts)
 
 -   Initialize coefficient matrices with hypothetical values.
 -   Defines stress scenario changes
@@ -256,7 +258,7 @@ print(paste("Total Change for Balance Sheet Loans (as percentage):", sprintf("%.
 
 ```
 
-## Third code block: apply drift rates 
+## Third code block: apply drift rates to the drift variables
 
 ```{r}
 

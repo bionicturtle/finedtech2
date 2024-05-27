@@ -195,8 +195,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="first-code-block-retrieve-data-from-filing-tables" class="level2">
-<h2 class="anchored" data-anchor-id="first-code-block-retrieve-data-from-filing-tables">first code block: retrieve data from filing tables</h2>
+<p>This v1 simulator is discussed on my <a href="https://aibucks.substack.com/">ai bucks substack</a>.</p>
+<section id="first-code-block-pull-statement-data-into-tidy-dataframes-balance_df-and-income_df" class="level2">
+<h2 class="anchored" data-anchor-id="first-code-block-pull-statement-data-into-tidy-dataframes-balance_df-and-income_df">First code block: pull statement data into tidy dataframes: balance_df and income_df</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>balance_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"balance_df.rds"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>income_df <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"income_df.rds"</span>)</span>
@@ -442,8 +443,8 @@ WFNetIncCS    20818 12562 17982</code></pre>
 </div>
 </div>
 </section>
-<section id="second-code-block-stress-tests-and-project-forward-one-year" class="level2">
-<h2 class="anchored" data-anchor-id="second-code-block-stress-tests-and-project-forward-one-year">second code block: stress tests and project forward one year</h2>
+<section id="second-code-block-simulate-the-go-forward-input-variables-influenced-accounts" class="level2">
+<h2 class="anchored" data-anchor-id="second-code-block-simulate-the-go-forward-input-variables-influenced-accounts">Second code block: simulate the go-forward input variables (influenced accounts)</h2>
 <ul>
 <li>Initialize coefficient matrices with hypothetical values.</li>
 <li>Defines stress scenario changes</li>
@@ -502,15 +503,15 @@ WFNetIncCS    20818 12562 17982</code></pre>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_balance_coefficients_df, <span class="at">row.names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              GDP Growth Unemployment Rate Interest Rates Housing Market
-Loans             -4.50%            -3.63%          0.01%         -8.80%
-LoanLossAllow     -9.79%            -6.25%          2.82%          9.47%
-NonIntBearDep     -2.09%            -2.64%         -6.26%         -0.57%
-IntBearDep         1.34%             6.05%          9.03%          3.94%
+Loans              5.61%             4.57%         -2.46%          8.12%
+LoanLossAllow     -0.13%             5.68%         -2.58%          4.89%
+NonIntBearDep      1.14%            -0.45%         -6.14%          8.12%
+IntBearDep         2.81%             7.96%         -8.55%         -7.95%
               Inflation Rate Stock Market Consumer Confidence Corporate Profits
-Loans                  4.18%       -5.91%              -7.45%             5.74%
-LoanLossAllow          0.39%       -6.67%              -5.19%            -6.13%
-NonIntBearDep          1.79%       -6.58%              -7.28%             1.77%
-IntBearDep            -6.90%        5.21%               4.72%            -0.79%</code></pre>
+Loans                  5.56%        3.34%              -7.90%            -4.61%
+LoanLossAllow          5.75%       -0.61%               0.05%            -7.51%
+NonIntBearDep         -9.30%        8.13%               6.51%             1.35%
+IntBearDep            -0.27%       -7.98%               9.37%             7.72%</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format and print the income coefficient matrix</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>formatted_income_coefficients <span class="ot">&lt;-</span> <span class="fu">apply</span>(incomeCoefficients, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), format_percent)</span>
@@ -523,19 +524,19 @@ IntBearDep            -6.90%        5.21%               4.72%            -0.79%<
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_income_coefficients_df, <span class="at">row.names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             GDP Growth Unemployment Rate Interest Rates Housing Market
-Loans            -8.67%             0.95%         -5.45%         -1.90%
-EqSec            -2.96%            -3.91%          0.14%         -4.80%
-OthIntInc         1.00%             7.13%         -9.20%         -1.87%
-ProvCredLoss      1.61%            -7.79%          0.56%         -4.82%
-DepIntExp        -1.55%             2.17%          1.98%         -7.60%
-MortBank         -1.55%            -6.64%         -0.93%          9.81%
+Loans            -1.41%             6.85%         -7.92%         -2.87%
+EqSec            -2.07%            -9.63%         -9.06%          1.44%
+OthIntInc        -1.46%            -1.45%          3.31%         -2.61%
+ProvCredLoss     -0.99%            -7.76%         -8.10%          3.16%
+DepIntExp        -1.68%             9.58%         -2.65%         -6.27%
+MortBank         -1.31%             6.75%         -9.47%          4.31%
              Inflation Rate Stock Market Consumer Confidence Corporate Profits
-Loans                -5.08%        2.04%               0.52%            -2.60%
-EqSec                -2.52%       -2.69%               3.53%            -7.59%
-OthIntInc             9.07%        7.43%               2.41%             7.57%
-ProvCredLoss         -8.03%        8.62%              -8.78%            -3.12%
-DepIntExp             0.06%        7.67%              -7.56%             7.91%
-MortBank             -7.21%       -4.91%              -2.40%            -7.85%</code></pre>
+Loans                -2.13%        6.70%              -3.44%            -8.61%
+EqSec                -0.47%        4.51%              -4.80%             1.81%
+OthIntInc            -5.88%       -4.59%               2.78%             9.49%
+ProvCredLoss         -1.40%        7.55%               6.86%            -3.53%
+DepIntExp             2.92%        3.32%              -4.75%            -6.22%
+MortBank              2.49%       -0.79%               6.88%            -7.38%</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Stress Scenario Changes:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -560,9 +561,9 @@ Corporate Profits    -0.01</code></pre>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.data.frame</span>(<span class="fu">apply</span>(balanceChangeMatrix_t, <span class="dv">2</span>, format_percent)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              apply(balanceChangeMatrix_t, 2, format_percent)
-Loans                                                  -0.73%
-LoanLossAllow                                          -0.37%
-NonIntBearDep                                          -0.39%
+Loans                                                  -0.09%
+LoanLossAllow                                           0.19%
+NonIntBearDep                                           0.92%
 IntBearDep                                              0.37%</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Income Change Matrix:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -572,12 +573,12 @@ IntBearDep                                              0.37%</code></pre>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">as.data.frame</span>(<span class="fu">apply</span>(incomeChangeMatrix_t, <span class="dv">2</span>, format_percent)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             apply(incomeChangeMatrix_t, 2, format_percent)
-Loans                                                 0.46%
-EqSec                                                 0.09%
-OthIntInc                                             0.45%
-ProvCredLoss                                         -0.14%
-DepIntExp                                            -0.23%
-MortBank                                             -0.01%</code></pre>
+Loans                                                 0.55%
+EqSec                                                 0.05%
+OthIntInc                                            -0.14%
+ProvCredLoss                                          0.69%
+DepIntExp                                             0.14%
+MortBank                                              0.75%</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's just confirm with Loans</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>loans_coefficients <span class="ot">&lt;-</span> balanceCoefficients[<span class="st">"Loans"</span>, ]</span>
@@ -589,12 +590,12 @@ MortBank                                             -0.01%</code></pre>
 <span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total Change for Balance Sheet Loans (as percentage):"</span>, <span class="fu">sprintf</span>(<span class="st">"%.2f%%"</span>, total_change_loans_percentage)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Total Change for Balance Sheet Loans (as percentage): -0.73%"</code></pre>
+<pre><code>[1] "Total Change for Balance Sheet Loans (as percentage): -0.09%"</code></pre>
 </div>
 </div>
 </section>
-<section id="third-code-block-apply-drift-rates" class="level2">
-<h2 class="anchored" data-anchor-id="third-code-block-apply-drift-rates">Third code block: apply drift rates</h2>
+<section id="third-code-block-apply-drift-rates-to-the-drift-variables" class="level2">
+<h2 class="anchored" data-anchor-id="third-code-block-apply-drift-rates-to-the-drift-variables">Third code block: apply drift rates to the drift variables</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example drift rates for demonstration</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -734,23 +735,23 @@ AvailSaleDebtSec  113594  130448  133056.96
 HeldMatDebtSec    297059  262708  267962.16
 TotDebtSec        496808  490458  500267.16
 LoansForSale        7104    4936    5034.72
-Loans             955871  936682  929824.60
-LoanLossAllow     -12985  -14606  -14551.79
-NetLoans          942886  922076  915272.81
+Loans             955871  936682  935830.71
+LoanLossAllow     -12985  -14606  -14633.07
+NetLoans          942886  922076  921197.64
 MortServRights     10480    8508    8678.16
 PremEquip           8350    9266    9451.32
 Goodwill           25173   25175   25678.50
 DerivAssets        22774   18223   18587.46
 EquitySec          64414   57336   58482.72
 OthAssets          75838   78815   80391.30
-NonIntBearDep     458010  360279  358867.09
-IntBearDep        925975  997894 1001554.46
-TotDep           1383985 1358173 1360421.55
+NonIntBearDep     458010  360279  363599.51
+IntBearDep        925975  997894 1001603.15
+TotDep           1383985 1358173 1365202.67
 STBorrow           51145   89559   91350.18
 DerivLiab          20067   18495   18864.90
 AccExpOthLiab      68740   71210   72634.20
 LTDebt            174870  207588  211739.76
-TotLiab          1698807 1745025 1755010.59
+TotLiab          1698807 1745025 1759791.71
 PrefStock          19448   19448   19836.96
 ComStock            9136    9136    9318.72
 AddlPaidCap        60319   60555   61766.10
@@ -759,9 +760,9 @@ AOCL              -13362  -11580  -11811.60
 TreasStock        -82853  -92960  -94819.20
 UnearnESOP          -429       0       0.00
 NonCtrlInt          1986    1708    1742.16
-TotSHREq          182213  187443  190862.06
-TotAssets        1881020 1932468 1945872.65
-TotLiabEq        1881020 1932468 1945872.65</code></pre>
+TotSHREq          182213  187443  192005.77
+TotAssets        1881020 1932468 1951797.48
+TotLiabEq        1881020 1932468 1951797.48</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Income Statement Dataframe:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -772,27 +773,27 @@ TotLiabEq        1881020 1932468 1945872.65</code></pre>
 <pre><code>               2021  2022  2023       2024
 DebtSec        9253 11781 16108 16591.2400
 LoansSale       865   513   363   373.8900
-Loans         28634 37715 57155 57417.6914
-EqSec           608   707   682   682.5871
-OthIntInc       334  3308 10810 10858.8812
-TotIntInc     39694 54024 85118 85924.2898
-DepIntExp       388  2349 16503 16465.1178
+Loans         28634 37715 57155 57470.3830
+EqSec           608   707   682   682.3348
+OthIntInc       334  3308 10810 10794.4632
+TotIntInc     39694 54024 85118 85912.3110
+DepIntExp       388  2349 16503 16525.9043
 STBIntExp       -41   582  3848  3963.4400
 LTBIntExp      3173  5505 11572 11919.1600
 OthIntExp       395   638   820   844.6000
-TotIntExp      3915  9074 32743 33192.3178
-NetIntInc     35779 44950 52375 52731.9719
+TotIntExp      3915  9074 32743 33253.1043
+NetIntInc     35779 44950 52375 52659.2067
 DepLendFees    6920  6713  6140  6324.2000
 InvAdvFees    11011  9004  8670  8930.1000
 CommBrkFees    2299  2242  2375  2446.2500
 InvBankFees    2354  1439  1649  1698.4700
 CardFees       4175  4355  4256  4383.6800
-MortBank       4956  1383   829   828.9018
+MortBank       4956  1383   829   835.2249
 NetGainTrade   7264  1461  4368  4499.0400
 OthNonIntInc   4408  2821  1935  1993.0500
-TotNonIntInc  43387 29418 30222 31103.6918
-TotRev        79166 74368 82597 83835.6638
-ProvCredLoss  -4155  1534  5399  5391.5623
+TotNonIntInc  43387 29418 30222 31110.0149
+TotRev        79166 74368 82597 83769.2216
+ProvCredLoss  -4155  1534  5399  5436.4517
 Personnel     35541 34340 35829 36903.8700
 TechTelEquip   3227  3375  3920  4037.6000
 Occupancy      2968  2881  2884  2970.5200
@@ -801,13 +802,13 @@ ProfOutServ    5723  5188  5085  5237.5500
 AdvPromo        600   505   812   836.3600
 OthNonIntExp   4131  3932  5849  6024.4700
 TotNonIntExp  53758 57205 55562 57228.8600
-IncBefTax     29563 15629 21636 21215.2415
+IncBefTax     29563 15629 21636 21103.9099
 TaxExp         5764  2251  2607  2685.2100
-NetIncBefNCI  23799 13378 19029 18530.0315
+NetIncBefNCI  23799 13378 19029 18418.6999
 NetIncLossNCI  1690  -299  -113  -116.3900
-WFNetInc      22109 13677 19142 18646.4215
+WFNetInc      22109 13677 19142 18535.0899
 PrefStkDiv     1291  1115  1160  1194.8000
-WFNetIncCS    20818 12562 17982 17451.6215</code></pre>
+WFNetIncCS    20818 12562 17982 17340.2899</code></pre>
 </div>
 </div>
 
