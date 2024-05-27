@@ -1,9 +1,10 @@
 ---
 title: Stress test (simulation) of WFC balance sheet and income statement
-description: description goes here
+description: v1 of the stress test simulator (scenario vector influences input accounts)
 author: David Harper, CFA, FRM
 date: 2024-05-15
 categories: [code, analysis]
+image: "wells-thumb-dalle-v1.webp"
 execute: 
   echo: true
   warning: false
