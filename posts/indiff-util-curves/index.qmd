@@ -1,0 +1,124 @@
+---
+title: Indifference Curves vs Portfolio Possibilities Curve (PPC)
+description: Each indifference curve represents a different level of utility for an investo's given risk aversion coefficient
+author: David Harper, CFA, FRM
+date: 2024-06-06
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+This plot illustrates two indifference curves and their relationship to the portfolio possibilities curve (PPC, aka efficient frontier w.r.t to the upper segment of the BLUE line). The PPC represents the set of all possible portfolios that can be constructed from two risky assets. It's fairly trivial to plot the PPC. 
+
+Please **note**: there is no capital market line (CML) plottered here. The CML would be anchored by the riskfree rate, but the riskfree rate is not assumed in this model. Instead, _indifference curves_ are plotted. 
+
+The **utility function is given by U = E(r_p) - 0.5 * A * σ_p^2**, where U is the utility, E(r_p) is the expected return of the portfolio, σ_p is the standard deviation of the portfolio, and A is the risk aversion coefficient. The indifference curves represent the combinations of expected return and standard deviation that provide the same level of utility for an investor with a GIVEN risk aversion coefficient, A.The indifference curves are plotted for two different risk aversion coefficients. I showed dashed lines to illustrate choices that would be sub-optimal; e.g., the dashed orange line is sub-optimal to the solid orange line. The orange utility curve reflects a higher risk aversion coefficient than the green utility curve. The tangency points are the points on the PPC that are tangent to the indifference curves. 
+
+
+```{r}
+
+# Load necessary libraries
+library(ggplot2)
+
+# Initialize parameters
+initialize_params <- function() {
+    list(
+        E_r1 = 0.12,  # Expected return of asset 1
+        E_r2 = 0.08,  # Expected return of asset 2
+        σ1 = 0.20,    # Standard deviation of asset 1
+        σ2 = 0.15,    # Standard deviation of asset 2
+        ρ = 0.1       # Correlation between assets
+    )
+}
+
+# Calculate portfolio returns and standard deviations
+calculate_portfolio_metrics <- function(weights, params) {
+    portfolio_returns <- weights * params$E_r1 + (1 - weights) * params$E_r2
+    portfolio_std_devs <- sqrt(weights^2 * params$σ1^2 + (1 - weights)^2 * params$σ2^2 + 
+                                   2 * weights * (1 - weights) * params$σ1 * params$σ2 * params$ρ)
+    list(returns = portfolio_returns, std_devs = portfolio_std_devs)
+}
+
+# Find the weights that maximize utility for given risk aversion coefficient
+find_tangency_weights <- function(params, A) {
+    utility_function <- function(w) {
+        E_r_p <- w * params$E_r1 + (1 - w) * params$E_r2
+        σ_p <- sqrt(w^2 * params$σ1^2 + (1 - w)^2 * params$σ2^2 + 
+                        2 * w * (1 - w) * params$σ1 * params$σ2 * params$ρ)
+        U <- E_r_p - 0.5 * A * σ_p^2
+        return(-U)  # Minimize negative utility to maximize utility
+    }
+    optimal <- optimize(utility_function, c(0, 1))
+    return(optimal$minimum)
+}
+
+# Create indifference curve data
+create_indifference_curve <- function(U, A, max_std_dev) {
+    σ <- seq(0, max_std_dev, by = 0.01)
+    E_r <- U + 0.5 * A * σ^2
+    data.frame(σ = σ, E_r = E_r)
+}
+
+# Main plotting function
+plot_portfolio <- function(portfolio_metrics, tangency_points, subtitle_text) {
+    p <- ggplot() +
+        geom_point(aes(x = portfolio_metrics$std_devs, y = portfolio_metrics$returns), color = 'blue', size = 1) +
+        geom_path(aes(x = portfolio_metrics$std_devs, y = portfolio_metrics$returns), color = 'blue4', size = 2) +
+        labs(title = "Portfolio Possibilities Curve with Indifference Curves",
+             subtitle = subtitle_text,
+             x = "Portfolio Standard Deviation",
+             y = "Expected Portfolio Return") +
+        xlim(0.12, max(portfolio_metrics$std_devs) * 1.05) +
+        ylim(0.075, max(portfolio_metrics$returns) * 1.1) +
+        theme_minimal()
+    
+    for (param in tangency_points) {
+        indifference_curve <- create_indifference_curve(param$U, param$A, max(portfolio_metrics$std_devs))
+        p <- p + geom_line(data = indifference_curve, aes(x = σ, y = E_r), color = param$color, linetype = param$linetype, size = 1, show.legend = FALSE)
+    }
+    
+    print(p)
+}
+
+# Run the code
+params <- initialize_params()
+weights <- seq(0, 1, by = 0.01)
+portfolio_metrics <- calculate_portfolio_metrics(weights, params)
+
+# Find tangency points
+A_low <- 1.2
+A_high <- 2.9
+optimal_weight_low <- find_tangency_weights(params, A_low)
+optimal_weight_high <- find_tangency_weights(params, A_high)
+
+# Calculate the utility values at the tangency points
+tangency_return_low <- optimal_weight_low * params$E_r1 + (1 - optimal_weight_low) * params$E_r2
+tangency_std_dev_low <- sqrt(optimal_weight_low^2 * params$σ1^2 + (1 - optimal_weight_low)^2 * params$σ2^2 + 2 * optimal_weight_low * (1 - optimal_weight_low) * params$σ1 * params$σ2 * params$ρ)
+U_low <- tangency_return_low - 0.5 * A_low * tangency_std_dev_low^2
+
+tangency_return_high <- optimal_weight_high * params$E_r1 + (1 - optimal_weight_high) * params$E_r2
+tangency_std_dev_high <- sqrt(optimal_weight_high^2 * params$σ1^2 + (1 - optimal_weight_high)^2 * params$σ2^2 + 2 * optimal_weight_high * (1 - optimal_weight_high) * params$σ1 * params$σ2 * params$ρ)
+U_high <- tangency_return_high - 0.5 * A_high * tangency_std_dev_high^2
+
+# Define indifference curve parameters for plotting
+tangency_points <- list(
+    list(U = U_low, A = A_low, color = "green4", linetype = "solid"),
+    list(U = U_high, A = A_high, color = "darkorange2", linetype = "solid"),
+    list(U = U_low - 0.002, A = A_low, color = "green4", linetype = "dashed"),
+    list(U = U_high - 0.002, A = A_high, color = "darkorange2", linetype = "dashed")
+)
+
+# Create subtitle text
+subtitle_text <- sprintf("U_low: %.3f, A_low: %.1f, U_high: %.3f, A_high: %.1f", U_low, A_low, U_high, A_high)
+
+plot_portfolio(portfolio_metrics, tangency_points, subtitle_text)
+
+print(optimal_weight_low)
+print(tangency_return_low)
+print(tangency_std_dev_low)
+print(optimal_weight_high)
+print(tangency_return_high)
+print(tangency_std_dev_high)
+
+```
