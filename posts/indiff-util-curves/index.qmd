@@ -9,12 +9,11 @@ execute:
   warning: false
 ---
 
-This plot illustrates two indifference curves and their relationship to the portfolio possibilities curve (PPC, aka efficient frontier w.r.t to the upper segment of the BLUE line). The PPC represents the set of all possible portfolios that can be constructed from two risky assets. It's fairly trivial to plot the PPC. 
+This plot illustrates two indifference curves and their relationship to the portfolio possibilities curve (PPC, aka efficient frontier w.r.t to the upper segment of the BLUE line). The PPC represents the set of all possible portfolios that can be constructed from two risky assets. It's fairly trivial to plot the PPC.
 
-Please **note**: there is no capital market line (CML) plottered here. The CML would be anchored by the riskfree rate, but the riskfree rate is not assumed in this model. Instead, _indifference curves_ are plotted. 
+Please **note**: there is no capital market line (CML) plottered here. The CML would be anchored by the riskfree rate, but the riskfree rate is not assumed in this model. Instead, *indifference curves* are plotted.
 
-The **utility function is given by U = E(r_p) - 0.5 * A * σ_p^2**, where U is the utility, E(r_p) is the expected return of the portfolio, σ_p is the standard deviation of the portfolio, and A is the risk aversion coefficient. The indifference curves represent the combinations of expected return and standard deviation that provide the same level of utility for an investor with a GIVEN risk aversion coefficient, A.The indifference curves are plotted for two different risk aversion coefficients. I showed dashed lines to illustrate choices that would be sub-optimal; e.g., the dashed orange line is sub-optimal to the solid orange line. The orange utility curve reflects a higher risk aversion coefficient than the green utility curve. The tangency points are the points on the PPC that are tangent to the indifference curves. 
-
+The **utility function is given by U = E(r_p) - 0.5 \* A \* σ_p\^2**, where U is the utility, E(r_p) is the expected return of the portfolio, σ_p is the standard deviation of the portfolio, and A is the risk aversion coefficient. The indifference curves represent the combinations of expected return and standard deviation that provide the same level of utility for an investor with a GIVEN risk aversion coefficient, A.The indifference curves are plotted for two different risk aversion coefficients. I showed dashed lines to illustrate choices that would be sub-optimal; e.g., the dashed orange line is sub-optimal to the solid orange line. The orange utility curve reflects a higher risk aversion coefficient than the green utility curve. The tangency points are the points on the PPC that are tangent to the indifference curves.
 
 ```{r}
 

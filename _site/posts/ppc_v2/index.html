@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.33">
+<meta name="generator" content="quarto-1.5.45">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-11-26">
 <meta name="description" content="Visualizing correlation and mapping CMLs">
 
-<title>finedtech by David Harper, CFA, FRM – Applying my PPC data model</title>
+<title>Applying my PPC data model – finedtech by David Harper, CFA, FRM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -477,7 +477,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
 <span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
 <div id="uulavkairt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#uulavkairt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -919,7 +918,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
 <th colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border">Average Correlation per Frequency</th>
@@ -957,7 +956,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
@@ -999,7 +997,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">1</span>]]<span class="sc">$</span>monthly</span>
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Sectors, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
 <div id="mxvznzsnfs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#mxvznzsnfs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1441,7 +1438,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
 <th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border">Sectors, Monthly Returns</th>
@@ -1530,11 +1527,9 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 
 </div>
 </div>
-</div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>monthly_data <span class="ot">&lt;-</span> stock_sets<span class="sc">$</span>analysis[[<span class="dv">3</span>]]<span class="sc">$</span>monthly</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">create_avg_corr_table</span>(monthly_data, <span class="st">"Largest Stock in Sector, Monthly Returns"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
 <div id="daidptzdvp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#daidptzdvp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1976,7 +1971,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_heading">
 <th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border">Largest Stock in Sector, Monthly Returns</th>
@@ -2075,7 +2070,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 
 </table>
 
-</div>
 </div>
 </div>
 </div>
@@ -2248,7 +2242,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 <span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_percent</span>(<span class="at">columns =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>, <span class="at">decimals =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
 <div id="diqwhwjvit" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#diqwhwjvit table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2690,7 +2683,7 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 }
 </style>
 
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <thead>
 <tr class="header gt_col_headings">
 <th id="Ticker" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Ticker</th>
@@ -2805,7 +2798,6 @@ $ analysis    &lt;list&gt; [[[&lt;tbl_df[11 x 2]&gt;], [&lt;tbl_df[11 x 2]&gt;],
 </tbody>
 </table>
 
-</div>
 </div>
 </div>
 </div>
