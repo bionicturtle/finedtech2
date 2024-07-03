@@ -1,0 +1,176 @@
+---
+title: Country Risk Premiums
+description: Choropleth maps of country equity risk premiums (CERPs) and changes over the past five years
+author: David Harper, CFA, FRM
+date: 2024-07-03
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+Aswath Damodaran provides country equity risk premiums (ERPs) [on his website](https://pages.stern.nyu.edu/~adamodar/). First I downloaded his Excel spreadsheets (i.e., with Country ERPs) for the last five years and consolidated them into simple sheet. 
+
+Claude 3.5 Sonnet wrote most of this first code chunk; this is not an in-depth analysis, so I'm sure I failed to fix some of the unmatched countries manually. 
+
+```{r}
+
+library(tidyverse)
+library(readxl)
+library(rnaturalearth)
+
+# Read your Excel file
+your_data <- read_excel("c-erps-2cols-v2.xlsx", sheet = "2024n")
+
+# Get the country data from rnaturalearth
+world_data <- ne_countries(scale = "medium", returnclass = "sf")
+
+# Function to find the best match
+find_best_match <- function(country, reference_list) {
+  distances <- adist(country, reference_list)
+  best_match <- reference_list[which.min(distances)]
+  return(best_match)
+}
+
+# Apply the function to your data
+your_data <- your_data %>%
+  mutate(matched_country = map_chr(country, ~find_best_match(.x, world_data$name)))
+
+# View the matches
+view(your_data %>% select(country, matched_country))
+
+# Create a manual correction list for the Jersey mismatch
+manual_corrections <- tibble(
+  original = c("Jersey (States of)", "Yemen, Republic"),
+  corrected = c("Jersey", "Yemen")
+)
+
+# Apply manual corrections
+your_data <- your_data %>%
+  left_join(manual_corrections, by = c("country" = "original")) %>%
+  mutate(final_country = coalesce(corrected, matched_country)) %>%
+  select(-corrected, -matched_country)
+
+# Join with rnaturalearth data
+joined_data <- your_data %>%
+  left_join(world_data, by = c("final_country" = "name"))
+
+# Function to find unmatched countries
+find_unmatched_countries <- function(matched_data, reference_data) {
+  unmatched <- setdiff(reference_data$name, matched_data$final_country)
+  return(unmatched)
+}
+
+# Get the list of unmatched countries
+unmatched_countries <- find_unmatched_countries(your_data, world_data)
+
+# Print the unmatched countries
+cat("Unmatched countries:\n")
+print(unmatched_countries)
+
+# You can also save this to a file if needed
+# write_lines(unmatched_countries, "unmatched_countries.txt")
+
+
+```
+
+The next two code chunks are a collaboration between Claude 3.5 Sonnet and me (David Harper, CFA, FRM). 
+
+```{r}
+
+library(viridis)
+library(ggplot2)
+library(sf)
+
+joined_data <- world_data %>%
+    left_join(your_data, by = c("name" = "final_country"))
+
+# Create the choropleth map with improved legend
+ggplot(data = joined_data) +
+    geom_sf(aes(fill = premium)) +
+    scale_fill_gradientn(
+        colors = c("darkgreen", "yellowgreen", "yellow", "orange", "red"),
+        values = scales::rescale(c(0, 0.01, 0.02, 0.05, max(joined_data$premium, na.rm = TRUE))),
+        # breaks = c(0, 0.01, 0.02, 0.05, round(max(joined_data$premium, na.rm = TRUE), 2)),
+        # labels = scales::percent_format(accuracy = 0.1),
+        breaks = c(0, 0.05, 0.10, 0.15, 0.20, round(max(joined_data$premium, na.rm = TRUE), 2)),
+        labels = scales::percent_format(accuracy = 1)(c(0, 0.05, 0.10, 0.15, 0.20,
+                                                        round(max(joined_data$premium, na.rm = TRUE), 2))),
+        name = "Country ERP",
+        na.value = "lightgrey",
+        guide = guide_colorbar(
+            direction = "horizontal",
+            barwidth = 20,
+            barheight = 1,
+            title.position = "top",
+            title.hjust = 0.5,
+            label.hjust = 1,
+            ticks = TRUE,
+            frame.colour = "black",
+            frame.linewidth = 0.5
+        )
+    ) +
+    theme_minimal() +
+    labs(title = "World Map of Premiums",
+         subtitle = "(Dark) Green is low Country ERP (~ 0) while Red is high") +
+    theme(
+        legend.position = "bottom",
+        legend.box.margin = margin(t = 0, b = 4),
+        legend.title = element_text(size = 10, face = "bold"),
+        legend.text = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12)
+    )
+
+# Save the plot with higher resolution
+ggsave("premium_map_improved_legend.png", width = 15, height = 10, units = "in", dpi = 300)
+
+```
+
+
+```{r}
+
+library(sf)
+
+# Ensure joined_data is still an sf object
+joined_data <- st_as_sf(joined_data)
+
+# Create the choropleth map for ERP change
+ggplot() +
+    geom_sf(data = joined_data, aes(fill = change, geometry = geometry)) +
+    scale_fill_gradientn(
+        colors = c("darkgreen", "yellowgreen", "white", "orange", "red"),
+        values = scales::rescale(c(min(joined_data$change, na.rm = TRUE), 
+                                   -0.05, -0.025, 0, 0.025, 0.05, 
+                                   max(joined_data$change, na.rm = TRUE))),
+        breaks = c(min(joined_data$change, na.rm = TRUE), 
+                   -0.05, 0, 0.05, 
+                   max(joined_data$change, na.rm = TRUE)),
+        labels = scales::percent_format(accuracy = 1),
+        name = "ERP Change",
+        na.value = "lightgrey",
+        guide = guide_colorbar(
+            direction = "horizontal",
+            barwidth = 20,
+            barheight = 1,
+            title.position = "top",
+            title.hjust = 0.5,
+            label.hjust = 0.5,
+            ticks = TRUE,
+            frame.colour = "black",
+            frame.linewidth = 0.5
+        )
+    ) +
+    theme_minimal() +
+    labs(title = "Change in Equity Risk Premium (ERP) Over Past 5 Years",
+         subtitle = "Green: Decreased ERP (Positive), Red: Increased ERP (Negative)") +
+    theme(
+        legend.position = "bottom",
+        legend.box.margin = margin(t = 0, b = 4),
+        legend.title = element_text(size = 10, face = "bold"),
+        legend.text = element_text(size = 8),
+        plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 12)
+    )
+
+```
