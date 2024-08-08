@@ -1,15 +1,32 @@
 ---
 title: "Riskfolio-Lib is a python library for optimation"
-description: Description goes here
+description: Brief illustration of riskfolio-lib, a Python library for optimization
 author: David Harper, CFA, FRM
 date: 2024-05-22
 categories: [code, analysis]
 engines:
   r: knitr
   python: reticulate
+
 ---
 
 # Riskfolio-Lib is a python library for optimation
+
+```{r}
+library(reticulate)
+# conda_create("finedtech2_with_phtyon", packages = c("python=3.11", "pip"))
+use_condaenv("finedtech2", required = TRUE)
+
+# 
+# py_install("riskfolio-lib")
+# py_install("numpy")
+# py_install("pandas")
+# py_install("matplotlib")
+# py_install("yfinance")
+
+# py_config()
+
+```
 
 ```{python}
 
@@ -29,6 +46,22 @@ engines:
 # format:
 # html:
 #    code-fold: true
+
+# beg of new insert
+# Ensure required libraries are installed
+# import subprocess
+# import sys
+# 
+# def install(package):
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+# 
+# try:
+#     import riskfolio
+# except ImportError:
+#     install("riskfolio-lib")
+#     import riskfolio
+# 
+# end of new insert
 
 import numpy as np
 import pandas as pd
@@ -83,7 +116,8 @@ port = rp.Portfolio(returns=Y)
 method_mu='hist' # Method to estimate expected returns based on historical data.
 method_cov='hist' # Method to estimate covariance matrix based on historical data.
 
-port.assets_stats(method_mu=method_mu, method_cov=method_cov, d=0.94)
+# port.assets_stats(method_mu=method_mu, method_cov=method_cov, d=0.94)
+port.assets_stats(method_mu=method_mu, method_cov=method_cov)
 
 # Estimate optimal portfolio:
 
@@ -125,6 +159,7 @@ Now we switch to R so we can use ggplot2 (quick version, not fancy)
 
 ```{r}
 #| warning: false
+#| eval: false
 
 library(reticulate)
 library(tidyverse)
