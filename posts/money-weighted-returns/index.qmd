@@ -1,6 +1,6 @@
 ---
 title: Money-weighted returns
-description: Desc TBA
+description: MWR and TWR calculations for a stock investment scenario
 author: David Harper, CFA, FRM
 date: 2024-08-15
 categories: [code, analysis]
@@ -9,7 +9,7 @@ execute:
   warning: false
 ---
 
-Claude 3.5 Sonnet wrote much of this
+Claude 3.5 Sonnet wrote much of this for me (the telltale sign is the loops), but it required many iterations.
 
 ```{r}
 
@@ -32,7 +32,7 @@ risk_free_rate <- 0.05
 stock_prices <- numeric(years)
 stock_prices[1] <- initial_price
 for (i in 2:years) {
-  stock_prices[i] <- stock_prices[i-1] * exp(rnorm(1, mean = 0, sd = volatility))
+  stock_prices[i] <- round(stock_prices[i-1] * exp(rnorm(1, mean = 0, sd = volatility)),2)
 }
 
 # Calculate dividends
@@ -164,15 +164,18 @@ cat("Number of failed IRR calculations:", failed_irr_count, "\n")
 # Plot
 mwr_df <- data.frame(MWR = mwr_results)
 p <- ggplot(mwr_df, aes(x = MWR)) +
-    geom_density(fill = "skyblue", alpha = 0.7) +
-    geom_vline(aes(xintercept = twr), color = "red", linetype = "dashed", size = 1) +
+    geom_density(fill = "seagreen2", color = "seagreen4", alpha = 0.7) +
+    geom_vline(aes(xintercept = twr), color = "purple2", linetype = "dashed", size = 1) +
     theme_minimal() +
-    labs(title = "Distribution of Money-Weighted Returns with Time-Weighted Return",
+    labs(title = "Distribution of Money-Weighted Returns (10,000 trials)",
+         subtitle = "Time-weighted return = 6.51%",
          x = "Return",
          y = "Density") +
-    theme(plot.title = element_text(hjust = 0.5)) +
-    annotate("text", x = twr, y = 0, label = "TWR", vjust = -1, color = "red") +
-    xlim(0, 0.3)
+    theme(axis.text.x = element_text(size = 12, face = "bold"),
+          plot.subtitle = element_text(size = 12, color = "purple4", face = "bold")) +
+    annotate("text", x = twr, y = 0, label = "TWR", vjust = -1, hjust = -0.3, color = "purple4") +
+    scale_x_continuous(labels = scales::percent_format(accuracy = 0.1)) +
+    coord_cartesian(xlim = c(0, 0.3))
 print(p)
 
 ```
