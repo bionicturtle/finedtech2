@@ -1,0 +1,114 @@
+---
+title: Risk and number of stocks
+description: Do you really need more than ten stocks?
+author: David Harper, CFA, FRM
+date: 2024-11-10
+categories: [code, analysis]
+execute: 
+  echo: true
+  warning: false
+---
+
+A variation on a very typical plot, this one shows the relationship between the number of stocks in a portfolio and the portfolio's volatility. The twist is that it also shows the "elbow point" for each level of correlation. The elbow point is the number of stocks at which the marginal benefit of adding more stocks to the portfolio diminishes. In other words, it's the point at which the portfolio's volatility stops decreasing as quickly as it did with fewer stocks.
+
+The method I used to identify the elbow point is the so-called Kneedle algorithm, which is a simple way to find the "knee" or "elbow" in a curve based on perpendicular distance. The algorithm works by fitting a line between the first and last points of the curve and then finding the point farthest from that line. This point is the elbow point.
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Function to calculate portfolio volatility
+calc_portfolio_vol <- function(n_assets, correlation, sigma = 1) {
+  sqrt((1/n_assets) + ((n_assets-1)/n_assets) * correlation) * sigma
+}
+
+# Function to find elbow point using Kneedle algorithm
+find_elbow <- function(x, y) {
+  # Normalize the data
+  x_norm <- (x - min(x)) / (max(x) - min(x))
+  y_norm <- (y - min(y)) / (max(y) - min(y))
+  
+  # Calculate the line between first and last point
+  slope <- (y_norm[length(y_norm)] - y_norm[1]) / (x_norm[length(x_norm)] - x_norm[1])
+  intercept <- y_norm[1] - slope * x_norm[1]
+  
+  # Calculate distance from points to line
+  distances <- abs(slope * x_norm + intercept - y_norm) / sqrt(slope^2 + 1)
+  
+  # Return original x value at maximum distance
+  return(x[which.max(distances)])
+}
+
+# Create plot with elbow points
+portfolio_vol_elbow_plot <- function() {
+  # Parameters
+  n_assets_seq <- 1:50
+  correlations <- seq(0, 0.95, 0.05)
+  sigma <- 1
+  
+  # Create data frame
+  plot_data <- expand.grid(
+    n_assets = n_assets_seq,
+    correlation = correlations
+  ) %>%
+    mutate(
+      volatility = mapply(calc_portfolio_vol, n_assets, correlation),
+      correlation = factor(correlation, levels = sort(unique(correlation), decreasing = TRUE))
+    )
+  
+  # Find elbow points for each correlation
+  elbow_points <- plot_data %>%
+    group_by(correlation) %>%
+    summarize(
+      elbow_n = find_elbow(n_assets, volatility),
+      elbow_vol = calc_portfolio_vol(elbow_n, first(as.numeric(as.character(correlation))))
+    )
+  
+  # Create plot
+  ggplot(plot_data, aes(x = n_assets, y = volatility, color = correlation)) +
+    geom_line(linewidth = 0.8) +
+    geom_point(data = elbow_points, 
+               aes(x = elbow_n, y = elbow_vol),
+               size = 3, shape = 16) +
+    scale_color_viridis_d(
+      name = "Correlation",
+      option = "magma",
+      begin = 0.2,
+      end = 0.8,
+      direction = -1,
+      guide = guide_legend(
+        keyheight = 0.5,    # Reduce key size
+        keywidth = 1.5,     # Make keys wider than tall
+        label.theme = element_text(size = 8),  # Smaller text
+        title.theme = element_text(size = 9),  # Smaller title
+        ncol = 1,           # Force single column
+        spacing = 0.1,      # Reduce spacing between keys
+        override.aes = list(linewidth = 1)  # Thinner lines in legend
+      )
+    ) +
+    labs(
+      title = "Portfolio Volatility vs Number of Assets",
+      subtitle = "With Detected Elbow Points",
+      x = "Number of Assets",
+      y = "Portfolio Volatility"
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 14, face = "bold"),
+      plot.subtitle = element_text(size = 12),
+      legend.position = "right",
+      legend.margin = margin(1, 1, 1, 1),  # Reduce legend margin
+      legend.box.spacing = unit(0.5, "lines"),  # Reduce spacing around legend box
+      panel.grid.minor = element_line(color = "gray90"),
+      panel.grid.major = element_line(color = "gray85")
+    ) +
+    scale_x_continuous(breaks = seq(0, 50, 10)) +
+    scale_y_continuous(breaks = seq(0, 1, 0.1))
+}
+
+# Execute the plotting function
+portfolio_vol_elbow_plot()
+
+```
